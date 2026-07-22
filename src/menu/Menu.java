@@ -204,7 +204,7 @@ public class Menu {
 
 
                         Student student1 = service.getStudents().get(0);
-
+                        matchingService.checkEligibility(student1);
 
                         matchingService.checkScholarshipEligibility(
                                 student1,
@@ -239,6 +239,9 @@ public class Menu {
 
 
                     service.displayStudents();
+                    System.out.println(
+                            "Total Students : " + Student.getStudentCount()
+                    );
 
 
                     break;

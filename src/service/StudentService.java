@@ -2,34 +2,61 @@ package service;
 
 import model.Student;
 import java.util.ArrayList;
-import service.MatchingService;
+
+import util.FileManager;
+
 
 public class StudentService {
 
-    ArrayList<Student> students = new ArrayList<>();
-    MatchingService MatchingService = new MatchingService();
+
+    private ArrayList<Student> students = new ArrayList<>();
+
+    FileManager fileManager = new FileManager();
+
+
 
     public void addStudent(Student student) {
 
+
         students.add(student);
+
 
         System.out.println("Student Added Successfully");
 
+
+        // Writing log using FileManager
+
+        fileManager.writeLog(
+                "Student Added : " + student.getName()
+        );
+
+
     }
+
+
+
+
 
     public void displayStudents() {
 
-        if (students.isEmpty()) {
+
+        if(students.isEmpty()) {
+
 
             System.out.println("No Students Available");
 
-        } else {
 
-            for (Student s : students) {
+        }
+        else {
+
+
+            for(Student s : students) {
+
 
                 System.out.println("\n===== Student Details =====");
 
-                System.out.println("Student ID : " + s.getStudentId());
+
+                System.out.println("Student ID : " + s.getStudent_id());
                 System.out.println("Name : " + s.getName());
                 System.out.println("Gender : " + s.getGender());
                 System.out.println("Age : " + s.getAge());
@@ -39,12 +66,25 @@ public class StudentService {
                 System.out.println("College : " + s.getCollege());
                 System.out.println("Course : " + s.getCourse());
 
+
             }
+
         }
+
+
     }
-    public ArrayList<Student> getStudents(){
+
+
+
+
+    public ArrayList<Student> getStudents() {
+
 
         return students;
 
+
     }
+
+
+
 }
