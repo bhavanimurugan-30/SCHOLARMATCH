@@ -19,6 +19,7 @@ public class ScholarshipRequest {
     @Pattern(regexp = "GOVERNMENT|PRIVATE_CORPORATE|PRIVATE_NGO|INSTITUTION", message = "Invalid source type")
     private String sourceType;
 
+    @Pattern(regexp = "^$|WOMENS|COLLEGE|COMPANY|STATE|CENTRAL", message = "Invalid primary category")
     private String primaryCategory;
 
     private String fundingBodyName;

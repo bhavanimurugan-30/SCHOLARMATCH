@@ -11,6 +11,7 @@ import com.example.scholarmatch.searchlog.dto.SearchLogRequest;
 import com.example.scholarmatch.searchlog.service.SearchLogService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -99,12 +100,14 @@ public class ScholarshipController {
         return ApiResponse.success(viewLogService.getMostViewed(limit));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/{adminId}")
     public ApiResponse<Scholarship> createByAdmin(@PathVariable Long adminId,
                                                   @Valid @RequestBody ScholarshipRequest request) {
         return ApiResponse.success("Scholarship created", scholarshipService.createByAdmin(adminId, request));
     }
 
+    @PreAuthorize("hasAnyRole('INSTITUTION', 'ADMIN')")
     @PostMapping("/institution/{institutionId}")
     public ApiResponse<Scholarship> submitByInstitution(@PathVariable Long institutionId,
                                                         @Valid @RequestBody ScholarshipRequest request) {
@@ -146,18 +149,21 @@ public class ScholarshipController {
         return ApiResponse.success(scholarshipService.getByProviderInstitutionId(institutionId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ApiResponse<Scholarship> update(@PathVariable("id") Long id,
                                            @Valid @RequestBody ScholarshipRequest request) {
         return ApiResponse.success("Scholarship updated", scholarshipService.update(id, request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/approve")
     public ApiResponse<Scholarship> approve(@PathVariable("id") Long id,
                                             @RequestParam("adminId") Long adminId) {
         return ApiResponse.success("Scholarship approved", scholarshipService.approve(id, adminId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/reject")
     public ApiResponse<Scholarship> reject(@PathVariable("id") Long id,
                                            @RequestParam("adminId") Long adminId,
@@ -165,18 +171,21 @@ public class ScholarshipController {
         return ApiResponse.success("Scholarship rejected", scholarshipService.reject(id, adminId, reason));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/deactivate")
     public ApiResponse<Void> deactivate(@PathVariable("id") Long id) {
         scholarshipService.deactivate(id);
         return ApiResponse.success("Scholarship deactivated", null);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/activate")
     public ApiResponse<Void> activate(@PathVariable("id") Long id) {
         scholarshipService.activate(id);
         return ApiResponse.success("Scholarship activated", null);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {

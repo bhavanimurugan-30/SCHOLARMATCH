@@ -189,7 +189,7 @@ async function smLoadNotifications() {
 
 function smRenderNotifications() {
     const list = ST.notifications || [];
-    const unread = list.filter(n => !n.read).length;
+    const unread = list.filter(n => !n.isRead).length;
 
     const countEl = document.getElementById("notifCount");
     if (countEl) {
@@ -215,16 +215,16 @@ function smNotificationRow(n) {
     const target = n.relatedScholarshipId
         ? `onclick="smOpenDetails(${n.relatedScholarshipId})"`
         : "";
+
     return `
-        <div class="notif-item ${n.read ? "" : "unread"}" ${target}>
-            <div class="ni-dot">${n.read ? "" : "●"}</div>
+        <div class="notif-item ${n.isRead ? "" : "unread"}" ${target}>
+            <div class="ni-dot">${n.isRead ? "" : "●"}</div>
             <div>
                 <div class="ni-title">${smEscapeHtml(n.title)}</div>
                 <div class="ni-msg">${smEscapeHtml(n.message)}</div>
             </div>
         </div>`;
 }
-
 async function smMarkAllNotificationsRead() {
     try {
         await smApi.markAllNotificationsRead(SM_STUDENT_ID);
@@ -371,7 +371,11 @@ async function smToggleSave(scholarshipId) {
             smToast("Removed from Saved Scholarships", "success");
         } else {
             await smApi.saveBookmark(SM_STUDENT_ID, scholarshipId);
-            smToast("Saved", "success");
+            smToast("Scholarship saved successfully", "success");
+            await smLoadBookmarks();
+            smRefreshVisibleLists();
+            smShowView("saved");
+            return;
         }
         await smLoadBookmarks();
         smRefreshVisibleLists();
@@ -379,7 +383,6 @@ async function smToggleSave(scholarshipId) {
         smToast(err.message, "error");
     }
 }
-
 async function smLoadBookmarks() {
     try {
         const [savedRes, appliedRes] = await Promise.all([
@@ -1256,9 +1259,35 @@ function smCountMissingDocuments() {
 }
 
 function smCountUpcomingDeadlines() {
-    return ST.eligible.filter(e => {
-        const days = smDaysUntil(e.deadline);
-        return days !== null && days >= 0 && days <= 30;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 30);
+
+    // Use scholarships loaded into the 5 category caches.
+    // Category APIs already return approved + active + non-expired scholarships.
+    const scholarships = Object.values(ST.categoryCache || {})
+        .flat()
+        .filter(Boolean);
+
+    // Remove duplicates because a scholarship should belong to only one category.
+    const unique = new Map();
+    scholarships.forEach(s => {
+        if (s.scholarshipId != null) {
+            unique.set(s.scholarshipId, s);
+        }
+    });
+
+    return Array.from(unique.values()).filter(s => {
+        if (!s.deadline) return false;
+
+        const deadline = new Date(s.deadline);
+        if (isNaN(deadline.getTime())) return false;
+
+        deadline.setHours(0, 0, 0, 0);
+
+        return deadline >= today && deadline <= maxDate;
     }).length;
 }
 

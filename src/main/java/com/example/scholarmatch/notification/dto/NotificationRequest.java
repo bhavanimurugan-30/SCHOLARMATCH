@@ -7,15 +7,20 @@ import jakarta.validation.constraints.Pattern;
 public class NotificationRequest {
 
     @NotBlank(message = "Recipient type is required")
-    @Pattern(regexp = "STUDENT|INSTITUTION", message = "Recipient type must be STUDENT or INSTITUTION")
+    @Pattern(
+            regexp = "STUDENT|INSTITUTION|ADMIN",
+            message = "Recipient type must be STUDENT, INSTITUTION or ADMIN"
+    )
     private String recipientType;
 
     @NotNull(message = "Recipient id is required")
-    private Long recipientId;   // interpreted as studentId or institutionId based on recipientType
+    private Long recipientId;
 
     @NotBlank(message = "Notification type is required")
-    @Pattern(regexp = "DEADLINE_ALERT|CERTIFICATE_EXPIRY|SCHOLARSHIP_APPROVED|SCHOLARSHIP_REJECTED|GENERAL",
-            message = "Invalid notification type")
+    @Pattern(
+            regexp = "DEADLINE_ALERT|CERTIFICATE_EXPIRY|SCHOLARSHIP_APPROVED|SCHOLARSHIP_REJECTED|GENERAL|INSTITUTION_VERIFICATION|SCHOLARSHIP_APPLICATION|INSTITUTION_REGISTRATION|SCHOLARSHIP_SUBMISSION",
+            message = "Invalid notification type"
+    )
     private String notificationType;
 
     private Long relatedScholarshipId;

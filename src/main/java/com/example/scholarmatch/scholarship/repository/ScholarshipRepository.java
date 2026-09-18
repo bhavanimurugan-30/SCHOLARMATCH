@@ -45,7 +45,7 @@ public class ScholarshipRepository {
             ps.setString(1, s.getTitle());
             ps.setString(2, s.getDescription());
             ps.setString(3, s.getSourceType());
-            ps.setString(4, s.getPrimaryCategory() != null ? s.getPrimaryCategory() : "STATE");
+            ps.setString(4, s.getPrimaryCategory());
             ps.setString(5, s.getFundingBodyName());
             setNullableLong(ps, 6, s.getProviderInstitutionId());
             setNullableDouble(ps, 7, s.getAmount());
@@ -132,7 +132,7 @@ public class ScholarshipRepository {
         return jdbcTemplate.update(sql,
                 s.getTitle(),
                 s.getDescription(),
-                s.getPrimaryCategory() != null ? s.getPrimaryCategory() : "STATE",
+                s.getPrimaryCategory(),
                 s.getFundingBodyName(),
                 s.getAmount(),
                 s.getApplicationMode(),

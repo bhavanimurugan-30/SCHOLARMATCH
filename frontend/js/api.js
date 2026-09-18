@@ -303,7 +303,11 @@ const smApi = {
     markAllNotificationsRead:   (studentId) => smPatch(`/notifications/student/${studentId}/read-all`),
     getUnreadNotificationCount: (studentId) => smGet(`/notifications/student/${studentId}/unread-count`),
     deleteNotification:         (id) => smDelete(`/notifications/${id}`),
-
+    getInstitutionUnreadCount: (institutionId) => smGet(`/notifications/institution/${institutionId}/unread-count`),
+    markAllInstitutionNotificationsRead: (institutionId) => smPatch(`/notifications/institution/${institutionId}/read-all`),
+    getAdminNotifications: (unreadOnly = false) => smGet(`/notifications/admin?unreadOnly=${unreadOnly}`),
+    getAdminUnreadCount: () => smGet(`/notifications/admin/unread-count`),
+    markAllAdminNotificationsRead: () => smPatch(`/notifications/admin/read-all`),
     /* ===================== ADMIN ===================== */
     registerAdmin:  (payload) => smPost("/admins", payload),
     getAdmin:       (id) => smGet(`/admins/${id}`),

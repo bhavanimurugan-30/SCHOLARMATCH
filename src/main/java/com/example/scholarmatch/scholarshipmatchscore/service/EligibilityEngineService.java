@@ -2,6 +2,7 @@ package com.example.scholarmatch.scholarshipmatchscore.service;
 
 import com.example.scholarmatch.academicinfo.model.AcademicInfo;
 import com.example.scholarmatch.academicinfo.repository.AcademicInfoRepository;
+import com.example.scholarmatch.bookmark.model.Bookmark;
 import com.example.scholarmatch.bookmark.repository.BookmarkRepository;
 import com.example.scholarmatch.certificateportallink.model.CertificatePortalLink;
 import com.example.scholarmatch.certificateportallink.repository.CertificatePortalLinkRepository;
@@ -24,8 +25,8 @@ import com.example.scholarmatch.specialstatus.model.SpecialStatus;
 import com.example.scholarmatch.specialstatus.repository.SpecialStatusRepository;
 import com.example.scholarmatch.student.model.Student;
 import com.example.scholarmatch.student.repository.StudentRepository;
-import org.springframework.stereotype.Service;
 import com.example.scholarmatch.ai.service.AIService;
+import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -55,24 +56,50 @@ public class EligibilityEngineService {
     private static final Map<String, String> COURSE_ALIASES = new HashMap<>();
 
     static {
-        COURSE_ALIASES.put("CSE", "COMPUTER SCIENCE ENGINEERING");
-        COURSE_ALIASES.put("COMPUTER SCIENCE", "COMPUTER SCIENCE ENGINEERING");
-        COURSE_ALIASES.put("COMPUTER SCIENCE AND ENGINEERING", "COMPUTER SCIENCE ENGINEERING");
+        COURSE_ALIASES.put(
+                "CSE",
+                "COMPUTER SCIENCE ENGINEERING"
+        );
 
-        COURSE_ALIASES.put("ECE", "ELECTRONICS COMMUNICATION ENGINEERING");
+        COURSE_ALIASES.put(
+                "COMPUTER SCIENCE",
+                "COMPUTER SCIENCE ENGINEERING"
+        );
+
+        COURSE_ALIASES.put(
+                "COMPUTER SCIENCE AND ENGINEERING",
+                "COMPUTER SCIENCE ENGINEERING"
+        );
+
+        COURSE_ALIASES.put(
+                "ECE",
+                "ELECTRONICS COMMUNICATION ENGINEERING"
+        );
+
         COURSE_ALIASES.put(
                 "ELECTRONICS AND COMMUNICATION ENGINEERING",
                 "ELECTRONICS COMMUNICATION ENGINEERING"
         );
 
-        COURSE_ALIASES.put("EEE", "ELECTRICAL ELECTRONICS ENGINEERING");
+        COURSE_ALIASES.put(
+                "EEE",
+                "ELECTRICAL ELECTRONICS ENGINEERING"
+        );
+
         COURSE_ALIASES.put(
                 "ELECTRICAL AND ELECTRONICS ENGINEERING",
                 "ELECTRICAL ELECTRONICS ENGINEERING"
         );
 
-        COURSE_ALIASES.put("IT", "INFORMATION TECHNOLOGY");
-        COURSE_ALIASES.put("INFORMATION TECHNOLOGY", "INFORMATION TECHNOLOGY");
+        COURSE_ALIASES.put(
+                "IT",
+                "INFORMATION TECHNOLOGY"
+        );
+
+        COURSE_ALIASES.put(
+                "INFORMATION TECHNOLOGY",
+                "INFORMATION TECHNOLOGY"
+        );
     }
 
     private final StudentRepository studentRepository;
@@ -119,17 +146,26 @@ public class EligibilityEngineService {
     /**
      * Computes (and upserts) the match score for one student against one scholarship.
      */
-    public ScholarshipMatchScore computeAndSave(Long studentId, Long scholarshipId) {
+    public ScholarshipMatchScore computeAndSave(
+            Long studentId,
+            Long scholarshipId) {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Student not found with id: " + studentId));
+                                "Student not found with id: "
+                                        + studentId
+                        )
+                );
 
-        Scholarship scholarship = scholarshipRepository.findById(scholarshipId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Scholarship not found with id: " + scholarshipId));
+        Scholarship scholarship =
+                scholarshipRepository.findById(scholarshipId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Scholarship not found with id: "
+                                                + scholarshipId
+                                )
+                        );
 
         Optional<AcademicInfo> academicInfo =
                 academicInfoRepository.findByStudentId(studentId);
@@ -142,6 +178,7 @@ public class EligibilityEngineService {
 
         List<String> matched = new ArrayList<>();
         List<String> unmatched = new ArrayList<>();
+
         double totalScore = 0.0;
 
         // 1. Category — 25%
@@ -160,7 +197,7 @@ public class EligibilityEngineService {
             unmatched.add("Annual Family Income");
         }
 
-        // 3. Course / stream match — 20%
+        // 3. Education Level + Course / Stream — 20%
         if (isCourseEligible(academicInfo, scholarship)) {
             matched.add("Course / Stream");
             totalScore += WEIGHT_COURSE;
@@ -192,7 +229,8 @@ public class EligibilityEngineService {
             unmatched.add("Special Status");
         }
 
-        ScholarshipMatchScore result = new ScholarshipMatchScore();
+        ScholarshipMatchScore result =
+                new ScholarshipMatchScore();
 
         result.setStudentId(studentId);
         result.setScholarshipId(scholarshipId);
@@ -201,7 +239,11 @@ public class EligibilityEngineService {
         result.setUnmatchedCriteria(unmatched);
 
         String fallbackExplanation =
-                buildExplanation(matched, unmatched, totalScore);
+                buildExplanation(
+                        matched,
+                        unmatched,
+                        totalScore
+                );
 
         result.setAiExplanationText(
                 aiService.generateEligibilityExplanation(
@@ -220,18 +262,26 @@ public class EligibilityEngineService {
     /**
      * Recomputes match scores for a student against every active/approved scholarship.
      */
-    public List<ScholarshipMatchScore> computeAllForStudent(Long studentId) {
+    public List<ScholarshipMatchScore> computeAllForStudent(
+            Long studentId) {
 
         studentRepository.findById(studentId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Student not found with id: " + studentId));
+                                "Student not found with id: "
+                                        + studentId
+                        )
+                );
 
         List<Scholarship> activeScholarships =
                 scholarshipRepository.findActiveApproved();
 
         for (Scholarship scholarship : activeScholarships) {
-            computeAndSave(studentId, scholarship.getScholarshipId());
+
+            computeAndSave(
+                    studentId,
+                    scholarship.getScholarshipId()
+            );
         }
 
         return matchScoreRepository
@@ -243,18 +293,27 @@ public class EligibilityEngineService {
             Long scholarshipId) {
 
         return matchScoreRepository
-                .findByStudentIdAndScholarshipId(studentId, scholarshipId)
+                .findByStudentIdAndScholarshipId(
+                        studentId,
+                        scholarshipId
+                )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "No match score has been computed yet for this student and scholarship"));
+                                "No match score has been computed yet for this student and scholarship"
+                        )
+                );
     }
 
-    public List<ScholarshipMatchScore> getForStudent(Long studentId) {
+    public List<ScholarshipMatchScore> getForStudent(
+            Long studentId) {
 
         studentRepository.findById(studentId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Student not found with id: " + studentId));
+                                "Student not found with id: "
+                                        + studentId
+                        )
+                );
 
         return matchScoreRepository
                 .findByStudentIdOrderByMatchDesc(studentId);
@@ -275,15 +334,23 @@ public class EligibilityEngineService {
             Long studentId,
             Long scholarshipId) {
 
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Student not found with id: " + studentId));
+        Student student =
+                studentRepository.findById(studentId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Student not found with id: "
+                                                + studentId
+                                )
+                        );
 
-        Scholarship scholarship = scholarshipRepository.findById(scholarshipId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Scholarship not found with id: " + scholarshipId));
+        Scholarship scholarship =
+                scholarshipRepository.findById(scholarshipId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Scholarship not found with id: "
+                                                + scholarshipId
+                                )
+                        );
 
         Optional<AcademicInfo> academicInfo =
                 academicInfoRepository.findByStudentId(studentId);
@@ -301,15 +368,23 @@ public class EligibilityEngineService {
         res.setScholarshipId(scholarshipId);
         res.setScholarshipTitle(scholarship.getTitle());
         res.setPrimaryCategory(scholarship.getPrimaryCategory());
-        res.setFundingBodyName(scholarship.getFundingBodyName());
+        res.setFundingBodyName(
+                scholarship.getFundingBodyName()
+        );
         res.setAmount(scholarship.getAmount());
         res.setDeadline(scholarship.getDeadline());
         res.setOfficialApplicationLink(
-                scholarship.getOfficialApplicationLink());
+                scholarship.getOfficialApplicationLink()
+        );
 
-        List<String> ok = res.getEligibleReasons();
-        List<String> bad = res.getIneligibleReasons();
-        List<String> missingFields = res.getMissingProfileFields();
+        List<String> ok =
+                res.getEligibleReasons();
+
+        List<String> bad =
+                res.getIneligibleReasons();
+
+        List<String> missingFields =
+                res.getMissingProfileFields();
 
         evaluateCategory(
                 student,
@@ -384,16 +459,27 @@ public class EligibilityEngineService {
 
         res.setExpired(expired);
 
-        res.setAlreadyApplied(
-                bookmarkRepository.isApplied(
+        /*
+         * Check whether the student has already applied.
+         *
+         * BookmarkRepository does not contain isApplied().
+         * It provides findAppliedBookmark(), which returns Optional<Bookmark>.
+         */
+        Optional<Bookmark> appliedBookmark =
+                bookmarkRepository.findAppliedBookmark(
                         studentId,
                         scholarshipId
-                )
+                );
+
+        res.setAlreadyApplied(
+                appliedBookmark.isPresent()
         );
 
-        List<String> blocking = res.getBlockingReasons();
+        List<String> blocking =
+                res.getBlockingReasons();
 
         if (expired) {
+
             blocking.add(
                     "The application deadline ("
                             + scholarship.getDeadline()
@@ -402,16 +488,19 @@ public class EligibilityEngineService {
         }
 
         if (!eligible) {
+
             blocking.add(
                     "You do not currently meet all eligibility criteria for this scholarship."
             );
         }
 
-        for (CertificateStatusDetail c : res.getCertificates()) {
+        for (CertificateStatusDetail c :
+                res.getCertificates()) {
 
             if (c.isBlocking()) {
 
-                if ("MISSING".equals(c.getStatus())) {
+                if ("MISSING".equals(
+                        c.getStatus())) {
 
                     blocking.add(
                             "Mandatory certificate \""
@@ -419,7 +508,8 @@ public class EligibilityEngineService {
                                     + "\" has not been uploaded."
                     );
 
-                } else if ("EXPIRED".equals(c.getStatus())) {
+                } else if ("EXPIRED".equals(
+                        c.getStatus())) {
 
                     blocking.add(
                             "Mandatory certificate \""
@@ -442,7 +532,9 @@ public class EligibilityEngineService {
             );
         }
 
-        res.setCanApply(blocking.isEmpty());
+        res.setCanApply(
+                blocking.isEmpty()
+        );
 
         matchScoreRepository
                 .findByStudentIdAndScholarshipId(
@@ -467,7 +559,10 @@ public class EligibilityEngineService {
         studentRepository.findById(studentId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Student not found with id: " + studentId));
+                                "Student not found with id: "
+                                        + studentId
+                        )
+                );
 
         List<EligibilityDetailsResponse> eligible =
                 new ArrayList<>();
@@ -480,6 +575,13 @@ public class EligibilityEngineService {
                             studentId,
                             s.getScholarshipId()
                     );
+
+            System.out.println(
+                    "Scholarship: " + s.getTitle()
+                            + " | Eligible: " + d.isEligible()
+                            + " | OK: " + d.getEligibleReasons()
+                            + " | BAD: " + d.getIneligibleReasons()
+            );
 
             if (d.isEligible()) {
                 eligible.add(d);
@@ -498,13 +600,28 @@ public class EligibilityEngineService {
             List<String> bad,
             List<String> missingFields) {
 
+        if ("WOMENS".equalsIgnoreCase(
+                s.getPrimaryCategory())
+                && !"FEMALE".equalsIgnoreCase(
+                student.getGender())) {
+
+            bad.add(
+                    "This scholarship is reserved for female students."
+            );
+
+            return;
+        }
+
         List<String> eligible =
                 s.getEligibleCategories();
 
-        if (eligible == null || eligible.isEmpty()) {
+        if (eligible == null
+                || eligible.isEmpty()) {
+
             ok.add(
                     "Open to all communities / categories."
             );
+
             return;
         }
 
@@ -512,7 +629,10 @@ public class EligibilityEngineService {
 
             bad.add(
                     "Community / category is required ("
-                            + String.join(", ", eligible)
+                            + String.join(
+                            ", ",
+                            eligible
+                    )
                             + ") but your profile does not have one."
             );
 
@@ -523,15 +643,21 @@ public class EligibilityEngineService {
             return;
         }
 
-        if (eligible.stream().anyMatch(
-                c -> c.equalsIgnoreCase(
-                        student.getCategory()))) {
+        if (eligible.stream()
+                .anyMatch(
+                        c -> c.equalsIgnoreCase(
+                                student.getCategory()
+                        )
+                )) {
 
             ok.add(
                     "Community "
                             + student.getCategory()
                             + " matches the eligible categories ["
-                            + String.join(", ", eligible)
+                            + String.join(
+                            ", ",
+                            eligible
+                    )
                             + "]."
             );
 
@@ -541,7 +667,10 @@ public class EligibilityEngineService {
                     "Community "
                             + student.getCategory()
                             + " does not match eligible categories ["
-                            + String.join(", ", eligible)
+                            + String.join(
+                            ", ",
+                            eligible
+                    )
                             + "]."
             );
         }
@@ -594,7 +723,8 @@ public class EligibilityEngineService {
                             + incomeText
                             + " is below the minimum Rs."
                             + MONEY.format(
-                            s.getMinAnnualIncome())
+                            s.getMinAnnualIncome()
+                    )
                             + " required."
             );
 
@@ -609,7 +739,8 @@ public class EligibilityEngineService {
                             + incomeText
                             + " exceeds the Rs."
                             + MONEY.format(
-                            s.getMaxAnnualIncome())
+                            s.getMaxAnnualIncome()
+                    )
                             + " limit."
             );
 
@@ -623,7 +754,8 @@ public class EligibilityEngineService {
                             + incomeText
                             + " is within the maximum Rs."
                             + MONEY.format(
-                            s.getMaxAnnualIncome())
+                            s.getMaxAnnualIncome()
+                    )
                             + " limit."
             );
 
@@ -634,17 +766,173 @@ public class EligibilityEngineService {
                             + incomeText
                             + " meets the minimum Rs."
                             + MONEY.format(
-                            s.getMinAnnualIncome())
+                            s.getMinAnnualIncome()
+                    )
                             + " requirement."
             );
         }
     }
 
     // ============================================================
-    // COURSE MATCHING WITH NORMALIZATION
+    // COURSE + EDUCATION LEVEL MATCHING
     // ============================================================
 
-    private String normalizeCourse(String raw) {
+    private void evaluateCourse(
+            Optional<AcademicInfo> academicInfo,
+            Scholarship s,
+            List<String> ok,
+            List<String> bad,
+            List<String> missingFields) {
+
+        if (academicInfo.isEmpty()) {
+
+            bad.add(
+                    "Academic details are required for this scholarship."
+            );
+
+            missingFields.add(
+                    "Academic Information"
+            );
+
+            return;
+        }
+
+        AcademicInfo ai = academicInfo.get();
+
+        // ------------------------------------------------------------
+        // 1. Education Level check
+        // ------------------------------------------------------------
+
+        String requiredLevel =
+                s.getEducationLevel();
+
+        if (!isBlank(requiredLevel)
+                && !"ANY".equalsIgnoreCase(requiredLevel)) {
+
+            String studentLevel =
+                    ai.getEducationLevel();
+
+            if (isBlank(studentLevel)) {
+
+                bad.add(
+                        "Education level is required. This scholarship is for "
+                                + requiredLevel
+                                + " students."
+                );
+
+                missingFields.add(
+                        "Education Level"
+                );
+
+                return;
+            }
+
+            if (!studentLevel.trim()
+                    .equalsIgnoreCase(
+                            requiredLevel.trim()
+                    )) {
+
+                bad.add(
+                        "Education level "
+                                + studentLevel
+                                + " does not match the required "
+                                + requiredLevel
+                                + " level."
+                );
+
+                return;
+            }
+
+            ok.add(
+                    "Education level "
+                            + studentLevel
+                            + " matches the required "
+                            + requiredLevel
+                            + " level."
+            );
+        }
+
+        // ------------------------------------------------------------
+        // 2. Course check
+        // ------------------------------------------------------------
+
+        List<String> courses =
+                s.getEligibleCourses();
+
+        if (courses == null
+                || courses.isEmpty()) {
+
+            ok.add(
+                    "Open to all courses / streams."
+            );
+
+            return;
+        }
+
+        if (isBlank(ai.getCourseName())) {
+
+            bad.add(
+                    "Course is required ("
+                            + String.join(
+                            ", ",
+                            courses
+                    )
+                            + ") but your academic details do not have one."
+            );
+
+            missingFields.add(
+                    "Course Name"
+            );
+
+            return;
+        }
+
+        String studentCourse =
+                ai.getCourseName();
+
+        boolean match =
+                courses.stream()
+                        .anyMatch(
+                                c -> coursesMatch(
+                                        studentCourse,
+                                        c
+                                )
+                        );
+
+        if (match) {
+
+            ok.add(
+                    "Course "
+                            + studentCourse
+                            + " matches the eligible courses ["
+                            + String.join(
+                            ", ",
+                            courses
+                    )
+                            + "]."
+            );
+
+        } else {
+
+            bad.add(
+                    "Course "
+                            + studentCourse
+                            + " is not in the eligible courses ["
+                            + String.join(
+                            ", ",
+                            courses
+                    )
+                            + "]."
+            );
+        }
+    }
+
+    // ============================================================
+    // COURSE NORMALIZATION
+    // ============================================================
+
+    private String normalizeCourse(
+            String raw) {
 
         if (raw == null) {
             return "";
@@ -675,7 +963,10 @@ public class EligibilityEngineService {
 
         if (normalizeCourse(studentCourse)
                 .equals(
-                        normalizeCourse(scholarshipCourse))) {
+                        normalizeCourse(
+                                scholarshipCourse
+                        )
+                )) {
 
             return true;
         }
@@ -691,141 +982,119 @@ public class EligibilityEngineService {
                 || c.contains(s);
     }
 
-    private void evaluateCourse(
+    private boolean isCourseEligible(
             Optional<AcademicInfo> academicInfo,
-            Scholarship s,
-            List<String> ok,
-            List<String> bad,
-            List<String> missingFields) {
+            Scholarship scholarship) {
 
-        List<String> courses =
-                s.getEligibleCourses();
-
-        if (courses == null || courses.isEmpty()) {
-
-            ok.add(
-                    "Open to all courses / streams."
-            );
-
-            return;
+        if (academicInfo.isEmpty()) {
+            return false;
         }
 
-        if (academicInfo.isEmpty()
-                || isBlank(
-                academicInfo.get().getCourseName())) {
+        AcademicInfo ai =
+                academicInfo.get();
 
-            bad.add(
-                    "Course is required ("
-                            + String.join(", ", courses)
-                            + ") but your academic details do not have one."
-            );
+        // ------------------------------------------------------------
+        // 1. Education Level check
+        // ------------------------------------------------------------
 
-            missingFields.add(
-                    "Course Name"
-            );
+        String scholarshipLevel =
+                scholarship.getEducationLevel();
 
-            return;
+        if (!isBlank(scholarshipLevel)
+                && !"ANY".equalsIgnoreCase(
+                scholarshipLevel)) {
+
+            String studentLevel =
+                    ai.getEducationLevel();
+
+            if (isBlank(studentLevel)
+                    || !studentLevel.trim()
+                    .equalsIgnoreCase(
+                            scholarshipLevel.trim()
+                    )) {
+
+                return false;
+            }
+        }
+
+        // ------------------------------------------------------------
+        // 2. Course check
+        // ------------------------------------------------------------
+
+        List<String> eligibleCourses =
+                scholarship.getEligibleCourses();
+
+        if (eligibleCourses == null
+                || eligibleCourses.isEmpty()) {
+
+            return true;
+        }
+
+        if (isBlank(ai.getCourseName())) {
+            return false;
         }
 
         String studentCourse =
-                academicInfo.get().getCourseName();
+                ai.getCourseName();
 
-        boolean match =
-                courses.stream()
-                        .anyMatch(
-                                c -> coursesMatch(
-                                        studentCourse,
-                                        c
-                                )
-                        );
-
-        if (match) {
-
-            ok.add(
-                    "Course "
-                            + studentCourse
-                            + " matches the eligible courses ["
-                            + String.join(", ", courses)
-                            + "]."
-            );
-
-        } else {
-
-            bad.add(
-                    "Course "
-                            + studentCourse
-                            + " is not in the eligible courses ["
-                            + String.join(", ", courses)
-                            + "]."
-            );
-        }
+        return eligibleCourses.stream()
+                .anyMatch(
+                        c -> coursesMatch(
+                                studentCourse,
+                                c
+                        )
+                );
     }
+
 
     private void evaluateMarks(
             Optional<AcademicInfo> academicInfo,
-            Scholarship s,
+            Scholarship scholarship,
             List<String> ok,
             List<String> bad,
             List<String> missingFields) {
 
-        if (s.getMinMarksCgpa() == null) {
+        Double required = scholarship.getMinMarksCgpa();
 
-            ok.add(
-                    "No minimum marks / CGPA requirement."
-            );
-
+        if (required == null) {
+            ok.add("No minimum marks / CGPA requirement.");
             return;
         }
 
         if (academicInfo.isEmpty()
-                || academicInfo.get()
-                .getQualifyingExamPercentage() == null) {
+                || academicInfo.get().getQualifyingExamPercentage() == null) {
 
-            bad.add(
-                    "Minimum "
-                            + PCT.format(
-                            s.getMinMarksCgpa())
-                            + "% marks required but your qualifying exam percentage is not filled."
-            );
-
-            missingFields.add(
-                    "Qualifying Exam Percentage"
-            );
-
+            bad.add("Academic percentage is required for this scholarship.");
+            missingFields.add("Academic Marks");
             return;
         }
 
-        double marks =
-                academicInfo.get()
-                        .getQualifyingExamPercentage();
+        Double percentage =
+                academicInfo.get().getQualifyingExamPercentage();
 
-        if (marks >= s.getMinMarksCgpa()) {
-
-            ok.add(
-                    "Marks "
-                            + PCT.format(marks)
-                            + "% meets the minimum "
-                            + PCT.format(
-                            s.getMinMarksCgpa())
-                            + "% requirement."
-            );
-
+        if (percentage >= required) {
+            ok.add("Marks " + percentage +
+                    "% meet the minimum " + required + "% required.");
         } else {
-
-            bad.add(
-                    "Marks "
-                            + PCT.format(marks)
-                            + "% is below the minimum "
-                            + PCT.format(
-                            s.getMinMarksCgpa())
-                            + "% required."
-            );
+            bad.add("Marks " + percentage +
+                    "% are below the minimum " + required + "% required.");
         }
     }
-
-    // ============================================================
     // STATE / DOMICILE MATCHING
     // ============================================================
+
+    private String normalizeState(
+            String raw) {
+
+        if (raw == null) {
+            return "";
+        }
+
+        return raw
+                .trim()
+                .toUpperCase()
+                .replaceAll("[\\s-]+", "");
+    }
 
     private void evaluateState(
             Student student,
@@ -837,7 +1106,25 @@ public class EligibilityEngineService {
         List<String> states =
                 s.getEligibleStates();
 
-        if (states == null || states.isEmpty()) {
+        if (states == null
+                || states.isEmpty()) {
+
+            ok.add(
+                    "Open to students from all states."
+            );
+
+            return;
+        }
+
+        boolean allowAllStates =
+                states.stream()
+                        .anyMatch(
+                                st -> "ALL".equals(
+                                        normalizeState(st)
+                                )
+                        );
+
+        if (allowAllStates) {
 
             ok.add(
                     "Open to students from all states."
@@ -855,7 +1142,10 @@ public class EligibilityEngineService {
 
             bad.add(
                     "State / domicile is required ("
-                            + String.join(", ", states)
+                            + String.join(
+                            ", ",
+                            states
+                    )
                             + ") but your profile does not have one."
             );
 
@@ -866,17 +1156,28 @@ public class EligibilityEngineService {
             return;
         }
 
-        final String toCheck =
-                studentState;
+        final String normalizedStudentState =
+                normalizeState(studentState);
 
-        if (states.stream().anyMatch(
-                st -> st.equalsIgnoreCase(toCheck))) {
+        boolean match =
+                states.stream()
+                        .anyMatch(
+                                st -> normalizeState(st)
+                                        .equals(
+                                                normalizedStudentState
+                                        )
+                        );
+
+        if (match) {
 
             ok.add(
                     "State / domicile "
-                            + toCheck
+                            + studentState
                             + " matches the eligible states ["
-                            + String.join(", ", states)
+                            + String.join(
+                            ", ",
+                            states
+                    )
                             + "]."
             );
 
@@ -884,13 +1185,20 @@ public class EligibilityEngineService {
 
             bad.add(
                     "State / domicile "
-                            + toCheck
+                            + studentState
                             + " does not match eligible states ["
-                            + String.join(", ", states)
+                            + String.join(
+                            ", ",
+                            states
+                    )
                             + "]."
             );
         }
     }
+
+    // ============================================================
+    // SPECIAL STATUS
+    // ============================================================
 
     private void evaluateSpecialStatus(
             Optional<SpecialStatus> specialStatus,
@@ -902,7 +1210,9 @@ public class EligibilityEngineService {
         List<String> required =
                 s.getEligibleSpecialStatus();
 
-        if (required == null || required.isEmpty()) {
+        if (required == null
+                || required.isEmpty()) {
+
             return;
         }
 
@@ -910,7 +1220,10 @@ public class EligibilityEngineService {
 
             bad.add(
                     "Requires one of ["
-                            + String.join(", ", required)
+                            + String.join(
+                            ", ",
+                            required
+                    )
                             + "] but your special status details are not filled."
             );
 
@@ -962,6 +1275,7 @@ public class EligibilityEngineService {
             }
 
             if (has) {
+
                 matched = req;
                 break;
             }
@@ -979,7 +1293,10 @@ public class EligibilityEngineService {
 
             bad.add(
                     "Requires one of the special statuses ["
-                            + String.join(", ", required)
+                            + String.join(
+                            ", ",
+                            required
+                    )
                             + "], none of which is set on your profile."
             );
         }
@@ -997,7 +1314,9 @@ public class EligibilityEngineService {
 
         if (!"WOMENS".equalsIgnoreCase(
                 String.valueOf(
-                        s.getPrimaryCategory()))) {
+                        s.getPrimaryCategory()
+                )
+        )) {
 
             return;
         }
@@ -1016,7 +1335,8 @@ public class EligibilityEngineService {
         }
 
         if ("FEMALE".equalsIgnoreCase(
-                student.getGender())) {
+                student.getGender()
+        )) {
 
             ok.add(
                     "Gender FEMALE matches this Women's scholarship requirement."
@@ -1032,7 +1352,9 @@ public class EligibilityEngineService {
         }
     }
 
-    // ---------- certificate requirement evaluation ----------
+    // ============================================================
+    // CERTIFICATE REQUIREMENT EVALUATION
+    // ============================================================
 
     private void buildCertificateStatuses(
             Student student,
@@ -1045,7 +1367,8 @@ public class EligibilityEngineService {
         for (ScholarshipRequiredDocument rd :
                 requiredDocumentRepository
                         .findByScholarshipId(
-                                scholarship.getScholarshipId())) {
+                                scholarship.getScholarshipId()
+                        )) {
 
             required.put(
                     rd.getCertificateTypeId(),
@@ -1071,7 +1394,8 @@ public class EligibilityEngineService {
         for (StudentDocument d :
                 studentDocumentRepository
                         .findByStudentId(
-                                student.getStudentId())) {
+                                student.getStudentId()
+                        )) {
 
             uploaded.putIfAbsent(
                     d.getCertificateTypeId(),
@@ -1085,11 +1409,13 @@ public class EligibilityEngineService {
         for (Map.Entry<Long, Boolean> entry :
                 required.entrySet()) {
 
-            Long typeId = entry.getKey();
+            Long typeId =
+                    entry.getKey();
 
             boolean mandatory =
                     Boolean.TRUE.equals(
-                            entry.getValue());
+                            entry.getValue()
+                    );
 
             Optional<CertificateType> type =
                     certificateTypeRepository
@@ -1149,9 +1475,11 @@ public class EligibilityEngineService {
 
             boolean satisfied =
                     !"MISSING".equals(
-                            detail.getStatus())
+                            detail.getStatus()
+                    )
                             && !"EXPIRED".equals(
-                            detail.getStatus());
+                            detail.getStatus()
+                    );
 
             detail.setBlocking(
                     mandatory && !satisfied
@@ -1216,7 +1544,9 @@ public class EligibilityEngineService {
         );
     }
 
-    /** Recomputes live status for a document. */
+    /**
+     * Recomputes live status for a document.
+     */
     private String currentDocumentStatus(
             StudentDocument doc) {
 
@@ -1238,7 +1568,8 @@ public class EligibilityEngineService {
 
         if (!doc.getExpiryDate()
                 .isAfter(
-                        today.plusDays(30))) {
+                        today.plusDays(30)
+                )) {
 
             return "EXPIRING_SOON";
         }
@@ -1280,7 +1611,8 @@ public class EligibilityEngineService {
             detail.setGuidance(
                     "Get it from your College/School/Bank"
                             + (isBlank(
-                            detail.getIssuingAuthority())
+                            detail.getIssuingAuthority()
+                    )
                             ? "."
                             : " (" + detail.getIssuingAuthority() + ").")
             );
@@ -1294,7 +1626,8 @@ public class EligibilityEngineService {
 
         if (type != null
                 && !isBlank(
-                type.getOfficialApplyLink())) {
+                type.getOfficialApplyLink()
+        )) {
 
             detail.getApplyLinks()
                     .add(
@@ -1329,14 +1662,19 @@ public class EligibilityEngineService {
                                 );
             }
 
-            for (CertificatePortalLink l : links) {
+            for (CertificatePortalLink l :
+                    links) {
 
-                if (!isBlank(l.getPortalUrl())) {
+                if (!isBlank(
+                        l.getPortalUrl()
+                )) {
 
                     detail.getApplyLinks()
                             .add(
                                     new CertificateStatusDetail.PortalLink(
-                                            isBlank(l.getPortalName())
+                                            isBlank(
+                                                    l.getPortalName()
+                                            )
                                                     ? "Official Portal"
                                                     : l.getPortalName(),
                                             l.getPortalUrl(),
@@ -1347,12 +1685,14 @@ public class EligibilityEngineService {
             }
         }
 
-        if (detail.getApplyLinks().isEmpty()) {
+        if (detail.getApplyLinks()
+                .isEmpty()) {
 
             detail.setGuidance(
                     "Apply at your nearest e-Sevai / Common Service Centre"
                             + (isBlank(
-                            detail.getIssuingAuthority())
+                            detail.getIssuingAuthority()
+                    )
                             ? "."
                             : " (issued by "
                             + detail.getIssuingAuthority()
@@ -1385,16 +1725,29 @@ public class EligibilityEngineService {
                 || lowerName.contains("degree certificate");
     }
 
-    private boolean isBlank(String s) {
+    private boolean isBlank(
+            String s) {
+
         return s == null
                 || s.trim().isEmpty();
     }
 
-    // ---------- individual criterion checks ----------
+    // ============================================================
+    // INDIVIDUAL CRITERION CHECKS
+    // ============================================================
 
     private boolean isCategoryEligible(
             Student student,
             Scholarship scholarship) {
+
+        // Gender gate for WOMENS scholarships.
+        if ("WOMENS".equalsIgnoreCase(
+                scholarship.getPrimaryCategory())
+                && !"FEMALE".equalsIgnoreCase(
+                student.getGender())) {
+
+            return false;
+        }
 
         List<String> eligible =
                 scholarship.getEligibleCategories();
@@ -1403,6 +1756,10 @@ public class EligibilityEngineService {
                 || eligible.isEmpty()) {
 
             return true;
+        }
+
+        if (isBlank(student.getCategory())) {
+            return false;
         }
 
         return eligible.stream()
@@ -1445,43 +1802,6 @@ public class EligibilityEngineService {
         return aboveMin && belowMax;
     }
 
-    // ============================================================
-    // UPDATED COURSE ELIGIBILITY
-    // ============================================================
-
-    private boolean isCourseEligible(
-            Optional<AcademicInfo> academicInfo,
-            Scholarship scholarship) {
-
-        List<String> eligibleCourses =
-                scholarship.getEligibleCourses();
-
-        if (eligibleCourses == null
-                || eligibleCourses.isEmpty()) {
-
-            return true;
-        }
-
-        if (academicInfo.isEmpty()
-                || academicInfo.get()
-                .getCourseName() == null) {
-
-            return false;
-        }
-
-        String studentCourse =
-                academicInfo.get()
-                        .getCourseName();
-
-        return eligibleCourses.stream()
-                .anyMatch(
-                        c -> coursesMatch(
-                                studentCourse,
-                                c
-                        )
-                );
-    }
-
     private boolean isMarksEligible(
             Optional<AcademicInfo> academicInfo,
             Scholarship scholarship) {
@@ -1503,7 +1823,7 @@ public class EligibilityEngineService {
     }
 
     // ============================================================
-    // UPDATED STATE ELIGIBILITY
+    // STATE ELIGIBILITY
     // ============================================================
 
     private boolean isStateEligible(
@@ -1519,6 +1839,18 @@ public class EligibilityEngineService {
             return true;
         }
 
+        boolean allowAllStates =
+                eligibleStates.stream()
+                        .anyMatch(
+                                st -> "ALL".equals(
+                                        normalizeState(st)
+                                )
+                        );
+
+        if (allowAllStates) {
+            return true;
+        }
+
         String studentState =
                 !isBlank(student.getDomicile())
                         ? student.getDomicile()
@@ -1528,16 +1860,20 @@ public class EligibilityEngineService {
             return false;
         }
 
+        String normalizedStudentState =
+                normalizeState(studentState);
+
         return eligibleStates.stream()
                 .anyMatch(
-                        s -> s.equalsIgnoreCase(
-                                studentState
-                        )
+                        st -> normalizeState(st)
+                                .equals(
+                                        normalizedStudentState
+                                )
                 );
     }
 
     // ============================================================
-    // UPDATED SPECIAL STATUS
+    // SPECIAL STATUS
     // ============================================================
 
     private boolean isSpecialStatusEligible(
@@ -1620,6 +1956,10 @@ public class EligibilityEngineService {
         return false;
     }
 
+    // ============================================================
+    // EXPLANATION
+    // ============================================================
+
     private String buildExplanation(
             List<String> matched,
             List<String> unmatched,
@@ -1638,7 +1978,10 @@ public class EligibilityEngineService {
                 matched.isEmpty()
                         ? "You currently meet none of the criteria."
                         : "You meet "
-                        + String.join(", ", matched)
+                        + String.join(
+                        ", ",
+                        matched
+                )
                         + "."
         );
 
@@ -1648,7 +1991,10 @@ public class EligibilityEngineService {
                 unmatched.isEmpty()
                         ? "You meet all eligibility criteria for this scholarship."
                         : "You do not currently meet "
-                        + String.join(", ", unmatched)
+                        + String.join(
+                        ", ",
+                        unmatched
+                )
                         + "."
         );
 

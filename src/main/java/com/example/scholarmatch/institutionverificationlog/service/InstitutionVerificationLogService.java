@@ -7,6 +7,7 @@ import com.example.scholarmatch.institution.repository.InstitutionRepository;
 import com.example.scholarmatch.institutionverificationlog.dto.InstitutionVerificationLogRequest;
 import com.example.scholarmatch.institutionverificationlog.model.InstitutionVerificationLog;
 import com.example.scholarmatch.institutionverificationlog.repository.InstitutionVerificationLogRepository;
+import com.example.scholarmatch.notification.service.NotificationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,26 +19,40 @@ public class InstitutionVerificationLogService {
     private final InstitutionRepository institutionRepository;
     private final AdminRepository adminRepository;
     private final AdminActivityLogService adminActivityLogService;
+    private final NotificationService notificationService;
 
-    public InstitutionVerificationLogService(InstitutionVerificationLogRepository verificationLogRepository,
-                                             InstitutionRepository institutionRepository,
-                                             AdminRepository adminRepository,
-                                             AdminActivityLogService adminActivityLogService) {
+    public InstitutionVerificationLogService(
+            InstitutionVerificationLogRepository verificationLogRepository,
+            InstitutionRepository institutionRepository,
+            AdminRepository adminRepository,
+            AdminActivityLogService adminActivityLogService,
+            NotificationService notificationService) {
+
         this.verificationLogRepository = verificationLogRepository;
         this.institutionRepository = institutionRepository;
         this.adminRepository = adminRepository;
         this.adminActivityLogService = adminActivityLogService;
+        this.notificationService = notificationService;
     }
 
     /**
-     * Records a SUBMITTED entry. Called right after institution self-registration
-     * (Section 8.1: "Institution registers ... Account status is set to PENDING").
+     * Records a SUBMITTED entry.
+     * Called right after institution self-registration.
      */
-    public InstitutionVerificationLog recordSubmission(Long institutionId) {
-        institutionRepository.findById(institutionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Institution not found with id: " + institutionId));
+    public InstitutionVerificationLog recordSubmission(
+            Long institutionId) {
 
-        InstitutionVerificationLog log = new InstitutionVerificationLog();
+        institutionRepository.findById(institutionId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Institution not found with id: "
+                                        + institutionId
+                        )
+                );
+
+        InstitutionVerificationLog log =
+                new InstitutionVerificationLog();
+
         log.setInstitutionId(institutionId);
         log.setAdminId(null);
         log.setAction("SUBMITTED");
@@ -47,49 +62,125 @@ public class InstitutionVerificationLogService {
     }
 
     /**
-     * Admin decision on an institution (Section 8.1/8.2): APPROVED, REJECTED,
-     * INFO_REQUESTED, or SUSPENDED. Reason is mandatory in practice when action = REJECTED.
+     * Admin decision on an institution:
+     * APPROVED, REJECTED, INFO_REQUESTED or SUSPENDED.
+     *
+     * A rejection reason is mandatory.
      */
-    public InstitutionVerificationLog recordDecision(Long institutionId, InstitutionVerificationLogRequest request) {
+    public InstitutionVerificationLog recordDecision(
+            Long institutionId,
+            InstitutionVerificationLogRequest request) {
+
         institutionRepository.findById(institutionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Institution not found with id: " + institutionId));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Institution not found with id: "
+                                        + institutionId
+                        )
+                );
 
         adminRepository.findById(request.getAdminId())
-                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + request.getAdminId()));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Admin not found with id: "
+                                        + request.getAdminId()
+                        )
+                );
 
         if ("REJECTED".equals(request.getAction())
-                && (request.getReason() == null || request.getReason().isBlank())) {
-            throw new IllegalArgumentException("A reason is required when rejecting an institution");
+                && (request.getReason() == null
+                || request.getReason().isBlank())) {
+
+            throw new IllegalArgumentException(
+                    "A reason is required when rejecting an institution"
+            );
         }
 
-        InstitutionVerificationLog log = new InstitutionVerificationLog();
+        InstitutionVerificationLog log =
+                new InstitutionVerificationLog();
+
         log.setInstitutionId(institutionId);
         log.setAdminId(request.getAdminId());
         log.setAction(request.getAction());
         log.setReason(request.getReason());
 
-        InstitutionVerificationLog saved = verificationLogRepository.save(log);
+        InstitutionVerificationLog saved =
+                verificationLogRepository.save(log);
 
-        adminActivityLogService.record(request.getAdminId(), "INSTITUTION_" + request.getAction(),
-                "institution", institutionId, request.getReason());
+        adminActivityLogService.record(
+                request.getAdminId(),
+                "INSTITUTION_" + request.getAction(),
+                "institution",
+                institutionId,
+                request.getReason()
+        );
 
-        // Keep institution.verification_status in sync with the latest decision.
+        /*
+         * Keep institution.verification_status
+         * synchronized with the latest decision.
+         */
         String newStatus = switch (request.getAction()) {
+
             case "APPROVED" -> "APPROVED";
+
             case "REJECTED" -> "REJECTED";
+
             case "SUSPENDED" -> "SUSPENDED";
-            default -> null; // INFO_REQUESTED does not change the status
+
+            default -> null;
         };
+
         if (newStatus != null) {
-            institutionRepository.updateVerificationStatus(institutionId, newStatus);
+
+            institutionRepository.updateVerificationStatus(
+                    institutionId,
+                    newStatus
+            );
+
+            /*
+             * Notify the institution ONLY when the admin
+             * approves or rejects the verification.
+             *
+             * No notification for INFO_REQUESTED or SUSPENDED.
+             */
+            if ("APPROVED".equals(newStatus)
+                    || "REJECTED".equals(newStatus)) {
+
+                String type =
+                        "APPROVED".equals(newStatus)
+                                ? "INSTITUTION_VERIFICATION_APPROVED"
+                                : "INSTITUTION_VERIFICATION_REJECTED";
+
+                String message =
+                        "Your institution verification has been "
+                                + newStatus.toLowerCase()
+                                + ".";
+
+                notificationService.notifyInstitution(
+                        institutionId,
+                        type,
+                        null,
+                        "Institution verification",
+                        message
+                );
+            }
         }
 
         return saved;
     }
 
-    public List<InstitutionVerificationLog> getByInstitutionId(Long institutionId) {
+    public List<InstitutionVerificationLog> getByInstitutionId(
+            Long institutionId) {
+
         institutionRepository.findById(institutionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Institution not found with id: " + institutionId));
-        return verificationLogRepository.findByInstitutionId(institutionId);
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Institution not found with id: "
+                                        + institutionId
+                        )
+                );
+
+        return verificationLogRepository
+                .findByInstitutionId(institutionId);
     }
 }

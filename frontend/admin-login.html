@@ -25,9 +25,9 @@
     <div class="auth-form-side">
         <div class="auth-card">
             <div class="role-switch">
-                <a href="student-login.html">Student</a>
-                <a href="institution-login.html">Institution</a>
-                <a href="admin-login.html" class="active">Admin</a>
+                <a href="admin-login.html" class="active">
+                    Admin
+                </a>
             </div>
             <h2>Admin sign in</h2>
             <p class="sub">Restricted access — platform administrators only.</p>
@@ -36,14 +36,13 @@
                 <div class="field"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••" required></div>
                 <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
             </form>
-            <div class="auth-demo" id="loginMsg">Connects to the Spring Boot API at <code id="apiBaseLabel"></code> using the real GET /api/admins records (no dedicated /login endpoint exists — see integration notes).</div>
+            <div class="auth-demo" id="loginMsg"></div>
         </div>
     </div>
 </div>
 <script src="js/app.js"></script>
 <script src="js/api.js"></script>
 <script>
-    document.getElementById("apiBaseLabel").textContent = SM_API_BASE;
     async function smAdminLoginSubmit(e){
         e.preventDefault();
         const btn = document.getElementById("loginBtn"), msg = document.getElementById("loginMsg");

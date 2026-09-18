@@ -77,6 +77,7 @@ public class InstitutionDocumentController {
         }
         institutionDocumentService.delete(documentId);
     }
+
     @GetMapping("/{documentId}/file")
     public ResponseEntity<Resource> viewFile(@PathVariable Long institutionId, @PathVariable Long documentId) {
         requireOwnerOrAdmin(institutionId);
@@ -85,9 +86,15 @@ public class InstitutionDocumentController {
             throw new ResourceNotFoundException("Document not found with id: " + documentId);
         }
 
-        Resource resource = fileStorageService.loadAsResource(doc.getFilePath());
+        Resource resource;
+        try {
+            resource = fileStorageService.loadAsResource(doc.getFilePath());
+        } catch (IllegalStateException | IllegalArgumentException ex) {
+            throw new ResourceNotFoundException(
+                    "Document file is missing on the server. Please re-upload this document.");
+        }
         String contentType = resource.getFilename() != null && resource.getFilename().toLowerCase().endsWith(".pdf")
-                ? "application/pdf" : "image/*";
+                ? "application/pdf" : "image/jpeg";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))

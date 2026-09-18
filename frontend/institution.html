@@ -1,20 +1,29 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Institution Portal · ScholarMatch</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    ```
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+    ```
+
 </head>
 
 <body>
 
 <div class="app-shell">
 
-    <!-- SIDEBAR -->
+    ```
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
     <aside class="sidebar" id="sidebar">
 
         <div class="sidebar-brand">
@@ -34,7 +43,6 @@
             <div class="sidebar-section-label">
                 Overview
             </div>
-
 
             <div class="nav-item" data-view="dashboard">
 
@@ -71,8 +79,8 @@
                 </svg>
 
                 <span class="label">
-                    Dashboard
-                </span>
+                Dashboard
+            </span>
 
             </div>
 
@@ -91,14 +99,13 @@
                      stroke-width="2">
 
                     <path d="M12 2 2 7l10 5 10-5-10-5Z"/>
-
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
 
                 </svg>
 
                 <span class="label">
-                    Add / Edit Scholarships
-                </span>
+                Add / Edit Scholarships
+            </span>
 
             </div>
 
@@ -111,13 +118,15 @@
                      stroke="currentColor"
                      stroke-width="2">
 
-                    <path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1"/>
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V7l7-4 7 4v14"/>
+                    <path d="M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1"/>
 
                 </svg>
 
                 <span class="label">
-                    Verification Status
-                </span>
+                Verification Status
+            </span>
 
             </div>
 
@@ -158,9 +167,7 @@
                          stroke-width="2">
 
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-
                         <path d="M16 17l5-5-5-5"/>
-
                         <path d="M21 12H9"/>
 
                     </svg>
@@ -174,16 +181,23 @@
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
     <div class="main">
 
 
-        <!-- TOPBAR -->
+        <!-- =====================================================
+             TOPBAR
+        ====================================================== -->
+
         <header class="topbar">
 
             <div class="flex items-center gap-16">
 
-                <button class="icon-btn hamburger">
+                <button class="icon-btn hamburger"
+                        type="button">
 
                     <svg width="18"
                          height="18"
@@ -192,7 +206,9 @@
                          stroke="currentColor"
                          stroke-width="2">
 
-                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                        <path d="M3 12h18"/>
+                        <path d="M3 6h18"/>
+                        <path d="M3 18h18"/>
 
                     </svg>
 
@@ -227,28 +243,98 @@
 
             <div class="topbar-right">
 
-                <button class="icon-btn"
-                        onclick="smShowView('dashboard')">
 
-                    <svg width="17"
-                         height="17"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2">
+                <!-- =================================================
+                     NOTIFICATION BELL
+                ================================================== -->
 
-                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <div class="notif-wrap">
 
-                        <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+                    <button
+                            class="icon-btn"
+                            type="button"
+                            id="instNotifBellBtn"
+                            onclick="instToggleNotifications()"
+                            aria-label="Notifications"
+                            aria-expanded="false">
 
-                    </svg>
+                        <svg width="17"
+                             height="17"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
 
-                    <span class="dot"
-                          style="display:none;">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+
+                            <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+
+                        </svg>
+
+
+                        <span
+                                class="notif-count"
+                                id="instNotifCount"
+                                style="display:none;">
+                        0
                     </span>
 
-                </button>
+                    </button>
 
+
+                    <!-- =================================================
+                         NOTIFICATION DROPDOWN
+                    ================================================== -->
+
+                    <div
+                            class="notif-dropdown"
+                            id="instNotifDropdown">
+
+                        <div class="notif-head">
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <span id="instNotifUnreadLabel">
+                            0 unread
+                        </span>
+
+                        </div>
+
+
+                        <div
+                                class="notif-list"
+                                id="instNotifList">
+
+                            <div class="empty-state">
+                                Loading…
+                            </div>
+
+                        </div>
+
+
+                        <div class="notif-foot">
+
+                            <button
+                                    class="btn btn-ghost btn-sm"
+                                    type="button"
+                                    onclick="markAllInstitutionRead()">
+
+                                Mark all read
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     USER
+                ================================================== -->
 
                 <div class="user-chip">
 
@@ -263,9 +349,11 @@
         </header>
 
 
-        <!-- PAGE -->
-        <div class="page">
+        <!-- =====================================================
+             PAGE
+        ====================================================== -->
 
+        <div class="page">
 
             <div class="breadcrumb-eyebrow">
                 Institution Portal
@@ -289,11 +377,18 @@
             </div>
 
 
-            <!-- ================= DASHBOARD ================= -->
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
 
-            <section class="view"
-                     id="view-dashboard">
+            <section
+                    class="view"
+                    id="view-dashboard">
 
+
+                <!-- =================================================
+                     STATISTICS
+                ================================================== -->
 
                 <div class="grid grid-4">
 
@@ -388,7 +483,9 @@
                 </div>
 
 
-                <!-- PERFORMANCE -->
+                <!-- =================================================
+                     PERFORMANCE
+                ================================================== -->
 
                 <div class="card mt-24">
 
@@ -400,8 +497,10 @@
 
                         <span class="link"
                               onclick="smShowView('manage')">
-                            Manage all →
-                        </span>
+
+                        Manage all →
+
+                    </span>
 
                     </div>
 
@@ -453,7 +552,9 @@
                 </div>
 
 
-                <!-- NOTIFICATIONS -->
+                <!-- =================================================
+                     NOTIFICATIONS
+                ================================================== -->
 
                 <div class="card mt-24">
 
@@ -479,14 +580,16 @@
             </section>
 
 
-            <!-- ================= MANAGE SCHOLARSHIPS ================= -->
+            <!-- =================================================
+                 MANAGE SCHOLARSHIPS
+            ================================================== -->
 
-            <section class="view"
-                     id="view-manage">
+            <section
+                    class="view"
+                    id="view-manage">
 
 
                 <div class="card">
-
 
                     <div class="card-head">
 
@@ -497,7 +600,8 @@
 
                         <button
                                 class="btn btn-primary"
-                                onclick="resetAddModal(); smOpenModal('addModal');">
+                                type="button"
+                                onclick="resetAddModal();">
 
                             + Add scholarship
 
@@ -551,19 +655,21 @@
             </section>
 
 
-            <!-- ================= VERIFICATION STATUS ================= -->
+            <!-- =================================================
+                 VERIFICATION STATUS
+            ================================================== -->
 
-            <section class="view"
-                     id="view-status">
+            <section
+                    class="view"
+                    id="view-status">
 
 
                 <div class="grid grid-2-1">
 
 
-                    <!-- VERIFICATION STATUS CARD -->
+                    <!-- VERIFICATION STATUS -->
 
                     <div class="card">
-
 
                         <div class="card-head">
 
@@ -571,10 +677,13 @@
                                 Verification status
                             </h3>
 
-                            <span class="badge neutral"
-                                  id="verificationOverallBadge">
-                                Loading...
-                            </span>
+                            <span
+                                    class="badge neutral"
+                                    id="verificationOverallBadge">
+
+                            Loading...
+
+                        </span>
 
                         </div>
 
@@ -620,17 +729,18 @@
         </div>
 
     </div>
+    ```
 
 </div>
 
-
-
-<!-- ================= ADD / EDIT SCHOLARSHIP MODAL ================= -->
+<!-- =============================================================
+     ADD / EDIT SCHOLARSHIP MODAL
+============================================================== -->
 
 <div class="modal-overlay"
      id="addModal">
 
-
+    ```
     <div class="modal"
          style="max-width:640px;">
 
@@ -641,10 +751,14 @@
                 Add scholarship / fee-concession scheme
             </h3>
 
+
             <button
                     class="modal-close"
+                    type="button"
                     onclick="smCloseModal('addModal')">
+
                 ✕
+
             </button>
 
         </div>
@@ -669,16 +783,242 @@
             <div class="field">
 
                 <label>
-                    Category (shown under)
+                    Primary category *
                 </label>
 
                 <select id="iPrimaryCategory">
-                    <option value="STATE">State Scholarship</option>
-                    <option value="CENTRAL">Central Scholarship</option>
-                    <option value="WOMENS">Women's Scholarship</option>
-                    <option value="COLLEGE">College Scholarship</option>
-                    <option value="COMPANY">Company Scholarship</option>
+
+                    <option value="">
+                        Select category…
+                    </option>
+
+                    <option value="WOMENS">
+                        Women's
+                    </option>
+
+                    <option value="COLLEGE">
+                        College
+                    </option>
+
+                    <option value="COMPANY">
+                        Company
+                    </option>
+
+                    <option value="STATE">
+                        State
+                    </option>
+
+                    <option value="CENTRAL">
+                        Central
+                    </option>
+
                 </select>
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Source type
+                    </label>
+
+                    <select id="iSourceType">
+
+                        <option value="GOVERNMENT">
+                            Government
+                        </option>
+
+                        <option value="PRIVATE_CORPORATE">
+                            Private / Corporate
+                        </option>
+
+                        <option value="PRIVATE_NGO">
+                            Private / NGO
+                        </option>
+
+                        <option value="INSTITUTION"
+                                selected>
+                            Institution
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Application mode
+                    </label>
+
+                    <select id="iApplicationMode">
+
+                        <option value="INSTITUTION_MANAGED"
+                                selected>
+                            Institution managed
+                        </option>
+
+                        <option value="EXTERNAL_REDIRECT">
+                            External redirect
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Funding body name
+                </label>
+
+                <input
+                        id="iFundingBody"
+                        placeholder="e.g. Institution name / department">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Official application link
+                </label>
+
+                <input
+                        id="iApplyLink"
+                        placeholder="https://... (leave blank if institution managed)">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible categories (community)
+                </label>
+
+                <input
+                        id="iCategories"
+                        placeholder="OBC, SC, ST, EWS (comma separated, blank = open to all)">
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Min. annual income (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            id="iMinIncome"
+                            placeholder="Leave blank = no minimum">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Max. annual income (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            id="iMaxIncome"
+                            placeholder="Leave blank = no maximum">
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible states / domicile
+                </label>
+
+                <input
+                        id="iStates"
+                        placeholder="Tamil Nadu, Kerala (comma separated, blank = all states)">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible special statuses
+                </label>
+
+                <select
+                        id="iSpecialStatus"
+                        multiple
+                        size="5">
+
+                    <option value="SINGLE_GIRL_CHILD">
+                        Single girl child
+                    </option>
+
+                    <option value="ORPHAN_SINGLE_PARENT">
+                        Orphan / single parent
+                    </option>
+
+                    <option value="EX_SERVICEMEN_DEPENDENT">
+                        Ex-servicemen dependent
+                    </option>
+
+                    <option value="SPORTS_QUOTA">
+                        Sports quota
+                    </option>
+
+                    <option value="MINORITY_COMMUNITY">
+                        Minority community
+                    </option>
+
+                    <option value="FIRST_GRADUATE">
+                        First graduate
+                    </option>
+
+                </select>
+
+
+                <p class="field-help">
+                    Ctrl/Cmd-click to select multiple.
+                    Leave unselected = open to all.
+                </p>
+
+            </div>
+
+
+            <div class="field"
+                 id="iRequiredDocsField">
+
+                <label>
+                    Required documents
+                </label>
+
+                <div
+                        id="iRequiredDocs"
+                        class="field-help">
+
+                    Loading certificate types…
+
+                </div>
 
             </div>
 
@@ -751,7 +1091,6 @@
                         Education level
                     </label>
 
-
                     <select id="iEducationLevel">
 
                         <option value="ANY">
@@ -783,7 +1122,6 @@
                     Description
                 </label>
 
-
                 <textarea
                         rows="3"
                         id="iDescription"
@@ -808,6 +1146,7 @@
 
             <button
                     class="btn btn-ghost"
+                    type="button"
                     onclick="smCloseModal('addModal')">
 
                 Cancel
@@ -817,6 +1156,7 @@
 
             <button
                     class="btn btn-primary"
+                    type="button"
                     onclick="submitScholarship()"
                     id="addModalSubmitBtn">
 
@@ -827,19 +1167,21 @@
         </div>
 
     </div>
+    ```
 
 </div>
 
-
-
 <div id="toast-stack"></div>
 
-
+<!-- =============================================================
+     SCRIPTS
+============================================================== -->
 
 <script src="js/data.js"></script>
-<script src="js/app.js"></script>
-<script src="js/api.js"></script>
 
+<script src="js/app.js"></script>
+
+<script src="js/api.js"></script>
 
 <script>
 
@@ -849,11 +1191,9 @@
 
     const SM_SESSION = smGetSession();
 
-
     if (!SM_SESSION || SM_SESSION.role !== "institution") {
 
-        window.location.href =
-            "institution-login.html";
+        window.location.href = "institution-login.html";
 
     }
 
@@ -877,7 +1217,6 @@
 
 
     let editingScholarshipId = null;
-
 
 
     /* =========================================================
@@ -910,13 +1249,11 @@
     }
 
 
-
     /* =========================================================
        OWN SCHOLARSHIPS
     ========================================================== */
 
     function renderOwnScholarships() {
-
 
         document.getElementById(
             "dash-own-scholarships"
@@ -924,52 +1261,51 @@
 
             IN.scholarships.map(s => `
 
-            <tr>
+                <tr>
 
-                <td class="row-title">
-                    ${smEscapeHtml(s.title || "")}
-                </td>
+                    <td class="row-title">
+                        ${smEscapeHtml(s.title || "")}
+                    </td>
 
-                <td>
-                    ${smCurrency(s.amount)}
-                </td>
+                    <td>
+                        ${smCurrency(s.amount)}
+                    </td>
 
-                <td>
-                    ${smFormatDate(s.deadline)}
-                </td>
+                    <td>
+                        ${smFormatDate(s.deadline)}
+                    </td>
 
-                <td>
-                    ${Number(s.viewCount || 0).toLocaleString()}
-                </td>
+                    <td>
+                        ${Number(s.viewCount || 0).toLocaleString()}
+                    </td>
 
-                <td>
-                    —
-                </td>
+                    <td>
+                        —
+                    </td>
 
-                <td>
-                    ${statusBadge(s.approvalStatus)}
-                </td>
+                    <td>
+                        ${statusBadge(s.approvalStatus)}
+                    </td>
 
-            </tr>
+                </tr>
 
-        `).join("")
+            `).join("")
 
             ||
 
             `
-        <tr>
+            <tr>
 
-            <td colspan="6"
-                class="text-soft"
-                style="text-align:center;padding:16px;">
+                <td colspan="6"
+                    class="text-soft"
+                    style="text-align:center;padding:16px;">
 
-                No scholarships posted yet
+                    No scholarships posted yet
 
-            </td>
+                </td>
 
-        </tr>
-        `;
-
+            </tr>
+            `;
 
 
         document.getElementById(
@@ -978,94 +1314,91 @@
 
             IN.scholarships.map(s => `
 
-            <tr>
+                <tr>
 
-                <td class="row-title">
+                    <td class="row-title">
 
-                    ${smEscapeHtml(s.title || "")}
+                        ${smEscapeHtml(s.title || "")}
 
-                    ${
+                        ${
                 s.rejectionReason
-
                     ? `
-                        <div class="row-sub">
-                            Rejected: ${smEscapeHtml(s.rejectionReason)}
-                        </div>
-                        `
-
+                                <div class="row-sub">
+                                    Rejected:
+                                    ${smEscapeHtml(s.rejectionReason)}
+                                </div>
+                                `
                     : ""
             }
 
-                </td>
+                    </td>
 
 
-                <td>
-                    ${smCurrency(s.amount)}
-                </td>
+                    <td>
+                        ${smCurrency(s.amount)}
+                    </td>
 
 
-                <td>
-                    ${smFormatDate(s.deadline)}
-                </td>
+                    <td>
+                        ${smFormatDate(s.deadline)}
+                    </td>
 
 
-                <td>
-                    ${statusBadge(s.approvalStatus)}
-                </td>
+                    <td>
+                        ${statusBadge(s.approvalStatus)}
+                    </td>
 
 
-                <td class="table-actions">
+                    <td class="table-actions">
+
+                        <button
+                                class="icon-action"
+                                type="button"
+                                title="Edit"
+                                onclick="openEdit(${Number(s.scholarshipId)})">
+
+                            ✏️
+
+                        </button>
 
 
-                    <button
-                        class="icon-action"
-                        title="Edit"
-                        onclick="openEdit(${Number(s.scholarshipId)})">
+                        <button
+                                class="icon-action"
+                                type="button"
+                                title="${s.active ? "Deactivate" : "Activate"}"
+                                onclick="toggleActive(${Number(s.scholarshipId)}, ${!!s.active})">
 
-                        ✏️
+                            ${s.active ? "⏸️" : "▶️"}
 
-                    </button>
+                        </button>
 
+                    </td>
 
-                    <button
-                        class="icon-action"
-                        title="${s.active ? "Deactivate" : "Activate"}"
-                        onclick="toggleActive(${Number(s.scholarshipId)}, ${!!s.active})">
+                </tr>
 
-                        ${s.active ? "⏸️" : "▶️"}
-
-                    </button>
-
-
-                </td>
-
-            </tr>
-
-        `).join("")
+            `).join("")
 
             ||
 
             `
-        <tr>
+            <tr>
 
-            <td colspan="5"
-                class="text-soft"
-                style="text-align:center;padding:16px;">
+                <td colspan="5"
+                    class="text-soft"
+                    style="text-align:center;padding:16px;">
 
-                No scholarships posted yet
+                    No scholarships posted yet
 
-            </td>
+                </td>
 
-        </tr>
-        `;
-
+            </tr>
+            `;
 
 
         document.getElementById(
             "statPosted"
         ).textContent =
             IN.scholarships.length;
-
 
 
         document.getElementById(
@@ -1075,7 +1408,6 @@
             IN.scholarships.reduce(
 
                 (sum, scholarship) =>
-
                     sum +
                     Number(scholarship.viewCount || 0),
 
@@ -1084,11 +1416,9 @@
             ).toLocaleString();
 
 
-
         document.getElementById(
             "statMatched"
         ).textContent = "—";
-
 
 
         document.getElementById(
@@ -1104,7 +1434,6 @@
             ).length;
 
     }
-
 
 
     /* =========================================================
@@ -1128,12 +1457,14 @@
     }
 
 
-
     /* =========================================================
        RESET ADD MODAL
     ========================================================== */
 
-    function resetAddModal() {
+    let iRequiredDocCertTypes = [];
+
+
+    async function resetAddModal() {
 
         editingScholarshipId = null;
 
@@ -1144,7 +1475,13 @@
             "iDeadline",
             "iCourses",
             "iMinMarks",
-            "iDescription"
+            "iDescription",
+            "iFundingBody",
+            "iApplyLink",
+            "iCategories",
+            "iMinIncome",
+            "iMaxIncome",
+            "iStates"
 
         ].forEach(id => {
 
@@ -1167,7 +1504,83 @@
 
         document.getElementById(
             "iPrimaryCategory"
-        ).value = "STATE";
+        ).value = "";
+
+
+        document.getElementById(
+            "iSourceType"
+        ).value = "INSTITUTION";
+
+
+        document.getElementById(
+            "iApplicationMode"
+        ).value = "INSTITUTION_MANAGED";
+
+
+        Array.from(
+            document.getElementById(
+                "iSpecialStatus"
+            ).options
+        ).forEach(o => {
+
+            o.selected = false;
+
+        });
+
+
+        try {
+
+            if (!iRequiredDocCertTypes.length) {
+
+                const res =
+                    await smApi.getCertificateTypes();
+
+                iRequiredDocCertTypes =
+                    res.data || [];
+
+            }
+
+
+            const box =
+                document.getElementById(
+                    "iRequiredDocs"
+                );
+
+
+            box.innerHTML =
+                iRequiredDocCertTypes.length
+
+                    ? iRequiredDocCertTypes.map(ct => `
+
+                        <label
+                                style="display:block;font-weight:400;">
+
+                            <input
+                                    type="checkbox"
+                                    class="iReqDocChk"
+                                    value="${ct.certificateTypeId}">
+
+                            ${smEscapeHtml(
+                        ct.certificateName ||
+                        ct.name ||
+                        ("Certificate #" +
+                            ct.certificateTypeId)
+                    )}
+
+                        </label>
+
+                    `).join("")
+
+                    : "No certificate types configured yet.";
+
+        } catch (err) {
+
+            document.getElementById(
+                "iRequiredDocs"
+            ).textContent =
+                "Could not load certificate types.";
+
+        }
 
 
         document.getElementById(
@@ -1175,8 +1588,10 @@
         ).textContent =
             "Submit for approval";
 
-    }
 
+        smOpenModal("addModal");
+
+    }
 
 
     /* =========================================================
@@ -1188,7 +1603,8 @@
         const s =
             IN.scholarships.find(
                 x =>
-                    Number(x.scholarshipId) === Number(id)
+                    Number(x.scholarshipId) ===
+                    Number(id)
             );
 
 
@@ -1212,12 +1628,6 @@
             "iTitle"
         ).value =
             s.title || "";
-
-
-        document.getElementById(
-            "iPrimaryCategory"
-        ).value =
-            s.primaryCategory || "STATE";
 
 
         document.getElementById(
@@ -1252,9 +1662,146 @@
 
 
         document.getElementById(
+            "iPrimaryCategory"
+        ).value =
+            s.primaryCategory || "";
+
+
+        document.getElementById(
             "iDescription"
         ).value =
             s.description || "";
+
+
+        document.getElementById(
+            "iSourceType"
+        ).value =
+            s.sourceType || "INSTITUTION";
+
+
+        document.getElementById(
+            "iApplicationMode"
+        ).value =
+            s.applicationMode ||
+            "INSTITUTION_MANAGED";
+
+
+        document.getElementById(
+            "iFundingBody"
+        ).value =
+            s.fundingBodyName || "";
+
+
+        document.getElementById(
+            "iApplyLink"
+        ).value =
+            s.officialApplicationLink || "";
+
+
+        document.getElementById(
+            "iCategories"
+        ).value =
+            (s.eligibleCategories || [])
+                .join(", ");
+
+
+        document.getElementById(
+            "iMinIncome"
+        ).value =
+            s.minAnnualIncome ?? "";
+
+
+        document.getElementById(
+            "iMaxIncome"
+        ).value =
+            s.maxAnnualIncome ?? "";
+
+
+        document.getElementById(
+            "iStates"
+        ).value =
+            (s.eligibleStates || [])
+                .join(", ");
+
+
+        Array.from(
+            document.getElementById(
+                "iSpecialStatus"
+            ).options
+        ).forEach(o => {
+
+            o.selected =
+                (s.eligibleSpecialStatus || [])
+                    .includes(o.value);
+
+        });
+
+
+        (async () => {
+
+            try {
+
+                if (!iRequiredDocCertTypes.length) {
+
+                    const res =
+                        await smApi.getCertificateTypes();
+
+                    iRequiredDocCertTypes =
+                        res.data || [];
+
+                }
+
+
+                const box =
+                    document.getElementById(
+                        "iRequiredDocs"
+                    );
+
+
+                box.innerHTML =
+                    iRequiredDocCertTypes.length
+
+                        ? iRequiredDocCertTypes.map(ct => `
+
+                            <label
+                                    style="display:block;font-weight:400;">
+
+                                <input
+                                        type="checkbox"
+                                        class="iReqDocChk"
+                                        value="${ct.certificateTypeId}"
+                                        ${
+                            (s.requiredDocuments || [])
+                                .includes(
+                                    ct.certificateTypeId
+                                )
+                                ? "checked"
+                                : ""
+                        }>
+
+                                ${smEscapeHtml(
+                            ct.certificateName ||
+                            ct.name ||
+                            ("Certificate #" +
+                                ct.certificateTypeId)
+                        )}
+
+                            </label>
+
+                        `).join("")
+
+                        : "No certificate types configured yet.";
+
+            } catch (err) {
+
+                document.getElementById(
+                    "iRequiredDocs"
+                ).textContent =
+                    "Could not load certificate types.";
+
+            }
+
+        })();
 
 
         document.getElementById(
@@ -1266,7 +1813,6 @@
         smOpenModal("addModal");
 
     }
-
 
 
     /* =========================================================
@@ -1282,15 +1828,11 @@
 
             if (isActive) {
 
-                await smApi.deactivateScholarship(
-                    id
-                );
+                await smApi.deactivateScholarship(id);
 
             } else {
 
-                await smApi.activateScholarship(
-                    id
-                );
+                await smApi.activateScholarship(id);
 
             }
 
@@ -1302,7 +1844,6 @@
 
 
             await reloadOwnScholarships();
-
 
         } catch (err) {
 
@@ -1316,137 +1857,184 @@
     }
 
 
-
     /* =========================================================
        SUBMIT / UPDATE SCHOLARSHIP
     ========================================================== */
 
     async function submitScholarship() {
 
+        const primaryCategory =
+            document.getElementById(
+                "iPrimaryCategory"
+            ).value;
+
+
+        if (!primaryCategory) {
+
+            smToast(
+                "Select a primary category",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const requiredDocuments =
+
+            Array.from(
+                document.querySelectorAll(
+                    ".iReqDocChk:checked"
+                )
+            )
+                .map(
+                    chk =>
+                        Number(chk.value)
+                );
+
+
+        const selectedSpecialStatus =
+
+            Array.from(
+                document.getElementById(
+                    "iSpecialStatus"
+                ).selectedOptions
+            )
+                .map(
+                    o =>
+                        o.value
+                );
+
 
         const payload = {
 
             title:
-                document
-                    .getElementById("iTitle")
-                    .value
-                    .trim(),
-
-
-            primaryCategory:
-            document
-                .getElementById("iPrimaryCategory")
-                .value,
+                document.getElementById(
+                    "iTitle"
+                ).value.trim(),
 
 
             description:
-                document
-                    .getElementById("iDescription")
-                    .value
-                    .trim(),
+                document.getElementById(
+                    "iDescription"
+                ).value.trim(),
 
 
             sourceType:
-                "INSTITUTION",
+            document.getElementById(
+                "iSourceType"
+            ).value,
+
+
+            primaryCategory,
 
 
             fundingBodyName:
-                IN.institution.institutionName ||
-                "",
+                document.getElementById(
+                    "iFundingBody"
+                ).value.trim(),
 
 
             amount:
                 parseFloat(
-                    document
-                        .getElementById("iAmount")
-                        .value
+                    document.getElementById(
+                        "iAmount"
+                    ).value
                 ) || 0,
 
 
             applicationMode:
-                "INSTITUTION_MANAGED",
+            document.getElementById(
+                "iApplicationMode"
+            ).value,
 
 
             officialApplicationLink:
-                "",
+                document.getElementById(
+                    "iApplyLink"
+                ).value.trim(),
 
 
             eligibleCategories:
-                [],
+                document.getElementById(
+                    "iCategories"
+                ).value
+                    .split(",")
+                    .map(s => s.trim())
+                    .filter(Boolean),
 
 
             minAnnualIncome:
-                null,
+                parseFloat(
+                    document.getElementById(
+                        "iMinIncome"
+                    ).value
+                ) || null,
 
 
             maxAnnualIncome:
-                null,
+                parseFloat(
+                    document.getElementById(
+                        "iMaxIncome"
+                    ).value
+                ) || null,
 
 
             eligibleCourses:
-
-                document
-                    .getElementById("iCourses")
-                    .value
+                document.getElementById(
+                    "iCourses"
+                ).value
                     .split(",")
                     .map(s => s.trim())
                     .filter(Boolean),
 
 
             educationLevel:
-
-            document
-                .getElementById(
-                    "iEducationLevel"
-                )
-                .value,
+            document.getElementById(
+                "iEducationLevel"
+            ).value,
 
 
             minMarksCgpa:
-
                 parseFloat(
-
-                    document
-                        .getElementById(
-                            "iMinMarks"
-                        )
-                        .value
-
+                    document.getElementById(
+                        "iMinMarks"
+                    ).value
                 ) || null,
 
 
             eligibleStates:
-                [],
+                document.getElementById(
+                    "iStates"
+                ).value
+                    .split(",")
+                    .map(s => s.trim())
+                    .filter(Boolean),
 
 
             eligibleSpecialStatus:
-                [],
+            selectedSpecialStatus,
+
+
+            requiredDocuments,
 
 
             deadline:
-
-            document
-                .getElementById(
-                    "iDeadline"
-                )
-                .value
+            document.getElementById(
+                "iDeadline"
+            ).value
 
         };
 
 
-
         try {
-
 
             if (editingScholarshipId) {
 
-
                 await smApi.updateScholarship(
-
                     editingScholarshipId,
-
                     payload
-
                 );
 
 
@@ -1455,29 +2043,20 @@
                     "success"
                 );
 
-
             } else {
 
-
                 await smApi.submitScholarshipByInstitution(
-
                     SM_INST_ID,
-
                     payload
-
                 );
 
 
                 smToast(
-
                     "Scholarship submitted for admin approval",
-
                     "success"
-
                 );
 
             }
-
 
 
             smCloseModal(
@@ -1496,7 +2075,6 @@
 
             await reloadOwnScholarships();
 
-
         } catch (err) {
 
             smToast(
@@ -1509,15 +2087,13 @@
     }
 
 
-
     /* =========================================================
-       NOTIFICATIONS
+       EXISTING INSTITUTION NOTIFICATIONS PANEL
     ========================================================== */
 
     function renderInstitutionNotifications(
         list
     ) {
-
 
         const container =
             document.getElementById(
@@ -1528,82 +2104,75 @@
         if (!container) return;
 
 
-
         container.innerHTML =
 
             list.map(n => `
 
-            <div class="doc-row">
+                <div class="doc-row">
+
+                    <div class="doc-info">
+
+                        <div class="doc-ic">
+                            ${n.read ? "🔔" : "🔴"}
+                        </div>
 
 
-                <div class="doc-info">
+                        <div>
+
+                            <div class="doc-name">
+                                ${smEscapeHtml(
+                n.title || ""
+            )}
+                            </div>
 
 
-                    <div class="doc-ic">
+                            <div class="doc-sub">
+                                ${smEscapeHtml(
+                n.message || ""
+            )}
+                            </div>
 
-                        ${n.read
-                ? "🔔"
-                : "🔴"
-            }
+                        </div>
 
                     </div>
 
 
-                    <div>
-
-
-                        <div class="doc-name">
-
-                            ${smEscapeHtml(n.title || "")}
-
-                        </div>
-
-
-                        <div class="doc-sub">
-
-                            ${smEscapeHtml(n.message || "")}
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                ${
+                    ${
                 !n.read
-
                     ? `
 
-                    <button
-                        class="btn btn-outline btn-sm"
-                        onclick="markInstitutionNotificationRead(${Number(n.notificationId)})">
+                            <button
+                                    class="btn btn-outline btn-sm"
+                                    type="button"
+                                    onclick="markInstitutionNotificationRead(${Number(n.notificationId)})">
 
-                        Mark read
+                                Mark read
 
-                    </button>
+                            </button>
 
-                    `
-
+                            `
                     : ""
             }
 
+                </div>
 
-            </div>
-
-        `).join("")
+            `).join("")
 
             ||
 
             `
-        <div class="empty-state">
-            No notifications yet
-        </div>
-        `;
+
+            <div class="empty-state">
+                No notifications yet
+            </div>
+
+            `;
 
 
+        /*
+         * Keep the existing panel's notification count
+         * behaviour as well.
+         */
 
         const unread =
             list.filter(
@@ -1611,30 +2180,18 @@
             ).length;
 
 
-
-        const dot =
-            document.querySelector(
-                ".topbar-right .dot"
-            );
-
-
-        if (dot) {
-
-            dot.style.display =
-                unread > 0
-                    ? "block"
-                    : "none";
-
-        }
+        /*
+         * The old `.dot` is intentionally not used
+         * because the topbar now has the real
+         * notification badge.
+         */
 
     }
-
 
 
     async function loadInstitutionNotifications() {
 
         try {
-
 
             const res =
                 await smApi.getInstitutionNotifications(
@@ -1646,8 +2203,13 @@
                 res.data || []
             );
 
-
         } catch (err) {
+
+            console.error(
+                "Unable to load institution notifications:",
+                err
+            );
+
 
             renderInstitutionNotifications(
                 []
@@ -1658,13 +2220,11 @@
     }
 
 
-
     async function markInstitutionNotificationRead(
         id
     ) {
 
         try {
-
 
             await smApi.markNotificationRead(
                 id
@@ -1673,6 +2233,13 @@
 
             await loadInstitutionNotifications();
 
+
+            /*
+             * Also refresh the topbar notification
+             * dropdown/badge.
+             */
+
+            await instLoadBellNotifications();
 
         } catch (err) {
 
@@ -1686,12 +2253,358 @@
     }
 
 
+    /* =========================================================
+       TOPBAR INSTITUTION NOTIFICATION BELL
+    ========================================================== */
+
+    async function instToggleNotifications() {
+
+        const dropdown =
+            document.getElementById(
+                "instNotifDropdown"
+            );
+
+
+        const button =
+            document.getElementById(
+                "instNotifBellBtn"
+            );
+
+
+        if (!dropdown) return;
+
+
+        const isOpen =
+            dropdown.classList.toggle(
+                "open"
+            );
+
+
+        if (button) {
+
+            button.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+        }
+
+
+        if (isOpen) {
+
+            await instLoadBellNotifications();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD TOPBAR NOTIFICATIONS
+    ========================================================== */
+
+    async function instLoadBellNotifications() {
+
+        const listElement =
+            document.getElementById(
+                "instNotifList"
+            );
+
+
+        const countElement =
+            document.getElementById(
+                "instNotifCount"
+            );
+
+
+        const unreadLabel =
+            document.getElementById(
+                "instNotifUnreadLabel"
+            );
+
+
+        if (!listElement) return;
+
+
+        try {
+
+            const response =
+                await smApi.getInstitutionNotifications(
+                    SM_INST_ID
+                );
+
+
+            const list =
+                Array.isArray(response?.data)
+                    ? response.data
+                    : [];
+
+
+            /*
+             * Fetch the real unread count from backend.
+             */
+
+            let unread = 0;
+
+
+            try {
+
+                const countResponse =
+                    await smApi.getInstitutionUnreadCount(
+                        SM_INST_ID
+                    );
+
+
+                unread =
+                    Number(
+                        countResponse?.data ?? 0
+                    );
+
+            } catch (countError) {
+
+                /*
+                 * Fallback to the fetched notification
+                 * list if the count endpoint fails.
+                 */
+
+                unread =
+                    list.filter(
+                        n => !n.read
+                    ).length;
+
+                console.error(
+                    "Institution unread count error:",
+                    countError
+                );
+
+            }
+
+
+            /*
+             * Update badge.
+             */
+
+            if (countElement) {
+
+                countElement.textContent =
+                    unread;
+
+
+                countElement.style.display =
+                    unread > 0
+                        ? "inline-flex"
+                        : "none";
+
+            }
+
+
+            /*
+             * Update unread label.
+             */
+
+            if (unreadLabel) {
+
+                unreadLabel.textContent =
+                    `${unread} unread`;
+
+            }
+
+
+            /*
+             * Render dropdown.
+             */
+
+            listElement.innerHTML =
+
+                list
+                    .slice(0, 8)
+                    .map(n => `
+
+                        <div
+                                class="notif-item ${n.read ? "" : "unread"}"
+                                role="button"
+                                tabindex="0"
+                                onclick="markInstitutionNotificationRead(${Number(n.notificationId)})">
+
+                            <div>
+
+                                <strong>
+                                    ${smEscapeHtml(
+                        n.title || ""
+                    )}
+                                </strong>
+
+
+                                <p>
+                                    ${smEscapeHtml(
+                        n.message || ""
+                    )}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `)
+                    .join("")
+
+                ||
+
+                `
+
+                <div class="empty-state">
+                    No notifications yet
+                </div>
+
+                `;
+
+
+        } catch (error) {
+
+            console.error(
+                "Institution notification loading error:",
+                error
+            );
+
+
+            listElement.innerHTML = `
+
+                <div class="empty-state">
+                    Unable to load notifications
+                </div>
+
+            `;
+
+
+            if (countElement) {
+
+                countElement.style.display =
+                    "none";
+
+            }
+
+
+            if (unreadLabel) {
+
+                unreadLabel.textContent =
+                    "0 unread";
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================================
+       MARK ALL INSTITUTION NOTIFICATIONS AS READ
+    ========================================================== */
+
+    async function markAllInstitutionRead() {
+
+        try {
+
+            await smApi.markAllInstitutionNotificationsRead(
+                SM_INST_ID
+            );
+
+
+            /*
+             * Refresh topbar dropdown and badge.
+             */
+
+            await instLoadBellNotifications();
+
+
+            /*
+             * Refresh existing dashboard
+             * notification panel.
+             */
+
+            await loadInstitutionNotifications();
+
+
+            smToast(
+                "All notifications marked as read",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Mark all institution notifications error:",
+                error
+            );
+
+
+            smToast(
+                error.message ||
+                "Unable to mark notifications as read",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CLOSE NOTIFICATION DROPDOWN WHEN CLICKING OUTSIDE
+    ========================================================== */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            const dropdown =
+                document.getElementById(
+                    "instNotifDropdown"
+                );
+
+
+            const bell =
+                document.getElementById(
+                    "instNotifBellBtn"
+                );
+
+
+            if (!dropdown || !bell) {
+                return;
+            }
+
+
+            if (
+                !event.target.closest(
+                    "#instNotifBellBtn"
+                ) &&
+                !event.target.closest(
+                    "#instNotifDropdown"
+                )
+            ) {
+
+                dropdown.classList.remove(
+                    "open"
+                );
+
+
+                bell.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        }
+    );
+
 
     /* =========================================================
        VERIFICATION HELPERS
     ========================================================== */
 
-    function verificationLogAction(log) {
+    function verificationLogAction(
+        log
+    ) {
 
         return String(
             log?.action ||
@@ -1706,8 +2619,9 @@
     }
 
 
-
-    function verificationLogDate(log) {
+    function verificationLogDate(
+        log
+    ) {
 
         return (
             log?.actionAt ||
@@ -1720,15 +2634,20 @@
     }
 
 
+    function normalizeDocumentType(
+        value
+    ) {
 
-    function normalizeDocumentType(value) {
-
-        return String(value || "")
+        return String(
+            value || ""
+        )
             .toUpperCase()
-            .replace(/[^A-Z0-9]/g, "");
+            .replace(
+                /[^A-Z0-9]/g,
+                ""
+            );
 
     }
-
 
 
     function findInstitutionDocument(
@@ -1737,23 +2656,28 @@
     ) {
 
         const wanted =
-            aliases.map(normalizeDocumentType);
+            aliases.map(
+                normalizeDocumentType
+            );
 
 
-        return documents.find(doc => {
+        return documents.find(
+            doc => {
 
-            const actual =
-                normalizeDocumentType(
-                    doc.documentType
+                const actual =
+                    normalizeDocumentType(
+                        doc.documentType
+                    );
+
+
+                return wanted.includes(
+                    actual
                 );
 
-
-            return wanted.includes(actual);
-
-        });
+            }
+        );
 
     }
-
 
 
     /* =========================================================
@@ -1785,7 +2709,9 @@
             !documentsEl ||
             !timelineEl
         ) {
+
             return;
+
         }
 
 
@@ -1796,11 +2722,22 @@
              * uploaded documents and
              * verification history.
              */
+
             const results =
                 await Promise.all([
-                    smApi.getInstitution(SM_INST_ID),
-                    smApi.getInstitutionDocuments(SM_INST_ID),
-                    smApi.getInstitutionVerificationLog(SM_INST_ID)
+
+                    smApi.getInstitution(
+                        SM_INST_ID
+                    ),
+
+                    smApi.getInstitutionDocuments(
+                        SM_INST_ID
+                    ),
+
+                    smApi.getInstitutionVerificationLog(
+                        SM_INST_ID
+                    )
+
                 ]);
 
 
@@ -1820,17 +2757,25 @@
              * Merge latest backend institution
              * data into local session state.
              */
+
             IN.institution = {
+
                 ...IN.institution,
+
                 ...institution
+
             };
 
 
             const status =
                 String(
+
                     institution.verificationStatus ||
+
                     IN.institution.verificationStatus ||
+
                     "PENDING"
+
                 )
                     .toUpperCase();
 
@@ -1838,6 +2783,7 @@
             /*
              * Overall badge.
              */
+
             const statusClass = {
 
                 APPROVED: "success",
@@ -1854,84 +2800,132 @@
 
 
             overallBadge.className =
-                `badge ${statusClass[status] || "neutral"}`;
+                `badge ${
+                    statusClass[status] ||
+                    "neutral"
+                }`;
 
 
             overallBadge.textContent =
-                status.replace(/_/g, " ");
-
+                status.replace(
+                    /_/g,
+                    " "
+                );
 
 
             /*
              * Sort verification logs from oldest
              * to newest.
              */
+
             const sortedLogs =
                 [...logs].sort(
+
                     (a, b) =>
+
                         new Date(
-                            verificationLogDate(a) || 0
-                        ) -
-                        new Date(
-                            verificationLogDate(b) || 0
+                            verificationLogDate(
+                                a
+                            ) || 0
                         )
+
+                        -
+
+                        new Date(
+                            verificationLogDate(
+                                b
+                            ) || 0
+                        )
+
                 );
 
 
             /*
              * Find latest submitted event.
              */
+
             const submittedLog =
                 [...sortedLogs]
                     .reverse()
                     .find(
+
                         log =>
-                            verificationLogAction(log) ===
+                            verificationLogAction(
+                                log
+                            ) ===
                             "SUBMITTED"
+
                     );
 
 
             /*
              * Find latest decision event.
              */
+
             const decisionLog =
                 [...sortedLogs]
                     .reverse()
                     .find(
+
                         log =>
                             [
+
                                 "APPROVED",
+
                                 "REJECTED",
+
                                 "SUSPENDED"
+
                             ].includes(
-                                verificationLogAction(log)
+
+                                verificationLogAction(
+                                    log
+                                )
+
                             )
+
                     );
 
 
             /*
              * Real approval date.
              */
+
             const approvalDate =
+
                 decisionLog &&
-                verificationLogAction(decisionLog) ===
+
+                verificationLogAction(
+                    decisionLog
+                ) ===
                 "APPROVED"
-                    ? verificationLogDate(decisionLog)
+
+                    ? verificationLogDate(
+                        decisionLog
+                    )
+
                     : null;
 
 
             /*
              * Real document status.
              */
+
             const requiredDocuments = [
 
                 {
-                    label: "Registration Certificate",
+
+                    label:
+                        "Registration Certificate",
 
                     aliases: [
+
                         "REGISTRATION_CERTIFICATE",
+
                         "REGISTRATIONCERTIFICATE",
+
                         "REGISTRATION_CERT"
+
                     ],
 
                     required: true
@@ -1939,12 +2933,18 @@
                 },
 
                 {
-                    label: "PAN Card",
+
+                    label:
+                        "PAN Card",
 
                     aliases: [
+
                         "PAN",
+
                         "PAN_CARD",
+
                         "PANCARD"
+
                     ],
 
                     required: true
@@ -1952,12 +2952,18 @@
                 },
 
                 {
-                    label: "Authorization Letter",
+
+                    label:
+                        "Authorization Letter",
 
                     aliases: [
+
                         "AUTHORIZATION_LETTER",
+
                         "AUTHORIZATIONLETTER",
+
                         "AUTH_LETTER"
+
                     ],
 
                     required: true
@@ -1965,12 +2971,18 @@
                 },
 
                 {
-                    label: "GST Certificate",
+
+                    label:
+                        "GST Certificate",
 
                     aliases: [
+
                         "GST_CERTIFICATE",
+
                         "GSTCERTIFICATE",
+
                         "GST"
+
                     ],
 
                     required: false
@@ -1981,22 +2993,159 @@
 
 
             documentsEl.innerHTML =
+
                 requiredDocuments
-                    .map(docType => {
 
-                        const uploaded =
-                            findInstitutionDocument(
-                                documents,
-                                docType.aliases
-                            );
+                    .map(
+                        docType => {
+
+                            const uploaded =
+                                findInstitutionDocument(
+                                    documents,
+                                    docType.aliases
+                                );
 
 
-                        /*
-                         * Not uploaded.
-                         */
-                        if (!uploaded) {
+                            /*
+                             * Not uploaded.
+                             */
+
+                            if (!uploaded) {
+
+                                return `
+
+                                    <div class="doc-row">
+
+                                        <div class="doc-info">
+
+                                            <div class="doc-ic">
+                                                📄
+                                            </div>
+
+                                            <div>
+
+                                                <div class="doc-name">
+                                                    ${docType.label}
+                                                </div>
+
+                                                <div class="doc-sub">
+
+                                                    ${
+                                    docType.required
+
+                                        ? "Not submitted"
+
+                                        : "Optional — not submitted"
+
+                                }
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <span class="badge neutral">
+                                            N/A
+                                        </span>
+
+                                    </div>
+
+                                `;
+
+                            }
+
+
+                            /*
+                             * Uploaded document.
+                             */
+
+                            let label =
+                                "Uploaded";
+
+
+                            let badgeClass =
+                                "warning";
+
+
+                            let dateText =
+                                uploaded.uploadedAt
+
+                                    ? `Uploaded on ${smFormatDate(
+                                        uploaded.uploadedAt
+                                    )}`
+
+                                    : "Uploaded";
+
+
+                            /*
+                             * Approved → Verified.
+                             */
+
+                            if (
+                                status ===
+                                "APPROVED"
+                            ) {
+
+                                label =
+                                    "Verified";
+
+
+                                badgeClass =
+                                    "success";
+
+
+                                dateText =
+
+                                    approvalDate
+
+                                        ? `Verified on ${smFormatDate(
+                                            approvalDate
+                                        )}`
+
+                                        : "Verified";
+
+                            }
+
+
+                            /*
+                             * Rejected → Review.
+                             */
+
+                            else if (
+                                status ===
+                                "REJECTED"
+                            ) {
+
+                                label =
+                                    "Review";
+
+
+                                badgeClass =
+                                    "danger";
+
+                            }
+
+
+                            /*
+                             * Pending → Submitted.
+                             */
+
+                            else {
+
+                                label =
+                                    "Submitted";
+
+
+                                badgeClass =
+                                    "warning";
+
+                            }
+
 
                             return `
+
                                 <div class="doc-row">
 
                                     <div class="doc-info">
@@ -2012,122 +3161,26 @@
                                             </div>
 
                                             <div class="doc-sub">
-                                                ${
-                                docType.required
-                                    ? "Not submitted"
-                                    : "Optional — not submitted"
-                            }
+                                                ${smEscapeHtml(
+                                dateText
+                            )}
                                             </div>
 
                                         </div>
 
                                     </div>
 
-                                    <span class="badge neutral">
-                                        N/A
+
+                                    <span class="badge ${badgeClass}">
+                                        ${label}
                                     </span>
 
                                 </div>
+
                             `;
+
                         }
-
-
-                        /*
-                         * Uploaded document.
-                         */
-                        let label =
-                            "Uploaded";
-
-                        let badgeClass =
-                            "warning";
-
-                        let dateText =
-                            uploaded.uploadedAt
-                                ? `Uploaded on ${smFormatDate(uploaded.uploadedAt)}`
-                                : "Uploaded";
-
-
-                        /*
-                         * Approved → Verified.
-                         */
-                        if (
-                            status ===
-                            "APPROVED"
-                        ) {
-
-                            label =
-                                "Verified";
-
-                            badgeClass =
-                                "success";
-
-                            dateText =
-                                approvalDate
-                                    ? `Verified on ${smFormatDate(approvalDate)}`
-                                    : "Verified";
-                        }
-
-
-                        /*
-                         * Rejected → Review.
-                         */
-                        else if (
-                            status ===
-                            "REJECTED"
-                        ) {
-
-                            label =
-                                "Review";
-
-                            badgeClass =
-                                "danger";
-                        }
-
-
-                        /*
-                         * Pending → Submitted.
-                         */
-                        else {
-
-                            label =
-                                "Submitted";
-
-                            badgeClass =
-                                "warning";
-                        }
-
-
-                        return `
-                            <div class="doc-row">
-
-                                <div class="doc-info">
-
-                                    <div class="doc-ic">
-                                        📄
-                                    </div>
-
-                                    <div>
-
-                                        <div class="doc-name">
-                                            ${docType.label}
-                                        </div>
-
-                                        <div class="doc-sub">
-                                            ${smEscapeHtml(dateText)}
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <span class="badge ${badgeClass}">
-                                    ${label}
-                                </span>
-
-                            </div>
-                        `;
-
-                    })
+                    )
                     .join("");
 
 
@@ -2143,31 +3196,45 @@
             /*
              * Submitted date.
              */
+
             const submittedDate =
                 submittedLog
-                    ? verificationLogDate(submittedLog)
+
+                    ? verificationLogDate(
+                        submittedLog
+                    )
+
                     : institution.createdAt;
 
 
             if (submittedDate) {
 
                 timelineHtml += `
+
                     <div class="doc-row">
 
                         <div>
 
-                            <div class="doc-name"
-                                 style="font-size:13px;">
+                            <div
+                                    class="doc-name"
+                                    style="font-size:13px;">
+
                                 Submitted
+
                             </div>
 
                             <div class="doc-sub">
-                                ${smFormatDate(submittedDate)}
+
+                                ${smFormatDate(
+                    submittedDate
+                )}
+
                             </div>
 
                         </div>
 
                     </div>
+
                 `;
 
             }
@@ -2176,6 +3243,7 @@
             /*
              * Admin review / decision date.
              */
+
             if (decisionLog) {
 
                 const decision =
@@ -2191,58 +3259,81 @@
 
 
                 timelineHtml += `
+
                     <div class="doc-row">
 
                         <div>
 
-                            <div class="doc-name"
-                                 style="font-size:13px;">
+                            <div
+                                    class="doc-name"
+                                    style="font-size:13px;">
+
                                 Admin review
+
                             </div>
 
                             <div class="doc-sub">
+
                                 ${
                     decisionDate
-                        ? smFormatDate(decisionDate)
+
+                        ? smFormatDate(
+                            decisionDate
+                        )
+
                         : "Completed"
                 }
+
                             </div>
 
                         </div>
 
                     </div>
+
                 `;
 
 
                 /*
                  * APPROVED
                  */
+
                 if (
                     decision ===
                     "APPROVED"
                 ) {
 
                     timelineHtml += `
+
                         <div class="doc-row">
 
                             <div>
 
-                                <div class="doc-name"
-                                     style="font-size:13px;">
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
                                     Approved ✅
+
                                 </div>
 
                                 <div class="doc-sub">
+
                                     ${
                         decisionDate
-                            ? smFormatDate(decisionDate)
+
+                            ? smFormatDate(
+                                decisionDate
+                            )
+
                             : ""
                     }
+
                                 </div>
 
                             </div>
 
                         </div>
+
                     `;
 
                 }
@@ -2251,32 +3342,44 @@
                 /*
                  * REJECTED
                  */
+
                 else if (
                     decision ===
                     "REJECTED"
                 ) {
 
                     timelineHtml += `
+
                         <div class="doc-row">
 
                             <div>
 
-                                <div class="doc-name"
-                                     style="font-size:13px;">
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
                                     Rejected
+
                                 </div>
 
                                 <div class="doc-sub">
+
                                     ${
                         decisionDate
-                            ? smFormatDate(decisionDate)
+
+                            ? smFormatDate(
+                                decisionDate
+                            )
+
                             : ""
                     }
+
                                 </div>
 
                             </div>
 
                         </div>
+
                     `;
 
                 }
@@ -2285,32 +3388,44 @@
                 /*
                  * SUSPENDED
                  */
+
                 else if (
                     decision ===
                     "SUSPENDED"
                 ) {
 
                     timelineHtml += `
+
                         <div class="doc-row">
 
                             <div>
 
-                                <div class="doc-name"
-                                     style="font-size:13px;">
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
                                     Suspended
+
                                 </div>
 
                                 <div class="doc-sub">
+
                                     ${
                         decisionDate
-                            ? smFormatDate(decisionDate)
+
+                            ? smFormatDate(
+                                decisionDate
+                            )
+
                             : ""
                     }
+
                                 </div>
 
                             </div>
 
                         </div>
+
                     `;
 
                 }
@@ -2319,10 +3434,14 @@
                 /*
                  * Rejection reason.
                  */
+
                 const reason =
                     decisionLog.reason ||
+
                     decisionLog.rejectionReason ||
+
                     decisionLog.details ||
+
                     "";
 
 
@@ -2333,66 +3452,93 @@
                 ) {
 
                     timelineHtml += `
+
                         <div class="doc-row">
 
                             <div>
 
-                                <div class="doc-name"
-                                     style="font-size:13px;">
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
                                     Reason
+
                                 </div>
 
                                 <div class="doc-sub">
-                                    ${smEscapeHtml(reason)}
+
+                                    ${smEscapeHtml(
+                        reason
+                    )}
+
                                 </div>
 
                             </div>
 
                         </div>
+
                     `;
 
                 }
 
-            } else {
+            }
+
+
+            else {
 
                 /*
                  * Still pending.
                  */
+
                 timelineHtml += `
+
                     <div class="doc-row">
 
                         <div>
 
-                            <div class="doc-name"
-                                 style="font-size:13px;">
+                            <div
+                                    class="doc-name"
+                                    style="font-size:13px;">
+
                                 Admin review
+
                             </div>
 
                             <div class="doc-sub">
+
                                 Awaiting admin review
+
                             </div>
 
                         </div>
 
                     </div>
+
                 `;
 
             }
 
 
             timelineEl.innerHTML =
-                timelineHtml ||
+                timelineHtml
+
+                ||
 
                 `
+
                     <div class="empty-state">
+
                         No verification history available
+
                     </div>
+
                 `;
 
 
             /*
              * Update sidebar status.
              */
+
             const sidebarStatus =
                 document.getElementById(
                     "instSidebarStatus"
@@ -2402,9 +3548,16 @@
             if (sidebarStatus) {
 
                 sidebarStatus.textContent =
-                    status === "APPROVED"
+
+                    status ===
+                    "APPROVED"
+
                         ? "Verified Institution"
-                        : status.replace(/_/g, " ");
+
+                        : status.replace(
+                            /_/g,
+                            " "
+                        );
 
             }
 
@@ -2412,6 +3565,7 @@
             /*
              * Update page subtitle.
              */
+
             const pageSubtitle =
                 document.getElementById(
                     "pageSubtitle"
@@ -2421,20 +3575,26 @@
             if (pageSubtitle) {
 
                 pageSubtitle.textContent =
+
                     `${
                         institution.institutionName ||
                         "Institution"
                     } — ${
-                        status === "APPROVED"
+                        status ===
+                        "APPROVED"
+
                             ? "verified institution."
+
                             : status === "PENDING" ||
                             status === "PENDING_APPROVAL"
+
                                 ? "awaiting verification."
-                                : status.toLowerCase() + " institution."
+
+                                : status.toLowerCase() +
+                                " institution."
                     }`;
 
             }
-
 
         } catch (err) {
 
@@ -2447,29 +3607,35 @@
             overallBadge.className =
                 "badge neutral";
 
+
             overallBadge.textContent =
                 "Unavailable";
 
 
-            documentsEl.innerHTML =
-                `
-                    <p class="text-soft">
-                        Could not load verification details.
-                    </p>
-                `;
+            documentsEl.innerHTML = `
+
+                <p class="text-soft">
+
+                    Could not load verification details.
+
+                </p>
+
+            `;
 
 
-            timelineEl.innerHTML =
-                `
-                    <p class="text-soft">
-                        Could not load verification timeline.
-                    </p>
-                `;
+            timelineEl.innerHTML = `
+
+                <p class="text-soft">
+
+                    Could not load verification timeline.
+
+                </p>
+
+            `;
 
         }
 
     }
-
 
 
     /* =========================================================
@@ -2478,20 +3644,19 @@
 
     async function smBoot() {
 
-
         try {
-
 
             /*
              * Initial sidebar values.
              */
+
             document.getElementById(
                 "instSidebarName"
             ).textContent =
 
                 IN.institution.institutionName ||
-                "Institution";
 
+                "Institution";
 
 
             document.getElementById(
@@ -2512,7 +3677,6 @@
                     );
 
 
-
             document.getElementById(
                 "pageSubtitle"
             ).textContent =
@@ -2520,9 +3684,13 @@
                 (
                     IN.institution.institutionName ||
                     "Institution"
-                ) +
+                )
 
-                " — " +
+                +
+
+                " — "
+
+                +
 
                 (
                     IN.institution.verificationStatus ===
@@ -2535,24 +3703,40 @@
                             "PENDING"
                         )
                             .toLowerCase()
-                            .replace(/_/g, " ") +
+                            .replace(
+                                /_/g,
+                                " "
+                            )
+
+                        +
+
                         " institution."
                 );
-
 
 
             await reloadOwnScholarships();
 
 
+            /*
+             * Existing dashboard notification panel.
+             */
+
             await loadInstitutionNotifications();
 
 
             /*
-             * IMPORTANT:
-             * Load real verification data from backend.
+             * NEW:
+             * Topbar notification bell + unread badge.
              */
-            await loadVerificationStatus();
 
+            await instLoadBellNotifications();
+
+
+            /*
+             * Real verification data.
+             */
+
+            await loadVerificationStatus();
 
         } catch (err) {
 
@@ -2566,10 +3750,49 @@
     }
 
 
+    /* =========================================================
+       INITIALIZE
+    ========================================================== */
 
     smBoot();
 
     smInitShell();
+
+
+    /* =========================================================
+       OPTIONAL LIVE NOTIFICATION REFRESH
+    ========================================================== */
+
+    const institutionNotificationPolling =
+        setInterval(
+            async () => {
+
+                /*
+                 * Do not force-open the dropdown.
+                 * Just refresh the badge/list in background.
+                 */
+
+                await instLoadBellNotifications();
+
+            },
+            60000
+        );
+
+
+    /*
+     * Stop polling when the page is being unloaded.
+     */
+
+    window.addEventListener(
+        "beforeunload",
+        () => {
+
+            clearInterval(
+                institutionNotificationPolling
+            );
+
+        }
+    );
 
 </script>
 
