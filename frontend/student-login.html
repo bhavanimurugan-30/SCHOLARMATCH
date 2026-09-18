@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login · ScholarMatch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="auth-shell">
+
+    <div class="auth-visual">
+        <div class="auth-brand">
+            <div class="mark">SM</div>
+            <div class="name">ScholarMatch</div>
+        </div>
+
+        <div class="auth-headline">
+            <span class="eyebrow">Student Portal</span>
+            <h1>Find every scholarship you actually qualify for.</h1>
+            <p>One dashboard for government, private and institutional scholarships — scored against your profile so you always know where you stand.</p>
+        </div>
+
+        <div class="auth-stats">
+            <div><b id="statLiveScholarships">—</b><span>Live scholarships</span></div>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-card">
+
+            <h2>Welcome back</h2>
+            <p class="sub">Sign in to view your matched scholarships.</p>
+
+            <form id="loginForm" onsubmit="smStudentLoginSubmit(event)">
+                <div class="field">
+                    <label>Email address</label>
+                    <input type="email" id="loginEmail" placeholder="priya.r@example.com" required>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
+            </form>
+
+            <p class="auth-foot">New here? <a href="student-register.html" style="color:var(--indigo-600); font-weight:600;">Create a student account</a></p>
+            <div class="auth-demo" id="loginMsg"></div>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+<script>
+
+
+    // Live scholarship count — real data from the public scholarships API (no fake numbers)
+    smApi.getAllScholarships().then(res => {
+        const count = (res && res.data) ? res.data.length : 0;
+        document.getElementById("statLiveScholarships").textContent = count;
+    }).catch(() => {
+        document.getElementById("statLiveScholarships").textContent = "—";
+    });
+
+    async function smStudentLoginSubmit(e){
+        e.preventDefault();
+        const btn = document.getElementById("loginBtn");
+        const msg = document.getElementById("loginMsg");
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        btn.disabled = true; btn.textContent = "Signing in…";
+        msg.className = "auth-demo"; msg.textContent = "Signing in…";
+        try{
+            await smApi.studentLogin(email, password);
+            window.location.href = "student.html";
+        }catch(err){
+            msg.textContent = err.message;
+            msg.style.color = "var(--red-600, #DC2626)";
+            btn.disabled = false; btn.textContent = "Sign in";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScholarMatch</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .landing {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: radial-gradient(
+                    120% 100% at 50% -10%,
+                    #EEF0FB 0%,
+                    #F6F7FD 60%
+            );
+        }
+
+        .landing .mark {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4F46E5, #06B6D4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .landing h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 36px;
+            margin: 0 0 12px;
+        }
+
+        .landing .sub {
+            color: #64748B;
+            max-width: 550px;
+            line-height: 1.6;
+            margin: 0 auto 40px;
+        }
+
+        .role-cards {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 22px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .role-card {
+            flex: 1;
+            max-width: 260px;
+            background: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 18px;
+            padding: 30px 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            transition: all 0.2s ease;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .role-card .ic {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: #EEF2FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+        }
+
+        .role-card h3 {
+            font-family: 'Sora', sans-serif;
+            font-size: 18px;
+            margin: 0 0 8px;
+        }
+
+        .role-card p {
+            color: #64748B;
+            font-size: 13px;
+            line-height: 1.5;
+            min-height: 58px;
+            margin-bottom: 20px;
+        }
+
+        .role-card .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 800px) {
+            .role-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .role-card {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .landing h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="landing">
+
+    <!-- Logo -->
+    <div class="mark">SM</div>
+
+    <!-- Title -->
+    <h1>ScholarMatch</h1>
+
+    <p class="sub">
+        Your gateway to scholarships and government schemes. Choose your portal to continue.
+    </p>
+
+    <!-- Three Role Boxes -->
+    <div class="role-cards">
+
+        <!-- STUDENT -->
+        <div class="role-card">
+
+            <div class="ic">🎓</div>
+
+            <h3>Student</h3>
+
+            <p>
+                Discover scholarships, track applications,
+                and manage your documents.
+            </p>
+
+            <a
+                    href="student-login.html"
+                    class="btn btn-primary btn-block"
+            >
+                Continue
+            </a>
+
+        </div>
+
+
+        <!-- INSTITUTION -->
+        <div class="role-card">
+
+            <div class="ic">🏫</div>
+
+            <h3>Institution</h3>
+
+            <p>
+                Publish scholarships, manage listings,
+                and track applications.
+            </p>
+
+            <a
+                    href="institution-login.html"
+                    class="btn btn-primary btn-block"
+            >
+                Continue
+            </a>
+
+        </div>
+
+
+        <!-- ADMIN -->
+        <div class="role-card">
+
+            <div class="ic">🛡️</div>
+
+            <h3>Admin</h3>
+
+            <p>
+                Manage scholarships, institutions,
+                users, and platform activities.
+            </p>
+
+            <a
+                    href="admin-login.html"
+                    class="btn btn-primary btn-block"
+            >
+                Continue
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

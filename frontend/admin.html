@@ -1,0 +1,4264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Console · ScholarMatch</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="mark">SM</div>
+
+            <div>
+                <div class="name">ScholarMatch</div>
+                <div class="role-tag">Admin Console</div>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="sidebar-section-label">
+                Overview
+            </div>
+
+
+            <div class="nav-item" data-view="dashboard">
+
+                <svg class="ic"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2">
+
+                    <rect x="3"
+                          y="3"
+                          width="7"
+                          height="9"
+                          rx="1.5"/>
+
+                    <rect x="14"
+                          y="3"
+                          width="7"
+                          height="5"
+                          rx="1.5"/>
+
+                    <rect x="14"
+                          y="12"
+                          width="7"
+                          height="9"
+                          rx="1.5"/>
+
+                    <rect x="3"
+                          y="16"
+                          width="7"
+                          height="5"
+                          rx="1.5"/>
+
+                </svg>
+
+                <span class="label">
+                    Dashboard
+                </span>
+
+            </div>
+
+
+            <div class="sidebar-section-label">
+                Catalogue
+            </div>
+
+
+            <div class="nav-item" data-view="scholarships">
+
+                <svg class="ic"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2">
+
+                    <path d="M12 2 2 7l10 5 10-5-10-5Z"/>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+
+                </svg>
+
+                <span class="label">
+                    Scholarships &amp; Schemes
+                </span>
+
+            </div>
+
+
+            <div class="nav-item" data-view="institutions">
+
+                <svg class="ic"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2">
+
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V7l7-4 7 4v14"/>
+                    <path d="M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1"/>
+
+                </svg>
+
+                <span class="label">
+                    Institution Approval
+                </span>
+
+            </div>
+
+
+            <div class="sidebar-section-label">
+                Insights
+            </div>
+
+
+            <div class="nav-item" data-view="analytics">
+
+                <svg class="ic"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2">
+
+                    <path d="M3 3v18h18"/>
+                    <path d="M7 15l4-5 3 3 5-7"/>
+
+                </svg>
+
+                <span class="label">
+                    Analytics
+                </span>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-foot">
+
+            <div class="user-chip">
+
+                <div class="avatar">
+                    AM
+                </div>
+
+                <div>
+
+                    <div class="u-name">
+                        ADMIN
+                    </div>
+
+                    <div class="u-role">
+                        Super Admin
+                    </div>
+
+                </div>
+
+
+                <a class="logout-link"
+                   onclick="smLogout('admin-login.html')">
+
+                    <svg width="18"
+                         height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <path d="M16 17l5-5-5-5"/>
+                        <path d="M21 12H9"/>
+
+                    </svg>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <div class="main">
+
+        <!-- =====================================================
+             TOPBAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+            <div class="flex items-center gap-16">
+
+                <button class="icon-btn hamburger"
+                        type="button">
+
+                    <svg width="18"
+                         height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path d="M3 12h18"/>
+                        <path d="M3 6h18"/>
+                        <path d="M3 18h18"/>
+
+                    </svg>
+
+                </button>
+
+
+                <div class="topbar-search">
+
+                    <svg width="16"
+                         height="16"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <circle cx="11"
+                                cy="11"
+                                r="7"/>
+
+                        <path d="m21 21-4.3-4.3"/>
+
+                    </svg>
+
+                    <input placeholder="Search institutions, scholarships…">
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMIN NOTIFICATION BELL
+            ================================================== -->
+
+            <div class="topbar-right">
+
+                <div class="notif-wrap">
+
+                    <button class="icon-btn"
+                            type="button"
+                            id="adminNotifBellBtn"
+                            onclick="adminToggleNotifications()"
+                            aria-label="Notifications">
+
+                        <svg width="17"
+                             height="17"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+
+                            <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+
+                        </svg>
+
+                        <span class="notif-count"
+                              id="adminNotifCount"
+                              style="display:none;">
+                            0
+                        </span>
+
+                    </button>
+
+
+                    <div class="notif-dropdown"
+                         id="adminNotifDropdown">
+
+                        <div class="notif-head">
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <span id="adminNotifUnreadLabel">
+                                0 unread
+                            </span>
+
+                        </div>
+
+
+                        <div class="notif-list"
+                             id="adminNotifList">
+
+                            <div class="empty-state">
+                                Loading…
+                            </div>
+
+                        </div>
+
+
+                        <div class="notif-foot">
+
+                            <button class="btn btn-ghost btn-sm"
+                                    type="button"
+                                    onclick="markAllAdminRead()">
+
+                                Mark all read
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="user-chip">
+
+                    <div class="avatar">
+                        AM
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             PAGE
+        ====================================================== -->
+
+        <div class="page">
+
+            <div class="breadcrumb-eyebrow">
+                Admin Console
+            </div>
+
+
+            <div class="page-head">
+
+                <div>
+
+                    <h1 id="page-title">
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Platform overview and pending actions.
+                    </p>
+
+                </div>
+
+
+                <button class="btn btn-primary"
+                        type="button"
+                        onclick="openAddScholarshipModal()">
+
+                    + Add scholarship
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section class="view"
+                     id="view-dashboard">
+
+
+                <div class="grid grid-4">
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-indigo">
+                                🎓
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statStudents">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Registered students
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-success">
+                                📜
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statScholarships">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Active scholarships
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-warning">
+                                🏫
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statInstitutions">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Verified institutions
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-danger">
+                                ⏳
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statPending">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Pending institution reviews
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-indigo">
+                                📊
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statTotalScholarships">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Total scholarships
+                        </div>
+
+                    </div>
+
+
+                    <div class="card stat-card">
+
+                        <div class="top-row">
+
+                            <div class="stat-icon i-warning">
+                                🏢
+                            </div>
+
+                        </div>
+
+                        <div class="value"
+                             id="statTotalInstitutions">
+                            –
+                        </div>
+
+                        <div class="label">
+                            Total institutions
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid grid-2-1 mt-24">
+
+
+                    <div class="card">
+
+                        <div class="card-head">
+
+                            <h3>
+                                Signups this month
+                            </h3>
+
+                            <span id="signupMonthCount"
+                                  class="text-faint">
+                                0 students
+                            </span>
+
+                        </div>
+
+                        <canvas id="signupChart"
+                                style="width:100%; height:220px;">
+                        </canvas>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-head">
+
+                            <h3>
+                                Pending institution approvals
+                            </h3>
+
+                            <span class="link"
+                                  onclick="smShowView('institutions')">
+
+                                View all →
+
+                            </span>
+
+                        </div>
+
+
+                        <div id="dash-pending-institutions">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card mt-24">
+
+                    <div class="card-head">
+
+                        <h3>
+                            Pending scholarship submissions
+                        </h3>
+
+                        <span class="link"
+                              onclick="smShowView('scholarships')">
+
+                            View all →
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Title</th>
+                                <th>Institution</th>
+                                <th>Amount</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th></th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody id="dash-pending-scholarships">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid grid-2 mt-24">
+
+
+                    <div class="card">
+
+                        <div class="card-head">
+
+                            <h3>
+                                Upcoming deadlines (next 30 days)
+                            </h3>
+
+                        </div>
+
+
+                        <div id="dash-upcoming-deadlines">
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-head">
+
+                            <h3>
+                                Recent admin activity
+                            </h3>
+
+                        </div>
+
+
+                        <div id="dash-recent-activity">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="grid grid-2 mt-24">
+
+
+                    <div class="card">
+
+                        <div class="card-head">
+
+                            <h3>
+                                Recent scholarship views
+                            </h3>
+
+                        </div>
+
+
+                        <div id="dash-recent-views">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SCHOLARSHIPS
+            ================================================== -->
+
+            <section class="view"
+                     id="view-scholarships">
+
+
+                <div class="filters-bar">
+
+
+                    <div class="field grow">
+
+                        <input
+                                placeholder="Search scholarships…"
+                                id="adminSchSearch"
+                                oninput="renderAdminScholarships()">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <select
+                                id="adminSchFilter"
+                                onchange="renderAdminScholarships()">
+
+                            <option value="">
+                                All statuses
+                            </option>
+
+                            <option value="APPROVED">
+                                Approved
+                            </option>
+
+                            <option value="PENDING_APPROVAL">
+                                Pending approval
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Title</th>
+                                <th>Source</th>
+                                <th>Amount</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody id="admin-scholarships-body">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 INSTITUTION APPROVAL
+            ================================================== -->
+
+            <section class="view"
+                     id="view-institutions">
+
+
+                <div class="filters-bar">
+
+
+                    <div class="field grow">
+
+                        <input
+                                placeholder="Search institutions…"
+                                id="instSearch"
+                                oninput="renderInstitutions()">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <select
+                                id="instFilter"
+                                onchange="renderInstitutions()">
+
+                            <option value="">
+                                All statuses
+                            </option>
+
+                            <option value="PENDING">
+                                Pending
+                            </option>
+
+                            <option value="APPROVED">
+                                Approved
+                            </option>
+
+                            <option value="REJECTED">
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Institution</th>
+                                <th>Type</th>
+                                <th>State</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody id="institutions-body">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ANALYTICS
+            ================================================== -->
+
+            <section class="view"
+                     id="view-analytics">
+
+
+                <div class="card">
+
+                    <div class="card-head">
+
+                        <h3>
+                            Scholarship Analytics
+                        </h3>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Scholarship</th>
+                                <th>Views</th>
+                                <th>Applied</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody id="top-scholarships-body">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     ADD SCHOLARSHIP MODAL
+============================================================== -->
+
+<div class="modal-overlay"
+     id="addScholarshipModal">
+
+
+    <div class="modal"
+         style="max-width:640px;">
+
+
+        <div class="modal-head">
+
+            <h3 id="scholarshipModalTitle">
+                Add scholarship / scheme
+            </h3>
+
+
+            <button
+                    class="modal-close"
+                    type="button"
+                    onclick="smCloseModal('addScholarshipModal')">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <div class="field">
+
+                <label>
+                    Title
+                </label>
+
+                <input
+                        id="aTitle"
+                        placeholder="e.g. National Merit Scholarship">
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Primary category *
+                    </label>
+
+                    <select id="aPrimaryCategory">
+
+                        <option value="">
+                            Select category…
+                        </option>
+
+                        <option value="WOMENS">
+                            Women's
+                        </option>
+
+                        <option value="COLLEGE">
+                            College
+                        </option>
+
+                        <option value="COMPANY">
+                            Company
+                        </option>
+
+                        <option value="STATE">
+                            State
+                        </option>
+
+                        <option value="CENTRAL">
+                            Central
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Source type
+                    </label>
+
+                    <select id="aSourceType">
+
+                        <option value="GOVERNMENT">
+                            Government
+                        </option>
+
+                        <option value="PRIVATE_CORPORATE">
+                            Private / Corporate
+                        </option>
+
+                        <option value="PRIVATE_NGO">
+                            Private / NGO
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Amount (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            id="aAmount"
+                            placeholder="15000">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Education level
+                    </label>
+
+                    <select id="aEducationLevel">
+
+                        <option value="ANY">
+                            Any
+                        </option>
+
+                        <option value="SCHOOL">
+                            School
+                        </option>
+
+                        <option value="DIPLOMA">
+                            Diploma
+                        </option>
+
+                        <option value="UNDERGRADUATE">
+                            Undergraduate
+                        </option>
+
+                        <option value="POSTGRADUATE">
+                            Postgraduate
+                        </option>
+
+                        <option value="PHD">
+                            PhD
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Funding body
+                </label>
+
+                <input
+                        id="aFundingBody"
+                        placeholder="e.g. Ministry of Education">
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Deadline
+                    </label>
+
+                    <input
+                            type="date"
+                            id="aDeadline">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Min. marks / CGPA
+                    </label>
+
+                    <input
+                            type="number"
+                            id="aMinMarks"
+                            placeholder="75">
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible categories (community)
+                </label>
+
+                <input
+                        id="aCategories"
+                        placeholder="OBC, SC, ST, EWS (comma separated, blank = open to all)">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible courses
+                </label>
+
+                <input
+                        id="aCourses"
+                        placeholder="B.Tech, B.Sc (comma separated, blank = any course)">
+
+            </div>
+
+
+            <div class="field-row">
+
+
+                <div class="field">
+
+                    <label>
+                        Min. annual income (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            id="aMinIncome"
+                            placeholder="Leave blank = no minimum">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Max. annual income (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            id="aMaxIncome"
+                            placeholder="Leave blank = no maximum">
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible states / domicile
+                </label>
+
+                <input
+                        id="aStates"
+                        placeholder="Tamil Nadu, Kerala (comma separated, blank = all states)">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Eligible special statuses
+                </label>
+
+                <select
+                        id="aSpecialStatus"
+                        multiple
+                        size="5">
+
+                    <option value="SINGLE_GIRL_CHILD">
+                        Single girl child
+                    </option>
+
+                    <option value="ORPHAN_SINGLE_PARENT">
+                        Orphan / single parent
+                    </option>
+
+                    <option value="EX_SERVICEMEN_DEPENDENT">
+                        Ex-servicemen dependent
+                    </option>
+
+                    <option value="SPORTS_QUOTA">
+                        Sports quota
+                    </option>
+
+                    <option value="MINORITY_COMMUNITY">
+                        Minority community
+                    </option>
+
+                    <option value="FIRST_GRADUATE">
+                        First graduate
+                    </option>
+
+                </select>
+
+
+                <p class="field-help">
+                    Ctrl/Cmd-click to select multiple.
+                    Leave unselected = open to all.
+                </p>
+
+            </div>
+
+
+            <div class="field"
+                 id="aRequiredDocsField">
+
+                <label>
+                    Required documents
+                </label>
+
+                <div id="aRequiredDocs"
+                     class="field-help">
+
+                    Loading certificate types…
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Official application link
+                </label>
+
+                <input
+                        id="aApplyLink"
+                        placeholder="https://scholarships.gov.in">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                        rows="3"
+                        id="aDescription"
+                        placeholder="Short description shown to students…">
+                </textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-foot">
+
+            <button
+                    class="btn btn-ghost"
+                    type="button"
+                    onclick="smCloseModal('addScholarshipModal')">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="scholarshipModalSaveBtn"
+                    onclick="publishScholarship()">
+
+                Publish scholarship
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     INSTITUTION REVIEW MODAL
+============================================================== -->
+
+<div class="modal-overlay"
+     id="reviewInstModal">
+
+
+    <div class="modal">
+
+
+        <div class="modal-head">
+
+            <h3 id="reviewInstTitle">
+                Review institution
+            </h3>
+
+
+            <button
+                    class="modal-close"
+                    type="button"
+                    onclick="smCloseModal('reviewInstModal')">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+
+            <p class="text-soft"
+               style="font-size:13px;">
+
+                Submitted documents
+
+            </p>
+
+
+            <div id="reviewDocList">
+
+                <p class="text-soft"
+                   style="font-size:13px;">
+
+                    Loading…
+
+                </p>
+
+            </div>
+
+
+            <div class="field mt-16">
+
+                <label>
+                    Rejection reason
+                    (required if rejecting)
+                </label>
+
+                <textarea
+                        rows="2"
+                        id="rejectReasonInput"
+                        placeholder="e.g. Registration number does not match records">
+                </textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-foot">
+
+            <button
+                    class="btn btn-danger-outline"
+                    type="button"
+                    onclick="decideInstitution('REJECTED')">
+
+                Reject
+
+            </button>
+
+
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="decideInstitution('APPROVED')">
+
+                Approve
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast-stack"></div>
+
+
+<!-- =============================================================
+     SCRIPTS
+============================================================== -->
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+
+
+<script>
+
+    /* ============================================================
+       SESSION
+    ============================================================ */
+
+    const SM_SESSION = smGetSession();
+
+    if (!SM_SESSION || SM_SESSION.role !== "admin") {
+        window.location.href = "admin-login.html";
+    }
+
+
+    const SM_ADMIN_ID =
+        SM_SESSION && SM_SESSION.profile.adminId;
+
+
+    /* ============================================================
+       ADMIN STATE
+    ============================================================ */
+
+    let AD = {
+
+        institutions: [],
+
+        pendingScholarships: [],
+
+        allScholarships: [],
+
+        mostViewed: []
+
+    };
+
+
+    let activeInstId = null;
+
+
+    /* ============================================================
+       ADMIN NOTIFICATIONS
+    ============================================================ */
+
+    async function adminToggleNotifications() {
+
+        const dd =
+            document.getElementById(
+                "adminNotifDropdown"
+            );
+
+        if (!dd) return;
+
+        dd.classList.toggle("open");
+
+        if (dd.classList.contains("open")) {
+
+            await adminLoadNotifications();
+
+        }
+
+    }
+
+
+    /*
+     * Close notification dropdown when clicking outside.
+     */
+
+    document.addEventListener("click", function (e) {
+
+        const bell =
+            document.getElementById(
+                "adminNotifBellBtn"
+            );
+
+        const dropdown =
+            document.getElementById(
+                "adminNotifDropdown"
+            );
+
+        if (!bell || !dropdown) return;
+
+        if (
+            !bell.contains(e.target) &&
+            !dropdown.contains(e.target)
+        ) {
+
+            dropdown.classList.remove("open");
+
+        }
+
+    });
+
+
+    /*
+     * Load notifications from backend.
+     *
+     * ADMIN notifications are:
+     *
+     * 1. New institution registration
+     * 2. New scholarship submitted
+     */
+
+    async function adminLoadNotifications() {
+
+        try {
+
+            const res =
+                await smApi.getAdminNotifications(false);
+
+            const list =
+                Array.isArray(res.data)
+                    ? res.data
+                    : [];
+
+
+            const countRes =
+                await smApi.getAdminUnreadCount();
+
+            const unread =
+                Number(countRes.data || 0);
+
+
+            const countEl =
+                document.getElementById(
+                    "adminNotifCount"
+                );
+
+
+            if (countEl) {
+
+                countEl.textContent =
+                    unread;
+
+                countEl.style.display =
+                    unread > 0
+                        ? "inline-flex"
+                        : "none";
+
+            }
+
+
+            const unreadLabel =
+                document.getElementById(
+                    "adminNotifUnreadLabel"
+                );
+
+
+            if (unreadLabel) {
+
+                unreadLabel.textContent =
+                    unread + " unread";
+
+            }
+
+
+            const listEl =
+                document.getElementById(
+                    "adminNotifList"
+                );
+
+
+            if (!listEl) return;
+
+
+            if (!list.length) {
+
+                listEl.innerHTML =
+                    `
+                    <div class="empty-state">
+                        No notifications yet
+                    </div>
+                    `;
+
+                return;
+
+            }
+
+
+            listEl.innerHTML =
+                list
+                    .slice(0, 8)
+                    .map(n => {
+
+                        const notificationId =
+                            Number(n.notificationId);
+
+
+                        const title =
+                            smEscapeHtml(
+                                n.title || "Notification"
+                            );
+
+
+                        const message =
+                            smEscapeHtml(
+                                n.message || ""
+                            );
+
+
+                        const createdAt =
+                            n.createdAt
+                                ? smFormatDate(n.createdAt)
+                                : "";
+
+
+                        return `
+                            <div
+                                class="notif-item ${n.read ? "" : "unread"}"
+                                data-notification-id="${notificationId}"
+                                onclick="adminHandleNotificationClick(${notificationId})">
+
+                                <div>
+
+                                    <strong>
+                                        ${title}
+                                    </strong>
+
+                                    <p>
+                                        ${message}
+                                    </p>
+
+                                    ${
+                            createdAt
+                                ? `
+                                            <span class="text-faint"
+                                                  style="font-size:11px;">
+                                                ${createdAt}
+                                            </span>
+                                            `
+                                : ""
+                        }
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    })
+                    .join("");
+
+
+        } catch (e) {
+
+            console.error(
+                "Admin notification loading error:",
+                e
+            );
+
+
+            const listEl =
+                document.getElementById(
+                    "adminNotifList"
+                );
+
+
+            if (listEl) {
+
+                listEl.innerHTML =
+                    `
+                    <div class="empty-state">
+                        Could not load notifications
+                    </div>
+                    `;
+
+            }
+
+        }
+
+    }
+
+
+    /*
+     * Mark one admin notification as read.
+     */
+
+    async function adminHandleNotificationClick(id) {
+
+        try {
+
+            await smApi.markNotificationRead(id);
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            console.error(
+                "Notification read error:",
+                err
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Keep this function because other existing
+     * code may call markNotificationRead().
+     */
+
+    async function markNotificationRead(id) {
+
+        return smApi.markNotificationRead(id);
+
+    }
+
+
+    /*
+     * Mark every admin notification as read.
+     */
+
+    async function markAllAdminRead() {
+
+        try {
+
+            await smApi.markAllAdminNotificationsRead();
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            console.error(
+                "Mark all admin notifications error:",
+                err
+            );
+
+            smToast(
+                err.message || "Could not mark notifications as read",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       DASHBOARD PENDING DATA
+    ============================================================ */
+
+    function renderDashboardPending() {
+
+        const pendingInst =
+            AD.institutions.filter(
+                i =>
+                    i.verificationStatus === "PENDING"
+            );
+
+
+        document.getElementById(
+            "dash-pending-institutions"
+        ).innerHTML =
+
+            pendingInst.map(i => `
+
+                <div class="doc-row">
+
+                    <div class="doc-info">
+
+                        <div class="doc-ic">
+                            🏫
+                        </div>
+
+                        <div>
+
+                            <div class="doc-name">
+
+                                ${smEscapeHtml(
+                i.institutionName
+            )}
+
+                            </div>
+
+                            <div class="doc-sub">
+
+                                ${smEscapeHtml(
+                i.institutionType || ""
+            )}
+
+                                ·
+
+                                ${smEscapeHtml(
+                i.state || ""
+            )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                            class="btn btn-outline btn-sm"
+                            type="button"
+                            onclick="openReview(${i.institutionId})">
+
+                        Review
+
+                    </button>
+
+                </div>
+
+            `).join("")
+
+            ||
+
+            `
+            <div class="empty-state">
+                No pending institutions 🎉
+            </div>
+            `;
+
+
+        document.getElementById(
+            "dash-pending-scholarships"
+        ).innerHTML =
+
+            AD.pendingScholarships.map(s => `
+
+                <tr>
+
+                    <td class="row-title">
+
+                        ${smEscapeHtml(
+                s.title
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${smEscapeHtml(
+                s.fundingBodyName || ""
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${smCurrency(
+                s.amount
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${smFormatDate(
+                s.createdAt
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="badge warning">
+                            Pending
+                        </span>
+
+                    </td>
+
+
+                    <td class="table-actions">
+
+                        <button
+                                class="btn btn-outline btn-sm"
+                                type="button"
+                                onclick="approveScholarship(${s.scholarshipId})">
+
+                            Approve
+
+                        </button>
+
+
+                        <button
+                                class="btn btn-ghost btn-sm"
+                                type="button"
+                                onclick="rejectScholarship(${s.scholarshipId})">
+
+                            Reject
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `).join("")
+
+            ||
+
+            `
+            <tr>
+
+                <td
+                        colspan="6"
+                        class="text-soft"
+                        style="text-align:center;padding:16px;">
+
+                    No pending scholarships
+
+                </td>
+
+            </tr>
+            `;
+
+    }
+
+
+    /* ============================================================
+       SCHOLARSHIPS
+    ============================================================ */
+
+    function renderAdminScholarships() {
+
+        const q =
+            (
+                document.getElementById(
+                    "adminSchSearch"
+                )?.value || ""
+            ).toLowerCase();
+
+
+        const filter =
+            document.getElementById(
+                "adminSchFilter"
+            )?.value || "";
+
+
+        const list =
+            AD.allScholarships.filter(
+                s =>
+
+                    (
+                        s.title || ""
+                    )
+                        .toLowerCase()
+                        .includes(q)
+
+                    &&
+
+                    (
+                        filter === ""
+                        ||
+                        s.approvalStatus === filter
+                    )
+
+            );
+
+
+        document.getElementById(
+            "admin-scholarships-body"
+        ).innerHTML =
+
+            list.map(s => `
+
+                <tr>
+
+
+                    <td class="row-title">
+
+                        ${smEscapeHtml(
+                s.title
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="tag ${
+                smSourceTagClass(
+                    s.sourceType
+                )
+            }">
+
+                            ${smSourceLabel(
+                s.sourceType
+            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${smCurrency(
+                s.amount
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${smFormatDate(
+                s.deadline
+            )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="badge ${
+                s.approvalStatus === "APPROVED"
+                    ? "success"
+                    :
+                    (
+                        s.approvalStatus === "REJECTED"
+                            ? "danger"
+                            : "warning"
+                    )
+            }">
+
+                            ${(s.approvalStatus || "")
+                .replace("_", " ")}
+
+                        </span>
+
+                    </td>
+
+
+                    <td class="table-actions">
+
+
+                        ${
+                s.approvalStatus ===
+                "PENDING_APPROVAL"
+
+                    ?
+
+                    `
+                                <button
+                                        class="icon-action"
+                                        type="button"
+                                        title="Approve"
+                                        onclick="approveScholarship(${s.scholarshipId})">
+
+                                    ✅
+
+                                </button>
+
+
+                                <button
+                                        class="icon-action"
+                                        type="button"
+                                        title="Reject"
+                                        onclick="rejectScholarship(${s.scholarshipId})">
+
+                                    ❌
+
+                                </button>
+                                `
+
+                    :
+
+                    ""
+            }
+
+
+                        <button
+                                class="icon-action"
+                                type="button"
+                                title="${
+                s.active
+                    ? "Deactivate"
+                    : "Activate"
+            }"
+                                onclick="toggleActive(
+                                    ${s.scholarshipId},
+                                    ${s.active}
+                                )">
+
+                            ${
+                s.active
+                    ? "⏸️"
+                    : "▶️"
+            }
+
+                        </button>
+
+
+                        <button
+                                class="icon-action"
+                                type="button"
+                                title="Edit"
+                                onclick="openEditScholarshipModal(
+                                    ${s.scholarshipId}
+                                )">
+
+                            ✏️
+
+                        </button>
+
+
+                        <button
+                                class="icon-action"
+                                type="button"
+                                title="Delete"
+                                onclick="deleteScholarship(
+                                    ${s.scholarshipId}
+                                )">
+
+                            🗑️
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `).join("")
+
+            ||
+
+            `
+            <tr>
+
+                <td
+                        colspan="6"
+                        class="text-soft"
+                        style="text-align:center;padding:16px;">
+
+                    No scholarships found
+
+                </td>
+
+            </tr>
+            `;
+
+    }
+
+
+    /* ============================================================
+       RELOAD SCHOLARSHIPS
+    ============================================================ */
+
+    async function reloadScholarships() {
+
+        const [
+            allRes,
+            pendingRes
+        ] = await Promise.all([
+
+            smApi.getAllScholarships(),
+
+            smApi.getScholarshipsByStatus(
+                "PENDING_APPROVAL"
+            )
+
+        ]);
+
+
+        AD.allScholarships =
+            allRes.data || [];
+
+
+        AD.pendingScholarships =
+            pendingRes.data || [];
+
+
+        renderAdminScholarships();
+
+        renderDashboardPending();
+
+    }
+
+
+    /* ============================================================
+       APPROVE SCHOLARSHIP
+    ============================================================ */
+
+    async function approveScholarship(id) {
+
+        try {
+
+            await smApi.approveScholarship(
+                id,
+                SM_ADMIN_ID
+            );
+
+
+            smToast(
+                "Scholarship approved",
+                "success"
+            );
+
+
+            await reloadScholarships();
+
+            /*
+             * Refresh notification count/list
+             * after admin action.
+             */
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       REJECT SCHOLARSHIP
+    ============================================================ */
+
+    async function rejectScholarship(id) {
+
+        const reason =
+            prompt(
+                "Reason for rejection (required):"
+            );
+
+
+        if (!reason) return;
+
+
+        try {
+
+            await smApi.rejectScholarship(
+                id,
+                SM_ADMIN_ID,
+                reason
+            );
+
+
+            smToast(
+                "Scholarship rejected",
+                "success"
+            );
+
+
+            await reloadScholarships();
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       TOGGLE SCHOLARSHIP
+    ============================================================ */
+
+    async function toggleActive(
+        id,
+        isActive
+    ) {
+
+        try {
+
+            if (isActive) {
+
+                await smApi.deactivateScholarship(
+                    id
+                );
+
+            } else {
+
+                await smApi.activateScholarship(
+                    id
+                );
+
+            }
+
+
+            smToast(
+                "Updated",
+                "success"
+            );
+
+
+            await reloadScholarships();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       DELETE SCHOLARSHIP
+    ============================================================ */
+
+    async function deleteScholarship(id) {
+
+        if (
+            !confirm(
+                "Delete this scholarship permanently?"
+            )
+        ) return;
+
+
+        try {
+
+            await smApi.deleteScholarship(
+                id
+            );
+
+
+            smToast(
+                "Scholarship deleted",
+                "success"
+            );
+
+
+            await reloadScholarships();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       ADD SCHOLARSHIP
+    ============================================================ */
+
+    let aRequiredDocCertTypes = [];
+
+    let aEditingScholarshipId = null;
+
+
+    async function openAddScholarshipModal() {
+
+        aEditingScholarshipId = null;
+
+        document.getElementById(
+            "scholarshipModalTitle"
+        ).textContent = "Add scholarship / scheme";
+
+        document.getElementById(
+            "scholarshipModalSaveBtn"
+        ).textContent = "Publish scholarship";
+
+        [
+
+            "aTitle",
+            "aFundingBody",
+            "aAmount",
+            "aDeadline",
+            "aMinMarks",
+            "aCategories",
+            "aCourses",
+            "aMinIncome",
+            "aMaxIncome",
+            "aStates",
+            "aApplyLink",
+            "aDescription"
+
+        ].forEach(id => {
+
+            const el =
+                document.getElementById(id);
+
+            if (el) {
+
+                el.value = "";
+
+            }
+
+        });
+
+
+        document.getElementById(
+            "aPrimaryCategory"
+        ).value = "";
+
+
+        document.getElementById(
+            "aSourceType"
+        ).value = "GOVERNMENT";
+
+
+        document.getElementById(
+            "aEducationLevel"
+        ).value = "ANY";
+
+
+        Array.from(
+            document.getElementById(
+                "aSpecialStatus"
+            ).options
+        )
+            .forEach(
+                o =>
+                    o.selected = false
+            );
+
+
+        try {
+
+            if (
+                !aRequiredDocCertTypes.length
+            ) {
+
+                const res =
+                    await smApi.getCertificateTypes();
+
+                aRequiredDocCertTypes =
+                    res.data || [];
+
+            }
+
+
+            const box =
+                document.getElementById(
+                    "aRequiredDocs"
+                );
+
+
+            box.innerHTML =
+                aRequiredDocCertTypes.length
+
+                    ?
+
+                    aRequiredDocCertTypes
+                        .map(
+                            ct => `
+
+                            <label
+                                    style="display:block;font-weight:400;">
+
+                                <input
+                                        type="checkbox"
+                                        class="aReqDocChk"
+                                        value="${ct.certificateTypeId}">
+
+                                ${smEscapeHtml(
+                                ct.certificateName
+                                ||
+                                ct.name
+                                ||
+                                (
+                                    "Certificate #" +
+                                    ct.certificateTypeId
+                                )
+                            )}
+
+                            </label>
+
+                            `
+                        )
+                        .join("")
+
+                    :
+
+                    "No certificate types configured yet.";
+
+        } catch (err) {
+
+            document.getElementById(
+                "aRequiredDocs"
+            ).textContent =
+                "Could not load certificate types.";
+
+        }
+
+
+        smOpenModal(
+            "addScholarshipModal"
+        );
+
+    }
+
+
+    /* ============================================================
+       EDIT SCHOLARSHIP
+    ============================================================ */
+
+    async function openEditScholarshipModal(id) {
+
+        const s =
+            (AD.allScholarships || [])
+                .find(x => x.scholarshipId === id);
+
+        if (!s) {
+
+            smToast(
+                "Scholarship not found",
+                "error"
+            );
+
+            return;
+
+        }
+
+        await openAddScholarshipModal();
+
+        aEditingScholarshipId = id;
+
+        document.getElementById(
+            "scholarshipModalTitle"
+        ).textContent = "Edit scholarship / scheme";
+
+        document.getElementById(
+            "scholarshipModalSaveBtn"
+        ).textContent = "Save changes";
+
+        document.getElementById("aTitle").value = s.title || "";
+        document.getElementById("aPrimaryCategory").value = s.primaryCategory || "";
+        document.getElementById("aSourceType").value = s.sourceType || "GOVERNMENT";
+        document.getElementById("aAmount").value = s.amount != null ? s.amount : "";
+        document.getElementById("aEducationLevel").value = s.educationLevel || "ANY";
+        document.getElementById("aFundingBody").value = s.fundingBodyName || "";
+        document.getElementById("aDeadline").value = s.deadline || "";
+        document.getElementById("aMinMarks").value = s.minMarksCgpa != null ? s.minMarksCgpa : "";
+        document.getElementById("aCategories").value = (s.eligibleCategories || []).join(", ");
+        document.getElementById("aCourses").value = (s.eligibleCourses || []).join(", ");
+        document.getElementById("aMinIncome").value = s.minAnnualIncome != null ? s.minAnnualIncome : "";
+        document.getElementById("aMaxIncome").value = s.maxAnnualIncome != null ? s.maxAnnualIncome : "";
+        document.getElementById("aStates").value = (s.eligibleStates || []).join(", ");
+        document.getElementById("aApplyLink").value = s.officialApplicationLink || "";
+        document.getElementById("aDescription").value = s.description || "";
+
+        const specialStatusSet =
+            new Set(s.eligibleSpecialStatus || []);
+
+        Array.from(
+            document.getElementById("aSpecialStatus").options
+        ).forEach(o => {
+            o.selected = specialStatusSet.has(o.value);
+        });
+
+        const requiredDocsSet =
+            new Set((s.requiredDocuments || []).map(Number));
+
+        Array.from(
+            document.querySelectorAll(".aReqDocChk")
+        ).forEach(chk => {
+            chk.checked = requiredDocsSet.has(Number(chk.value));
+        });
+
+    }
+
+
+    /* ============================================================
+       PUBLISH SCHOLARSHIP
+    ============================================================ */
+
+    async function publishScholarship() {
+
+        const primaryCategory =
+            document.getElementById(
+                "aPrimaryCategory"
+            ).value;
+
+
+        if (!primaryCategory) {
+
+            smToast(
+                "Select a primary category",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const title =
+            document.getElementById(
+                "aTitle"
+            ).value.trim();
+
+
+        const deadline =
+            document.getElementById(
+                "aDeadline"
+            ).value;
+
+
+        if (!title) {
+
+            smToast(
+                "Title is required",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!deadline) {
+
+            smToast(
+                "Deadline is required",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const requiredDocuments =
+            Array.from(
+                document.querySelectorAll(
+                    ".aReqDocChk:checked"
+                )
+            )
+                .map(
+                    chk =>
+                        Number(
+                            chk.value
+                        )
+                );
+
+
+        const selectedSpecialStatus =
+            Array.from(
+                document.getElementById(
+                    "aSpecialStatus"
+                ).selectedOptions
+            )
+                .map(
+                    o =>
+                        o.value
+                );
+
+
+        const payload = {
+
+            title,
+
+
+            description:
+                document
+                    .getElementById(
+                        "aDescription"
+                    )
+                    .value
+                    .trim(),
+
+
+            sourceType:
+            document
+                .getElementById(
+                    "aSourceType"
+                )
+                .value,
+
+
+            primaryCategory,
+
+
+            fundingBodyName:
+                document
+                    .getElementById(
+                        "aFundingBody"
+                    )
+                    .value
+                    .trim(),
+
+
+            amount:
+                parseFloat(
+                    document
+                        .getElementById(
+                            "aAmount"
+                        )
+                        .value
+                ) || 0,
+
+
+            applicationMode:
+                "EXTERNAL_REDIRECT",
+
+
+            officialApplicationLink:
+                document
+                    .getElementById(
+                        "aApplyLink"
+                    )
+                    .value
+                    .trim(),
+
+
+            eligibleCategories:
+                document
+                    .getElementById(
+                        "aCategories"
+                    )
+                    .value
+                    .split(",")
+                    .map(
+                        s =>
+                            s.trim()
+                    )
+                    .filter(
+                        Boolean
+                    ),
+
+
+            minAnnualIncome:
+                parseFloat(
+                    document
+                        .getElementById(
+                            "aMinIncome"
+                        )
+                        .value
+                ) || null,
+
+
+            maxAnnualIncome:
+                parseFloat(
+                    document
+                        .getElementById(
+                            "aMaxIncome"
+                        )
+                        .value
+                ) || null,
+
+
+            eligibleCourses:
+                document
+                    .getElementById(
+                        "aCourses"
+                    )
+                    .value
+                    .split(",")
+                    .map(
+                        s =>
+                            s.trim()
+                    )
+                    .filter(
+                        Boolean
+                    ),
+
+
+            educationLevel:
+            document.getElementById(
+                "aEducationLevel"
+            ).value,
+
+
+            minMarksCgpa:
+                parseFloat(
+                    document
+                        .getElementById(
+                            "aMinMarks"
+                        )
+                        .value
+                ) || null,
+
+
+            eligibleStates:
+                document
+                    .getElementById(
+                        "aStates"
+                    )
+                    .value
+                    .split(",")
+                    .map(
+                        s =>
+                            s.trim()
+                    )
+                    .filter(
+                        Boolean
+                    ),
+
+
+            eligibleSpecialStatus:
+            selectedSpecialStatus,
+
+
+            requiredDocuments,
+
+
+            deadline
+
+        };
+
+
+        try {
+
+            if (aEditingScholarshipId) {
+
+                await smApi.updateScholarship(
+                    aEditingScholarshipId,
+                    payload
+                );
+
+            } else {
+
+                await smApi.createScholarshipByAdmin(
+                    SM_ADMIN_ID,
+                    payload
+                );
+
+            }
+
+
+            smCloseModal(
+                "addScholarshipModal"
+            );
+
+
+            smToast(
+                aEditingScholarshipId
+                    ? "Scholarship updated"
+                    : "Scholarship published",
+                "success"
+            );
+
+
+            aEditingScholarshipId = null;
+
+
+            await reloadScholarships();
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       INSTITUTIONS
+    ============================================================ */
+
+    function renderInstitutions() {
+
+        const q =
+            (
+                document.getElementById(
+                    "instSearch"
+                )?.value || ""
+            ).toLowerCase();
+
+
+        const filter =
+            document.getElementById(
+                "instFilter"
+            )?.value || "";
+
+
+        const list =
+            AD.institutions.filter(
+
+                i =>
+
+                    (
+                        i.institutionName || ""
+                    )
+                        .toLowerCase()
+                        .includes(q)
+
+                    &&
+
+                    (
+                        filter === ""
+                        ||
+                        i.verificationStatus ===
+                        filter
+                    )
+
+            );
+
+
+        const map = {
+
+            PENDING: "warning",
+
+            APPROVED: "success",
+
+            REJECTED: "danger",
+
+            SUSPENDED: "neutral"
+
+        };
+
+
+        document.getElementById(
+            "institutions-body"
+        ).innerHTML =
+
+            list
+                .map(
+                    i => `
+
+                    <tr>
+
+
+                        <td class="row-title">
+
+                            ${smEscapeHtml(
+                        i.institutionName
+                    )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${smEscapeHtml(
+                        i.institutionType || ""
+                    )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${smEscapeHtml(
+                        i.state || ""
+                    )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${smFormatDate(
+                        i.createdAt
+                    )}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge ${
+                        map[
+                            i.verificationStatus
+                            ] || "neutral"
+                    }">
+
+                                ${smEscapeHtml(
+                        i.verificationStatus
+                    )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td class="type-actions">
+
+
+                            ${
+                        i.verificationStatus ===
+                        "PENDING"
+
+                            ?
+
+                            `
+                                    <button
+                                            class="btn btn-outline btn-sm"
+                                            type="button"
+                                            onclick="openReview(
+                                                ${i.institutionId}
+                                            )">
+
+                                        Review
+
+                                    </button>
+                                    `
+
+                            :
+
+                            `
+                                    <button
+                                            class="icon-action"
+                                            type="button"
+                                            title="View">
+
+                                        👁️
+
+                                    </button>
+                                    `
+                    }
+
+                        </td>
+
+                    </tr>
+
+                    `
+                )
+                .join("")
+
+            ||
+
+            `
+            <tr>
+
+                <td
+                        colspan="6"
+                        class="text-soft"
+                        style="text-align:center;padding:16px;">
+
+                    No institutions found
+
+                </td>
+
+            </tr>
+            `;
+
+    }
+
+
+    /* ============================================================
+       OPEN INSTITUTION REVIEW
+    ============================================================ */
+
+    async function openReview(id) {
+
+        activeInstId = id;
+
+
+        const inst =
+            AD.institutions.find(
+                i =>
+                    i.institutionId === id
+            );
+
+
+        if (!inst) {
+
+            smToast(
+                "Institution not found",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "reviewInstTitle"
+        ).textContent =
+            "Review — " +
+            inst.institutionName;
+
+
+        document.getElementById(
+            "rejectReasonInput"
+        ).value = "";
+
+
+        smOpenModal(
+            "reviewInstModal"
+        );
+
+
+        const listEl =
+            document.getElementById(
+                "reviewDocList"
+            );
+
+
+        listEl.innerHTML =
+
+            `
+            <p
+                    class="text-soft"
+                    style="font-size:13px;">
+
+                Loading…
+
+            </p>
+            `;
+
+
+        try {
+
+            const res =
+                await smApi.getInstitutionDocuments(
+                    id
+                );
+
+
+            const docs =
+                res.data || [];
+
+
+            listEl.innerHTML =
+
+                docs
+                    .map(
+                        d => `
+
+                        <div class="doc-row">
+
+
+                            <div class="doc-info">
+
+
+                                <div class="doc-ic">
+                                    📄
+                                </div>
+
+
+                                <div>
+
+
+                                    <div class="doc-name">
+
+                                        ${smEscapeHtml(
+                            (
+                                d.documentType
+                                ||
+                                ""
+                            )
+                                .replace(
+                                    /_/g,
+                                    " "
+                                )
+                        )}
+
+                                    </div>
+
+
+                                    <div class="doc-sub">
+
+                                        ${smFormatDate(
+                            d.uploadedAt
+                        )}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                    class="btn btn-outline btn-sm"
+                                    type="button"
+                                    onclick="
+                                        smApi.viewInstitutionDocumentFile(
+                                            ${id},
+                                            ${d.institutionDocumentId}
+                                        ).catch(
+                                            err =>
+                                                smToast(
+                                                    err.message,
+                                                    'error'
+                                                )
+                                        )
+                                    ">
+
+                                View
+
+                            </button>
+
+                        </div>
+
+                        `
+                    )
+                    .join("")
+
+                ||
+
+                `
+                <p
+                        class="text-soft"
+                        style="font-size:13px;">
+
+                    No documents uploaded yet
+
+                </p>
+                `;
+
+        } catch (err) {
+
+            listEl.innerHTML =
+
+                `
+                <p
+                        class="text-soft"
+                        style="font-size:13px;">
+
+                    Could not load documents:
+
+                    ${smEscapeHtml(
+                    err.message
+                )}
+
+                </p>
+                `;
+
+        }
+
+    }
+
+
+    /* ============================================================
+       DECIDE INSTITUTION
+    ============================================================ */
+
+    async function decideInstitution(
+        decision
+    ) {
+
+        const reason =
+            document
+                .getElementById(
+                    "rejectReasonInput"
+                )
+                .value
+                .trim();
+
+
+        if (
+            decision === "REJECTED"
+            &&
+            !reason
+        ) {
+
+            smToast(
+                "A rejection reason is required",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            await smApi.decideInstitutionVerification(
+                activeInstId,
+                SM_ADMIN_ID,
+                decision,
+                reason || null
+            );
+
+
+            smCloseModal(
+                "reviewInstModal"
+            );
+
+
+            smToast(
+
+                decision === "APPROVED"
+                    ? "Institution approved"
+                    : "Institution rejected",
+
+                decision === "APPROVED"
+                    ? "success"
+                    : "error"
+
+            );
+
+
+            await reloadInstitutions();
+
+            /*
+             * Refresh admin notification bell
+             * after institution approval/rejection.
+             */
+
+            await adminLoadNotifications();
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       RELOAD INSTITUTIONS
+    ============================================================ */
+
+    async function reloadInstitutions() {
+
+        const res =
+            await smApi.getAllInstitutions();
+
+
+        AD.institutions =
+            res.data || [];
+
+
+        renderInstitutions();
+
+        renderDashboardPending();
+
+    }
+
+
+    /* ============================================================
+       ANALYTICS
+    ============================================================ */
+
+    async function renderTopScholarships() {
+
+        try {
+
+            const res =
+                await smApi.getScholarshipAnalytics();
+
+
+            const list =
+                res.data || [];
+
+
+            document.getElementById(
+                "top-scholarships-body"
+            ).innerHTML =
+
+                list
+                    .map(
+                        s => `
+
+                        <tr>
+
+
+                            <td class="row-title">
+
+                                ${smEscapeHtml(
+                            s.title ||
+                            "Scholarship"
+                        )}
+
+                            </td>
+
+
+                            <td>
+
+                                ${Number(
+                            s.views || 0
+                        ).toLocaleString()}
+
+                            </td>
+
+
+                            <td>
+
+                                ${Number(
+                            s.applied || 0
+                        ).toLocaleString()}
+
+                            </td>
+
+
+                        </tr>
+
+                        `
+                    )
+                    .join("")
+
+                ||
+
+                `
+                <tr>
+
+                    <td
+                            colspan="3"
+                            class="text-soft">
+
+                        No scholarship analytics available
+
+                    </td>
+
+                </tr>
+                `;
+
+        } catch (err) {
+
+            document.getElementById(
+                "top-scholarships-body"
+            ).innerHTML =
+
+                `
+                <tr>
+
+                    <td
+                            colspan="3"
+                            class="text-soft">
+
+                        Could not load analytics:
+
+                        ${smEscapeHtml(
+                    err.message
+                )}
+
+                    </td>
+
+                </tr>
+                `;
+
+        }
+
+    }
+
+
+    /* ============================================================
+       UPCOMING DEADLINES
+    ============================================================ */
+
+    async function renderUpcomingDeadlines() {
+
+        try {
+
+            const res =
+                await smApi.getUpcomingDeadlines(
+                    30
+                );
+
+
+            const list =
+                (
+                    res.data || []
+                )
+                    .slice(0, 8);
+
+
+            document.getElementById(
+                "dash-upcoming-deadlines"
+            ).innerHTML =
+
+                list
+                    .map(
+                        s => `
+
+                        <div class="doc-row">
+
+
+                            <div>
+
+
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
+                                    ${smEscapeHtml(
+                            s.title
+                        )}
+
+                                </div>
+
+
+                                <div class="doc-sub">
+
+                                    ${smEscapeHtml(
+                            s.fundingBodyName ||
+                            ""
+                        )}
+
+                                </div>
+
+                            </div>
+
+
+                            <span class="badge warning">
+
+                                ${smFormatDate(
+                            s.deadline
+                        )}
+
+                            </span>
+
+                        </div>
+
+                        `
+                    )
+                    .join("")
+
+                ||
+
+                `
+                <div class="empty-state">
+
+                    No deadlines in the next 30 days
+
+                </div>
+                `;
+
+        } catch (err) {
+
+            document.getElementById(
+                "dash-upcoming-deadlines"
+            ).innerHTML =
+
+                `
+                <div class="empty-state">
+
+                    Could not load:
+
+                    ${smEscapeHtml(
+                    err.message
+                )}
+
+                </div>
+                `;
+
+        }
+
+    }
+
+
+    /* ============================================================
+       RECENT ACTIVITY
+    ============================================================ */
+
+    async function renderRecentActivity() {
+
+        try {
+
+            const res =
+                await smApi.getAdminActivityLog();
+
+
+            const list =
+                (
+                    res.data || []
+                )
+                    .slice(0, 8);
+
+
+            document.getElementById(
+                "dash-recent-activity"
+            ).innerHTML =
+
+                list
+                    .map(
+                        a => `
+
+                        <div class="doc-row">
+
+
+                            <div>
+
+
+                                <div
+                                        class="doc-name"
+                                        style="font-size:13px;">
+
+                                    ${smEscapeHtml(
+                            a.actionType
+                        )}
+
+                                    —
+
+                                    ${smEscapeHtml(
+                            a.targetEntity
+                        )}
+
+                                    #${a.targetId}
+
+                                </div>
+
+
+                                <div class="doc-sub">
+
+                                    ${smEscapeHtml(
+                            a.details
+                        ) || ""}
+
+                                </div>
+
+                            </div>
+
+
+                            <span
+                                    class="text-faint"
+                                    style="font-size:11px;">
+
+                                ${smFormatDate(
+                            a.actionAt
+                        )}
+
+                            </span>
+
+                        </div>
+
+                        `
+                    )
+                    .join("")
+
+                ||
+
+                `
+                <div class="empty-state">
+
+                    No admin activity recorded yet
+
+                </div>
+                `;
+
+        } catch (err) {
+
+            document.getElementById(
+                "dash-recent-activity"
+            ).innerHTML =
+
+                `
+                <div class="empty-state">
+
+                    Could not load:
+
+                    ${smEscapeHtml(
+                    err.message
+                )}
+
+                </div>
+                `;
+
+        }
+
+    }
+
+
+    /* ============================================================
+       RECENT VIEWS
+    ============================================================ */
+
+    async function renderRecentViews() {
+
+        try {
+
+            const res =
+                await smApi.getRecentScholarshipViews(
+                    8
+                );
+
+
+            const list =
+                res.data || [];
+
+
+            const titleById = {};
+
+
+            AD.allScholarships.forEach(
+                s =>
+
+                    titleById[
+                        s.scholarshipId
+                        ] = s.title
+
+            );
+
+
+            document.getElementById(
+                "dash-recent-views"
+            ).innerHTML =
+
+                list
+                    .map(
+                        v => `
+
+                        <div class="doc-row">
+
+
+                            <div
+                                    class="doc-name"
+                                    style="font-size:13px;">
+
+                                ${smEscapeHtml(
+
+                            titleById[
+                                v.scholarshipId
+                                ]
+
+                            ||
+
+                            (
+                                "Scholarship #" +
+                                v.scholarshipId
+                            )
+
+                        )}
+
+                            </div>
+
+
+                            <span
+                                    class="text-faint"
+                                    style="font-size:11px;">
+
+                                ${smFormatDate(
+                            v.viewedAt
+                        )}
+
+                            </span>
+
+                        </div>
+
+                        `
+                    )
+                    .join("")
+
+                ||
+
+                `
+                <div class="empty-state">
+
+                    No views recorded yet
+
+                </div>
+                `;
+
+        } catch (err) {
+
+            document.getElementById(
+                "dash-recent-views"
+            ).innerHTML =
+
+                `
+                <div class="empty-state">
+
+                    Could not load:
+
+                    ${smEscapeHtml(
+                    err.message
+                )}
+
+                </div>
+                `;
+
+        }
+
+    }
+
+
+    /* ============================================================
+       SIGNUP CHART
+    ============================================================ */
+
+    async function renderSignupChart(
+        students
+    ) {
+
+        const list =
+            Array.isArray(students)
+                ? students
+                : [];
+
+
+        const now =
+            new Date();
+
+
+        const year =
+            now.getFullYear();
+
+
+        const month =
+            now.getMonth();
+
+
+        const count =
+            list.filter(
+                s => {
+
+                    if (
+                        !s ||
+                        !s.createdAt
+                    ) {
+                        return false;
+                    }
+
+
+                    const d =
+                        new Date(
+                            s.createdAt
+                        );
+
+
+                    return (
+
+                        !Number.isNaN(
+                            d.getTime()
+                        )
+
+                        &&
+
+                        d.getFullYear() ===
+                        year
+
+                        &&
+
+                        d.getMonth() ===
+                        month
+
+                    );
+
+                }
+            ).length;
+
+
+        const countEl =
+            document.getElementById(
+                "signupMonthCount"
+            );
+
+
+        if (countEl) {
+
+            countEl.textContent =
+                count +
+                (
+                    count === 1
+                        ? " student"
+                        : " students"
+                );
+
+        }
+
+
+        const canvas =
+            document.getElementById(
+                "signupChart"
+            );
+
+
+        if (!canvas) return;
+
+
+        const ctx =
+            canvas.getContext(
+                "2d"
+            );
+
+
+        const width =
+            canvas.clientWidth ||
+            500;
+
+
+        const height =
+            220;
+
+
+        const ratio =
+            window.devicePixelRatio ||
+            1;
+
+
+        canvas.width =
+            width * ratio;
+
+
+        canvas.height =
+            height * ratio;
+
+
+        ctx.setTransform(
+            ratio,
+            0,
+            0,
+            ratio,
+            0,
+            0
+        );
+
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        const days =
+            new Date(
+                year,
+                month + 1,
+                0
+            ).getDate();
+
+
+        const daily =
+            Array(days).fill(0);
+
+
+        list.forEach(
+            s => {
+
+                if (
+                    !s ||
+                    !s.createdAt
+                ) {
+                    return;
+                }
+
+
+                const d =
+                    new Date(
+                        s.createdAt
+                    );
+
+
+                if (
+
+                    !Number.isNaN(
+                        d.getTime()
+                    )
+
+                    &&
+
+                    d.getFullYear() ===
+                    year
+
+                    &&
+
+                    d.getMonth() ===
+                    month
+
+                ) {
+
+                    daily[
+                    d.getDate() - 1
+                        ]++;
+
+                }
+
+            }
+        );
+
+
+        const pad =
+            20;
+
+
+        const bottom =
+            25;
+
+
+        const top =
+            10;
+
+
+        const chartH =
+            height -
+            top -
+            bottom;
+
+
+        const max =
+            Math.max(
+                1,
+                ...daily
+            );
+
+
+        const barW =
+            Math.max(
+                2,
+                (
+                    width -
+                    pad * 2
+                ) / days -
+                2
+            );
+
+
+        ctx.font =
+            "11px sans-serif";
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.fillStyle =
+            "#6b7280";
+
+
+        daily.forEach(
+            (
+                v,
+                i
+            ) => {
+
+                const x =
+                    pad +
+                    i *
+                    (
+                        (
+                            width -
+                            pad * 2
+                        ) / days
+                    ) +
+                    1;
+
+
+                const h =
+                    (
+                        v /
+                        max
+                    ) *
+                    chartH;
+
+
+                ctx.fillRect(
+                    x,
+                    top +
+                    chartH -
+                    h,
+                    barW,
+                    h
+                );
+
+
+                if (
+
+                    i === 0
+
+                    ||
+
+                    i ===
+                    days - 1
+
+                    ||
+
+                    (
+                        i + 1
+                    ) % 5 === 0
+
+                ) {
+
+                    ctx.fillText(
+                        String(
+                            i + 1
+                        ),
+                        x +
+                        barW / 2,
+                        height - 7
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* ============================================================
+       BOOT
+    ============================================================ */
+
+    async function smBoot() {
+
+        try {
+
+            const [
+                studentsRes
+            ] = await Promise.all([
+
+                smApi.getAllStudents(),
+
+                reloadScholarships(),
+
+                reloadInstitutions()
+
+            ]);
+
+
+            document.getElementById(
+                "statStudents"
+            ).textContent =
+
+                (
+                    studentsRes.data ||
+                    []
+                ).length;
+
+
+            document.getElementById(
+                "statScholarships"
+            ).textContent =
+
+                AD.allScholarships.filter(
+                    s =>
+
+                        s.active
+
+                        &&
+
+                        s.approvalStatus ===
+                        "APPROVED"
+
+                ).length;
+
+
+            document.getElementById(
+                "statInstitutions"
+            ).textContent =
+
+                AD.institutions.filter(
+                    i =>
+
+                        i.verificationStatus ===
+                        "APPROVED"
+
+                ).length;
+
+
+            document.getElementById(
+                "statPending"
+            ).textContent =
+
+                AD.institutions.filter(
+                    i =>
+
+                        i.verificationStatus ===
+                        "PENDING"
+
+                ).length;
+
+
+            document.getElementById(
+                "statTotalScholarships"
+            ).textContent =
+
+                AD.allScholarships.length;
+
+
+            document.getElementById(
+                "statTotalInstitutions"
+            ).textContent =
+
+                AD.institutions.length;
+
+
+            renderSignupChart(
+                studentsRes.data || []
+            );
+
+
+            await renderTopScholarships();
+
+
+            await renderUpcomingDeadlines();
+
+
+            await renderRecentActivity();
+
+
+            await renderRecentViews();
+
+
+            /*
+             * Load admin notification bell
+             * immediately when page opens.
+             */
+
+            await adminLoadNotifications();
+
+
+            /*
+             * Refresh notification count periodically.
+             * This allows new institution/scholarship
+             * notifications to appear without refresh.
+             */
+
+            setInterval(
+                adminLoadNotifications,
+                60000
+            );
+
+        } catch (err) {
+
+            smToast(
+                err.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* ============================================================
+       START
+    ============================================================ */
+
+    smBoot();
+
+    smInitShell();
+
+</script>
+
+</body>
+</html>
