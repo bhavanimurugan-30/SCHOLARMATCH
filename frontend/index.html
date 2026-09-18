@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarMatch — Find every scholarship you qualify for</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .landing{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; text-align:center;
+            background: radial-gradient(120% 100% at 50% -10%, #EEF0FB 0%, #F6F7FD 60%); }
+        .landing .mark{ width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#4F46E5,#06B6D4);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Sora';font-weight:700;font-size:22px;margin:0 auto 18px; }
+        .landing h1{ font-size:34px; max-width:640px; margin-bottom:14px; }
+        .landing p.sub{ color:var(--ink-soft); max-width:520px; margin-bottom:38px; }
+        .role-cards{ display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+        .role-card{ width:240px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px 22px; box-shadow:var(--shadow-sm); transition:.15s; }
+        .role-card:hover{ box-shadow:var(--shadow-md); transform:translateY(-3px); }
+        .role-card .ic{ width:46px;height:46px;border-radius:12px;background:var(--info-bg);color:var(--indigo-600);display:flex;align-items:center;justify-content:center;margin:0 auto 14px; }
+        .role-card h3{ font-size:16px; margin-bottom:6px; }
+        .role-card p{ font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; line-height:1.5; }
+    </style>
+</head>
+<body>
+<div class="landing">
+    <div class="mark">SM</div>
+    <h1>ScholarMatch</h1>
+    <p class="sub">AI-assisted scholarship &amp; government scheme recommendation platform. Pick a portal to continue.</p>
+
+    <div class="role-cards">
+        <div class="role-card">
+            <div class="ic">🎓</div>
+            <h3>Student</h3>
+            <p>Discover matched scholarships, track applications and manage documents.</p>
+            <a class="btn btn-primary btn-block btn-sm" href="student-login.html">Continue</a>
+        </div>
+        <div class="role-card">
+            <div class="ic">🏫</div>
+            <h3>Institution</h3>
+            <p>Publish scholarships and fee-concessions, track views and matches.</p>
+            <a class="btn btn-outline btn-block btn-sm" href="institution-login.html">Continue</a>
+        </div>
+        <div class="role-card">
+            <div class="ic">🛡️</div>
+            <h3>Admin</h3>
+            <p>Verify institutions, manage listings and monitor platform analytics.</p>
+            <a class="btn btn-outline btn-block btn-sm" href="admin-login.html">Continue</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

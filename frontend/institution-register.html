@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution Registration · ScholarMatch</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="auth-form-side">
+    <div class="auth-card" style="max-width:500px; margin:50px auto;">
+
+        <h2>Register Institution</h2>
+        <p class="sub">Create your institution account</p>
+
+        <form id="institutionRegisterForm">
+
+            <div class="field">
+                <label>Institution Name</label>
+                <input type="text" id="institutionName" required>
+            </div>
+
+            <div class="field">
+                <label>Institution Type</label>
+                <input type="text" id="institutionType"
+                       placeholder="College / University" required>
+            </div>
+
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="password"
+                       minlength="8" required>
+            </div>
+
+            <div class="field">
+                <label>Website URL</label>
+                <input type="url" id="websiteUrl"
+                       placeholder="https://example.com">
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>State</label>
+                    <input type="text" id="state" required>
+                </div>
+
+                <div class="field">
+                    <label>District</label>
+                    <input type="text" id="district" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>PAN Number</label>
+                <input type="text" id="panNumber">
+            </div>
+
+            <div class="field">
+                <label>Registration Number</label>
+                <input type="text" id="registrationNumber">
+            </div>
+
+            <button class="btn btn-primary btn-block"
+                    type="submit" id="registerBtn">
+                Register Institution
+            </button>
+
+        </form>
+
+        <p id="registerMsg" class="auth-foot">
+            Already registered?
+            <a href="institution-login.html">Sign in</a>
+        </p>
+
+        <!-- STEP 2: verification documents (shown after registration succeeds).
+             Uploads use the existing POST /api/institutions/{id}/documents/upload
+             endpoint, which is intentionally open to unauthenticated requests
+             because a just-registered institution is PENDING and cannot log in
+             yet (login is blocked until an admin approves it). -->
+        <div id="docUploadStep" style="display:none;">
+            <h2>Upload verification documents</h2>
+            <p class="sub">Required for admin review. You can also do this later by contacting support.</p>
+
+            <div class="field">
+                <label>Registration Certificate (required)</label>
+                <input type="file" id="docRegistrationCertificate" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <div class="field">
+                <label>PAN Document</label>
+                <input type="file" id="docPan" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <div class="field">
+                <label>Authorization Letter</label>
+                <input type="file" id="docAuthorizationLetter" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <button class="btn btn-primary btn-block" type="button" id="uploadDocsBtn">
+                Upload documents &amp; continue
+            </button>
+
+            <p id="docUploadMsg" class="auth-foot"></p>
+
+            <p class="auth-foot">
+                <a href="institution-login.html" id="skipUploadLink">Skip for now &amp; go to sign in</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+
+<script>
+    document.getElementById("institutionRegisterForm")
+        .addEventListener("submit", async function(e) {
+
+            e.preventDefault();
+
+            const btn = document.getElementById("registerBtn");
+            const msg = document.getElementById("registerMsg");
+
+            btn.disabled = true;
+            btn.textContent = "Registering...";
+
+            const payload = {
+                institutionName: document.getElementById("institutionName").value.trim(),
+                institutionType: document.getElementById("institutionType").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                password: document.getElementById("password").value,
+                websiteUrl: document.getElementById("websiteUrl").value.trim(),
+                state: document.getElementById("state").value.trim(),
+                district: document.getElementById("district").value.trim(),
+                panNumber: document.getElementById("panNumber").value.trim(),
+                registrationNumber: document.getElementById("registrationNumber").value.trim()
+            };
+
+            try {
+
+                const response = await smApi.registerInstitution(payload);
+                const institutionId = response.data && response.data.institutionId;
+
+                msg.innerHTML =
+                    '<span style="color:green;">' +
+                    'Institution registered successfully! Awaiting admin verification.' +
+                    '</span>';
+
+                // Move straight into the document-upload step instead of
+                // redirecting immediately, so the institution can submit its
+                // verification documents while it still has the institutionId
+                // on screen (it cannot log in to do this later — see note above).
+                document.getElementById("institutionRegisterForm").style.display = "none";
+                const docStep = document.getElementById("docUploadStep");
+                docStep.style.display = "block";
+
+                document.getElementById("uploadDocsBtn").addEventListener("click", async function() {
+                    await uploadRegistrationDocuments(institutionId);
+                });
+
+            } catch (err) {
+
+                msg.innerHTML =
+                    '<span style="color:red;">' +
+                    err.message +
+                    '</span>';
+
+                btn.disabled = false;
+                btn.textContent = "Register Institution";
+            }
+        });
+
+    async function uploadRegistrationDocuments(institutionId) {
+        const uploadBtn = document.getElementById("uploadDocsBtn");
+        const docMsg = document.getElementById("docUploadMsg");
+
+        const files = {
+            REGISTRATION_CERTIFICATE: document.getElementById("docRegistrationCertificate").files[0],
+            PAN: document.getElementById("docPan").files[0],
+            AUTHORIZATION_LETTER: document.getElementById("docAuthorizationLetter").files[0]
+        };
+
+        if (!files.REGISTRATION_CERTIFICATE) {
+            docMsg.innerHTML = '<span style="color:red;">Registration Certificate is required.</span>';
+            return;
+        }
+
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "Uploading...";
+        docMsg.innerHTML = "";
+
+        try {
+            for (const documentType of Object.keys(files)) {
+                const file = files[documentType];
+                if (file) {
+                    await smApi.uploadInstitutionDocumentFile(institutionId, documentType, file);
+                }
+            }
+
+            docMsg.innerHTML = '<span style="color:green;">Documents uploaded. Redirecting to sign in…</span>';
+            setTimeout(() => {
+                window.location.href = "institution-login.html";
+            }, 1200);
+
+        } catch (err) {
+            docMsg.innerHTML = '<span style="color:red;">' + err.message + '</span>';
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = "Upload documents & continue";
+        }
+    }
+</script>
+
+</body>
+</html>

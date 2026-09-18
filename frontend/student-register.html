@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account · ScholarMatch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="auth-shell">
+    <div class="auth-visual">
+        <div class="auth-brand"><div class="mark">SM</div><div class="name">ScholarMatch</div></div>
+        <div class="auth-headline">
+            <span class="eyebrow">Get started</span>
+            <h1>Your eligibility, scored automatically.</h1>
+            <p>Fill in your profile once — category, income, course and marks — and we'll match you to every scholarship you qualify for, explained in plain language.</p>
+        </div>
+        <div class="auth-stats">
+            <div><b>6</b><span>Profile fields to start</span></div>
+            <div><b>2 min</b><span>Average signup time</span></div>
+        </div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-card" style="max-width:440px;">
+            <h2>Create your account</h2>
+            <p class="sub">Basic details now — you can complete your full profile after signing in.</p>
+
+            <form id="registerForm" onsubmit="smRegisterSubmit(event)">
+                <div class="field-row">
+                    <div class="field"><label>Full name</label><input type="text" id="regFullName" placeholder="Priya Ramanathan" required></div>
+                </div>
+                <div class="field-row">
+                    <div class="field"><label>Date of birth</label><input type="date" id="regDob" required></div>
+                    <div class="field"><label>Gender</label>
+                        <select id="regGender" required>
+                            <option value="">Select</option>
+                            <option value="MALE">Male</option><option value="FEMALE">Female</option><option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field"><label>Mobile number</label><input type="tel" id="regMobile" placeholder="98XXXXXXXX" required pattern="[0-9]{10}"></div>
+                    <div class="field"><label>Category</label>
+                        <select id="regCategory" required>
+                            <option value="">Select</option>
+                            <option value="GENERAL">General</option><option value="OBC">OBC</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option><option value="MINORITY">Minority</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field"><label>Email address</label><input type="email" id="regEmail" placeholder="you@example.com" required></div>
+                <div class="field-row">
+                    <div class="field"><label>State</label><input type="text" id="regState" placeholder="Tamil Nadu" required></div>
+                    <div class="field"><label>District</label><input type="text" id="regDistrict" placeholder="Madurai" required></div>
+                </div>
+                <div class="field"><label>Password</label><input type="password" id="regPassword" placeholder="Minimum 8 characters" required minlength="8"></div>
+                <button class="btn btn-primary btn-block" type="submit" id="regBtn">Create account</button>
+            </form>
+            <p class="auth-foot" id="regMsg">Already have an account? <a href="student-login.html" style="color:var(--indigo-600); font-weight:600;">Sign in</a></p>
+        </div>
+    </div>
+</div>
+<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+<script>
+    async function smRegisterSubmit(e){
+        e.preventDefault();
+        const btn = document.getElementById("regBtn");
+        btn.disabled = true; btn.textContent = "Creating account…";
+        const payload = {
+            fullName: document.getElementById("regFullName").value.trim(),
+            dateOfBirth: document.getElementById("regDob").value,
+            gender: document.getElementById("regGender").value,
+            mobileNumber: document.getElementById("regMobile").value.trim(),
+            email: document.getElementById("regEmail").value.trim(),
+            password: document.getElementById("regPassword").value,
+            category: document.getElementById("regCategory").value,
+            state: document.getElementById("regState").value.trim(),
+            district: document.getElementById("regDistrict").value.trim(),
+            aadhaarNumber: "",
+            permanentAddress: "",
+            religion: "",
+            pwd: false,
+            disabilityPercentage: null
+        };
+        try{
+            await smApi.registerStudent(payload);
+            window.location.href = "student-login.html";
+        }catch(err){
+            const m = document.getElementById("regMsg");
+            m.innerHTML = `<span style="color:var(--red-600,#DC2626)">${err.message}</span>`;
+            btn.disabled = false; btn.textContent = "Create account";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard · ScholarMatch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="mark">SM</div>
+            <div>
+                <div class="name">ScholarMatch</div>
+                <div class="role-tag">Student Portal</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-section-label">Main</div>
+
+            <div class="nav-item active" data-view="home">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>
+                </svg>
+                <span class="label">Home</span>
+            </div>
+
+            <div class="nav-item" data-view="dashboard">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+                    <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+                    <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+                    <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+                </svg>
+                <span class="label">Dashboard</span>
+            </div>
+
+            <div class="sidebar-section-label">Scholarship Categories</div>
+
+            <div class="nav-item" data-view="cat-womens">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="5"/><path d="M12 13v8M9 18h6"/>
+                </svg>
+                <span class="label">Women's Scholarship</span>
+            </div>
+
+            <div class="nav-item" data-view="cat-college">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>
+                </svg>
+                <span class="label">College Scholarship</span>
+            </div>
+
+            <div class="nav-item" data-view="cat-company">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                <span class="label">Company Scholarship</span>
+            </div>
+
+            <div class="nav-item" data-view="cat-state">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 21s-7-5.1-7-10a7 7 0 1 1 14 0c0 4.9-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/>
+                </svg>
+                <span class="label">State Scholarship</span>
+            </div>
+
+            <div class="nav-item" data-view="cat-central">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/>
+                </svg>
+                <span class="label">Central Scholarship</span>
+            </div>
+
+            <div class="sidebar-section-label">My Activity</div>
+
+            <div class="nav-item" data-view="find-scholarship">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                <span class="label">Find Scholarship</span>
+            </div>
+
+            <div class="nav-item" data-view="applications">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span class="label">My Applications</span>
+            </div>
+
+            <div class="nav-item" data-view="profile">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span class="label">Profile &amp; Documents</span>
+            </div>
+
+            <div class="nav-item" data-view="saved">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span class="label">Saved Scholarships</span>
+            </div>
+        </nav>
+
+        <div class="sidebar-foot">
+            <div class="user-chip">
+                <div class="avatar" id="studentAvatar">ST</div>
+                <div>
+                    <div class="u-name" id="studentNameDisplay">Student</div>
+                    <div class="u-role">Scholar</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="flex items-center gap-16">
+                <button class="icon-btn hamburger" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
+                <div class="brand-inline">
+                    <span class="brand-mark">SM</span>
+                    <span class="brand-name">ScholarMatch</span>
+                    <span class="brand-badge">Student</span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <!-- NOTIFICATION BELL (notifications live here only, never in the sidebar) -->
+                <div class="notif-wrap">
+                    <button class="icon-btn" type="button" id="notifBellBtn" onclick="smToggleNotifications()" aria-label="Notifications">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+                        </svg>
+                        <span class="notif-count" id="notifCount" style="display:none;">0</span>
+                    </button>
+
+                    <div class="notif-dropdown" id="notifDropdown">
+                        <div class="notif-head">
+                            <strong>Notifications</strong>
+                            <span class="notif-unread" id="notifUnreadLabel">0 unread</span>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div class="empty-state">Loading…</div>
+                        </div>
+                        <div class="notif-foot">
+                            <button class="btn btn-ghost btn-sm" type="button" onclick="smMarkAllNotificationsRead()">Mark all read</button>
+                            <button class="btn btn-ghost btn-sm" type="button" onclick="smShowAllNotifications()">View All Notifications</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STUDENT PROFILE MENU -->
+                <div class="notif-wrap">
+                    <button class="user-chip user-chip-btn" type="button" onclick="smToggleProfileMenu()">
+                        <div class="avatar" id="studentAvatarTop">ST</div>
+                        <span class="u-name hide-sm" id="studentNameTop">Student</span>
+                    </button>
+                    <div class="notif-dropdown profile-dropdown" id="profileDropdown">
+                        <div class="profile-dd-head">
+                            <div class="avatar lg" id="studentAvatarMenu">ST</div>
+                            <div>
+                                <div class="u-name" id="studentNameMenu">Student</div>
+                                <div class="u-role" id="studentEmailMenu"></div>
+                            </div>
+                        </div>
+                        <button class="dd-item" type="button" onclick="smShowView('profile'); smCloseAllMenus();">Profile &amp; Documents</button>
+                        <button class="dd-item danger" type="button" onclick="smConfirmLogout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page">
+            <div class="breadcrumb-eyebrow">Student Portal</div>
+
+            <div class="page-head">
+                <div>
+                    <h1 id="page-title">Home</h1>
+                    <p id="page-subtitle">Your scholarships, documents and applications in one place.</p>
+                </div>
+            </div>
+
+            <!-- ============ HOME VIEW ============ -->
+            <section class="view" id="view-home">
+                <div class="summary-banner" id="homeSummaryBanner">
+                    <div class="sb-item"><div class="sb-val" id="sbEligible">–</div><div class="sb-lab">Eligible</div></div>
+                    <div class="sb-item"><div class="sb-val" id="sbSaved">–</div><div class="sb-lab">Saved</div></div>
+                    <div class="sb-item"><div class="sb-val" id="sbApplied">–</div><div class="sb-lab">Applied</div></div>
+                    <div class="sb-item"><div class="sb-val" id="sbDeadlines">–</div><div class="sb-lab">Upcoming Deadlines</div></div>
+                    <div class="sb-item"><div class="sb-val" id="sbMissingDocs">–</div><div class="sb-lab">Missing Documents</div></div>
+                </div>
+
+                <h3 class="section-title mt-24">Browse by Category</h3>
+                <div class="cat-grid" id="homeCategoryGrid"></div>
+
+                <div class="card mt-24">
+                    <div class="card-head">
+                        <h3>Find Eligible Scholarships</h3>
+                        <span class="link" onclick="smShowView('find-scholarship')">Open →</span>
+                    </div>
+                    <p class="text-soft" id="homeEligibleSummary">Checking your profile against open scholarships…</p>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head">
+                        <h3>My Applications</h3>
+                        <span class="link" onclick="smShowView('applications')">View all →</span>
+                    </div>
+                    <div id="homeApplicationsList"><div class="empty-state">Loading…</div></div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head">
+                        <h3>Profile &amp; Documents</h3>
+                        <span class="link" onclick="smShowView('profile')">Manage →</span>
+                    </div>
+                    <div class="profile-summary">
+                        <div class="progress-ring" id="homeProgressRing"><span id="homeProgressPct">0%</span></div>
+                        <div>
+                            <div class="ps-title">Profile completion</div>
+                            <div class="text-soft" id="homeMissingFields">Loading…</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head">
+                        <h3>Saved Scholarships</h3>
+                        <span class="link" onclick="smShowView('saved')">View all →</span>
+                    </div>
+                    <div id="homeSavedList"><div class="empty-state">Loading…</div></div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head">
+                        <h3>Recently Viewed</h3>
+                    </div>
+                    <div id="homeRecentlyViewed"><div class="empty-state">Loading…</div></div>
+                </div>
+            </section>
+
+            <!-- ============ DASHBOARD VIEW ============ -->
+            <section class="view" id="view-dashboard">
+                <div class="grid grid-3">
+                    <div class="card stat-card clickable" onclick="smShowView('find-scholarship')">
+                        <div class="top-row"><div class="stat-icon i-indigo">✨</div></div>
+                        <div class="value" id="statEligible">–</div>
+                        <div class="label">Total Eligible</div>
+                    </div>
+                    <div class="card stat-card clickable" onclick="smShowView('saved')">
+                        <div class="top-row"><div class="stat-icon i-warn">♡</div></div>
+                        <div class="value" id="statSaved">–</div>
+                        <div class="label">Total Saved</div>
+                    </div>
+                    <div class="card stat-card clickable" onclick="smShowView('applications')">
+                        <div class="top-row"><div class="stat-icon i-success">📝</div></div>
+                        <div class="value" id="statApplied">–</div>
+                        <div class="label">Total Applied</div>
+                    </div>
+                    <div class="card stat-card clickable" onclick="smShowView('find-scholarship')">
+                        <div class="top-row"><div class="stat-icon i-warn">⏰</div></div>
+                        <div class="value" id="statDeadlines">–</div>
+                        <div class="label">Upcoming Deadlines (30 days)</div>
+                    </div>
+                    <div class="card stat-card clickable" onclick="smShowView('profile')">
+                        <div class="top-row"><div class="stat-icon i-danger">📄</div></div>
+                        <div class="value" id="statMissingDocs">–</div>
+                        <div class="label">Missing Documents</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ 5 CATEGORY VIEWS ============ -->
+            <section class="view" id="view-cat-womens"><div class="sch-grid" id="grid-WOMENS"></div></section>
+            <section class="view" id="view-cat-college"><div class="sch-grid" id="grid-COLLEGE"></div></section>
+            <section class="view" id="view-cat-company"><div class="sch-grid" id="grid-COMPANY"></div></section>
+            <section class="view" id="view-cat-state"><div class="sch-grid" id="grid-STATE"></div></section>
+            <section class="view" id="view-cat-central"><div class="sch-grid" id="grid-CENTRAL"></div></section>
+
+            <!-- ============ FIND SCHOLARSHIP VIEW ============ -->
+            <section class="view" id="view-find-scholarship">
+                <div class="alert-box" id="findProfileAlert" style="display:none;">
+                    <div>
+                        <strong>Your profile is incomplete.</strong>
+                        <div id="findMissingFields" class="text-soft"></div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="smShowView('profile')">Complete Profile</button>
+                </div>
+                <div class="sch-grid" id="findScholarshipGrid"><div class="empty-state">Checking eligibility…</div></div>
+            </section>
+
+            <!-- ============ MY APPLICATIONS VIEW ============ -->
+            <section class="view" id="view-applications">
+                <div class="card">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                            <tr><th>Scholarship</th><th>Category</th><th>Amount</th><th>Applied Date</th><th>Action</th></tr>
+                            </thead>
+                            <tbody id="applications-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ SAVED SCHOLARSHIPS VIEW ============ -->
+            <section class="view" id="view-saved">
+                <div class="sch-grid" id="savedGrid"><div class="empty-state">Loading…</div></div>
+            </section>
+
+            <!-- ============ ALL NOTIFICATIONS VIEW (reached from the bell only) ============ -->
+            <section class="view" id="view-notifications-all">
+                <div class="card">
+                    <div class="card-head">
+                        <h3>All Notifications</h3>
+                        <button class="btn btn-ghost btn-sm" type="button" onclick="smMarkAllNotificationsRead()">Mark all read</button>
+                    </div>
+                    <div id="allNotificationsList"><div class="empty-state">Loading…</div></div>
+                </div>
+            </section>
+
+            <!-- ============ SCHOLARSHIP DETAILS VIEW ============ -->
+            <section class="view" id="view-details">
+                <button class="btn btn-ghost btn-sm mb-16" type="button" onclick="smBackFromDetails()">← Back to Scholarships</button>
+                <nav class="section-nav" id="detailsSectionNav" style="display:none;">
+                    <a data-target="sec-overview" onclick="smScrollToSection('sec-overview')">Overview</a>
+                    <a data-target="sec-eligibility" onclick="smScrollToSection('sec-eligibility')">Eligibility</a>
+                    <a data-target="sec-amount" onclick="smScrollToSection('sec-amount')">Amount</a>
+                    <a data-target="sec-certificates" onclick="smScrollToSection('sec-certificates')">Certificates</a>
+                    <a data-target="sec-deadline" onclick="smScrollToSection('sec-deadline')">Deadline</a>
+                    <a data-target="sec-apply" onclick="smScrollToSection('sec-apply')">Apply</a>
+                </nav>
+                <div id="detailsContent"><div class="empty-state">Loading…</div></div>
+            </section>
+
+            <!-- ============ PROFILE & DOCUMENTS VIEW ============ -->
+            <section class="view" id="view-profile">
+                <div class="card">
+                    <div class="card-head"><h3>Profile Completion</h3></div>
+                    <div class="profile-summary">
+                        <div class="progress-ring" id="profileProgressRing"><span id="profileProgressPct">0%</span></div>
+                        <div>
+                            <div class="ps-title" id="profileCompletionTitle">Loading…</div>
+                            <div class="text-soft" id="profileMissingFields"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head"><h3>Personal Details</h3></div>
+                    <div class="photo-row">
+                        <div class="photo-preview" id="photoPreview">No photo</div>
+                        <div>
+                            <label class="req-label">Profile Photo <span class="req">* required</span></label>
+                            <input type="file" id="photoFile" accept=".jpg,.jpeg,.png">
+                            <button class="btn btn-primary btn-sm mt-8" type="button" id="photoUploadBtn" onclick="smUploadPhoto()">Upload Photo</button>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field"><label>Full Name</label><input id="pName" readonly></div>
+                        <div class="field"><label>Email</label><input id="pEmail" readonly></div>
+                        <div class="field"><label>Date of Birth</label><input type="date" id="pDob"></div>
+                        <div class="field"><label>Gender</label>
+                            <select id="pGender">
+                                <option value="">Select</option>
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="field"><label>Mobile Number</label><input id="pMobile" placeholder="10-digit mobile number"></div>
+                        <div class="field"><label>Address</label><input id="pAddress" placeholder="Permanent address"></div>
+                        <div class="field"><label>State</label><input id="pState" placeholder="e.g. Tamil Nadu"></div>
+                        <div class="field"><label>District</label><input id="pDistrict" placeholder="e.g. Chennai"></div>
+                    </div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head"><h3>Academic Details</h3></div>
+                    <div class="form-grid">
+                        <div class="field"><label>College / Institution</label><input id="pInstitution"></div>
+                        <div class="field"><label>University / Board</label><input id="pUniversity"></div>
+                        <div class="field"><label>Course</label><input id="pCourse" placeholder="e.g. B.E Computer Science"></div>
+                        <div class="field"><label>Branch / Specialization</label><input id="pSpecialization"></div>
+                        <div class="field"><label>Current Year</label><input type="number" id="pCurrentYear" min="1" max="6"></div>
+                        <div class="field"><label>Current Semester</label><input type="number" id="pCurrentSemester" min="1" max="12"></div>
+                        <div class="field"><label>CGPA / Qualifying %</label><input type="number" step="0.01" id="pMarks"></div>
+                        <div class="field"><label>10th Percentage</label><input type="number" step="0.01" id="pTenth"></div>
+                        <div class="field"><label>12th Percentage</label><input type="number" step="0.01" id="pTwelfth"></div>
+                        <div class="field"><label>Admission Year</label><input type="number" id="pAdmissionYear"></div>
+                    </div>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head"><h3>Eligibility Details</h3></div>
+                    <div class="form-grid">
+                        <div class="field"><label>Family Annual Income (₹)</label><input type="number" id="pIncome"></div>
+                        <div class="field"><label>Income Category</label><input id="pIncomeCategory" placeholder="e.g. BPL, APL"></div>
+                        <div class="field"><label>Domicile</label><input id="pDomicile" placeholder="e.g. Tamil Nadu"></div>
+                        <div class="field"><label>Community / Category</label><input id="pCategory" placeholder="e.g. OBC, SC, ST, GENERAL"></div>
+                        <div class="field"><label>Disability (%)</label><input type="number" step="0.01" id="pDisability"></div>
+                        <div class="field"><label>BPL Status</label>
+                            <select id="pBpl"><option value="false">No</option><option value="true">Yes</option></select>
+                        </div>
+                    </div>
+                    <div class="checks-row">
+                        <label><input type="checkbox" id="pPwd"> Person with Disability</label>
+                        <label><input type="checkbox" id="pFirstGraduate"> First Graduate</label>
+                        <label><input type="checkbox" id="pSingleGirlChild"> Single Girl Child</label>
+                        <label><input type="checkbox" id="pOrphanSingleParent"> Orphan / Single Parent</label>
+                        <label><input type="checkbox" id="pExServicemen"> Ex-servicemen Dependent</label>
+                        <label><input type="checkbox" id="pSportsQuota"> Sports Quota</label>
+                        <label><input type="checkbox" id="pMinority"> Minority Community</label>
+                    </div>
+                    <button class="btn btn-primary mt-16" type="button" onclick="smSaveProfile()">Save Profile</button>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head"><h3>Upload / Replace Certificate</h3></div>
+                    <div class="form-grid">
+                        <div class="field"><label>Certificate Type</label><select id="docCertType" onchange="smToggleExpiryFields()"></select></div>
+                        <div class="field"><label>File</label><input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png"></div>
+                        <div class="field" id="issueDateField"><label>Issue Date</label><input type="date" id="docIssueDate"></div>
+                        <div class="field" id="expiryDateField"><label>Expiry Date</label><input type="date" id="docExpiryDate"></div>
+                    </div>
+                    <p class="text-soft" id="docExpiryHint"></p>
+                    <button class="btn btn-primary mt-16" type="button" id="docUploadBtn" onclick="smUploadDocument()">Upload</button>
+                </div>
+
+                <div class="card mt-24">
+                    <div class="card-head"><h3>My Documents</h3></div>
+                    <div id="documentsList"><div class="empty-state">Loading…</div></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- ============ CONFIRMATION MODALS ============ -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal">
+        <h3>Log out?</h3>
+        <p class="text-soft">You will need to sign in again to access your scholarships.</p>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" type="button" onclick="smCloseModal('logoutModal')">Cancel</button>
+            <button class="btn btn-danger" type="button" onclick="smLogout('student-login.html')">Log out</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="appliedModal">
+    <div class="modal">
+        <h3>Confirm your application</h3>
+        <p class="text-soft">
+            Please confirm that you have already submitted this application on the scholarship
+            provider's official website. ScholarMatch does not submit applications for you.
+        </p>
+        <p class="text-soft"><strong id="appliedModalTitle"></strong></p>
+        <p class="text-soft">Once confirmed, the applied date is recorded permanently and cannot be changed.</p>
+        <div class="modal-actions">
+            <button class="btn btn-ghost" type="button" onclick="smCloseModal('appliedModal')">Cancel</button>
+            <button class="btn btn-primary" type="button" id="appliedConfirmBtn">Yes, I have applied</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-stack"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+<script src="js/student-portal.js"></script>
+
+</body>
+</html>
